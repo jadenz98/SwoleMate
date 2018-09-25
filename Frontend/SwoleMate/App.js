@@ -4,8 +4,9 @@ import { createStackNavigator } from 'react-navigation';
 /*
 import screens to be used in the navigator in the following way
 import Homescreen from './.../Homescreen';
-import Loginscreen from './.../Homescreen';
 */
+import LoginScreen from './Screens/LoginScreen';
+
 
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/
@@ -16,15 +17,18 @@ export default class App extends React.Component {
 }
 
 //creates navigation stack (push when new page, pop when previous page requested)
-const RootStack = createStackNavigator({
-    /*{//different screens go here
-      Home: Homescreen,
-      Login: LoginScreen,
+const RootStack = createStackNavigator(
+    { 
+      Login: {
+        screen: LoginScreen,
+      },
+      //different screens go here
+      //Home: Homescreen,
     },
     {//options go here
       initialRouteName: 'Login',
-    }*/
-});
+    }
+);
 
 const styles = StyleSheet.create({
   container: {
