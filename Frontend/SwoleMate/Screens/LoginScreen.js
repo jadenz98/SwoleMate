@@ -5,6 +5,14 @@ import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import styles from './Styles/LoginScreenStyles';
 
 export default class LoginScreen extends React.Component {
+    
+    constructor(props){
+        super(props);
+        this.state={
+            username: '',
+            password: '',
+        }
+    }
     //This sets the title on the top header
     static navigationOptions = {
         title: 'Login',
@@ -21,13 +29,31 @@ export default class LoginScreen extends React.Component {
                     placeholder='Password'
                     style={styles.textbox}
                 />
-                {/*TouchableOpacity will be used as a button because it is more customizable and can funtion the same*/}
-                <TouchableOpacity style={styles.button}>
+                {/*TouchableOpacity will be used as a button because it is more customizable and can funtion the same. 
+                This is the login button
+                onPress tells the button what do do when pressed (here it calls the login function defined below)*/}
+                <TouchableOpacity style={styles.button} onPress={this.login}>
                     <Text>
                         Login
                     </Text>
                 </TouchableOpacity>
+                {/*This is the Register button*/}
+                <TouchableOpacity style={styles.button} onPress={this.register}>
+                    <Text>
+                        Register
+                    </Text>
+                </TouchableOpacity>
             </View>
         );
+    }
+
+    //login function (needs to be implemented)
+    login = () =>{
+
+    }
+
+    //register function (needs to be implementd)
+    register = () =>{
+
     }
 }
