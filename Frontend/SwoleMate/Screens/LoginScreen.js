@@ -6,17 +6,20 @@ import Connector from '../Utils/Connector';
 import styles from './Styles/LoginScreenStyles';
 
 export default class LoginScreen extends React.Component {
-    
     constructor(props){
         super(props);
-        /*this is a state and are variables that may change. Calling setState() 
-        can set the variable AND will rerender the component. I mostly see it
-        done like this. Its possible to maybe use a normal variable*/
+
+        /*
+            This is a state and are variables that may change. Calling setState()
+            can set the variable AND will rerender the component. I mostly see it
+            done like this. Its possible to maybe use a normal variable
+        */
         this.state={
             username: '',
             password: '',
         }
     }
+
     //This sets the title on the top header
     static navigationOptions = {
         title: 'Login',
@@ -31,11 +34,13 @@ export default class LoginScreen extends React.Component {
                     style={styles.textbox}
                     onChangeText={ (username) => this.setState({username})}
                 />
+
                 <TextInput 
                     placeholder='Password'
                     style={styles.textbox}
                     onChangeText={ (password) => this.setState({password})}
                 />
+
                 {/*TouchableOpacity will be used as a button because it is more customizable and can funtion the same. 
                 This is the login button
                 onPress tells the button what do do when pressed (here it calls the login function defined below)*/}
@@ -51,24 +56,11 @@ export default class LoginScreen extends React.Component {
                         Register
                     </Text>
                 </TouchableOpacity>
-
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {
-                        Connector.get("/hello", {}, (response) => {
-                            console.log(response);
-                        });
-                    }}
-                >
-                    <Text>
-                        Test
-                    </Text>
-                </TouchableOpacity>
             </View>
         );
     }
 
-    //login function (needs to be implemented)
+    // login function (needs to be implemented)
     login = () => {
         //sends alert to screen testing username and password are stored correctly (will eventually be taken out or commented out)
         alert('Username: ' + this.state.username + '\nPassword: ' + this.state.password);
