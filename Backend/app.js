@@ -8,9 +8,9 @@ var logger = require('morgan');
 
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var helloRouter = require('./routes/hello');
-var loginRouter = require('./routes/login');
+var loginRouter = require('./routes/user/login');
+var registerRouter = require('./routes/user/register');
 
 var app = express();
 app.set('port', 8000);
@@ -26,9 +26,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/hello', helloRouter);
-app.use('/login', loginRouter);
+app.use('/user/login', loginRouter);
+app.use('/user/register', registerRouter);
 
 app.disable('etag');
 
