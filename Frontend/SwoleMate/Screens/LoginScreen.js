@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import Connector from '../Utils/Connector';
 
 //imports stylesheet for the LoginScreen
 import styles from './Styles/LoginScreenStyles';
@@ -9,7 +10,8 @@ export default class LoginScreen extends React.Component {
     static navigationOptions = {
         title: 'Login',
     };
-    render(){
+
+    render () {
         //inside of return is jsx style code that will be rendered on the page
         return(
             <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
@@ -25,6 +27,19 @@ export default class LoginScreen extends React.Component {
                 <TouchableOpacity style={styles.button}>
                     <Text>
                         Login
+                    </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {
+                        Connector.get("/hello", {}, (response) => {
+                            console.log(response);
+                        });
+                    }}
+                >
+                    <Text>
+                        Test
                     </Text>
                 </TouchableOpacity>
             </View>

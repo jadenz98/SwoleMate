@@ -7,7 +7,6 @@ import Homescreen from './.../Homescreen';
 */
 import LoginScreen from './Screens/LoginScreen';
 
-
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/
 export default class App extends React.Component {
