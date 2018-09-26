@@ -10,6 +10,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var helloRouter = require('./routes/hello');
+var loginRouter = require('./routes/login');
 
 var app = express();
 app.set('port', 8000);
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/hello', helloRouter);
+app.use('/login', loginRouter);
 
 app.disable('etag');
 

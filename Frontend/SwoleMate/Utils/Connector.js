@@ -1,27 +1,53 @@
 export default class Connector {
     // Paste your local IP here for local dev
-    static IP = "";
-    static url = "http://" + this.IP + ":3000";
+    static url = "http://10.192.40.66:3000";
 
+    /**
+     * Use this to send a post request to the server
+     * @param endpoint The endpoint to send the post to
+     * @param body The body of the post request (should be a JSON object)
+     * @param flags The optional extra headers you want to add on
+     * @param callback The callback to execute after the response has been recieved
+     */
     static post (endpoint, body, flags, callback) {
         this.connect(endpoint, "POST", body, flags, callback);
     }
 
+    /**
+     * Use this to send a get request to the server
+     * @param endpoint The endpoint to send the get to
+     * @param flags The optional extra headers you want to add on
+     * @param callback The callback to execute after the response has been recieved
+     */
     static get (endpoint, flags, callback) {
         this.connect(endpoint, "GET", null, flags, callback);
     }
 
+    /**
+     * Treat this as a private method
+     * To be used by the other abstracted methods in this class to connect to the server
+     *
+     * @param endpoint The endpoint to connect to
+     * @param method The method to use
+     * @param body The body to send
+     * @param flags The optional extra headers you want to add on
+     * @param callback The function to be executed after the response has been recieved
+     */
     static connect (endpoint, method, body, flags, callback) {
         const request = {
             method: method,
-            ...flags
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                ...flags
+            }
         };
 
-        if (body) {
-            request.body = body;
+        if (body != null) {
+            request.body = JSON.stringify(body);
         }
 
-        return fetch(this.url + endpoint, request).then((response) => response.json())
+        fetch(this.url + endpoint, request).then((response) => response.json())
         .then((responseJson) => {
             callback(responseJson);
         })

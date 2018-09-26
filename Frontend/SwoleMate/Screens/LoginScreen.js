@@ -72,6 +72,13 @@ export default class LoginScreen extends React.Component {
     login = () => {
         //sends alert to screen testing username and password are stored correctly (will eventually be taken out or commented out)
         alert('Username: ' + this.state.username + '\nPassword: ' + this.state.password);
+
+        Connector.post("/login", {
+            username: this.state.username,
+            password: this.state.password
+        }, {}, (response) => {
+            console.log(response);
+        });
     };
 
     //register function (needs to be implemented)
