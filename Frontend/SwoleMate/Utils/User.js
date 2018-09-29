@@ -15,4 +15,36 @@ export default class User{
         UserID=ID;
     }
 
+    setFirstName(name){
+        FirstName=name;
+    }
+
+    getFirstName(){
+        return FirstName;
+    }
+
+    setLastName(name){
+        LastName=name;
+    }
+
+    getLastName(){
+        return LastName;
+    }
+
+    setEmail(Email){
+        this.Email=Email;
+    }
+
+    getEmail(){
+        return Email;
+    }
+
+    setUserID(ID){
+        UserID=ID;
+    }
+
+    getUserID(){
+        return UserID;
+    }
+
 }
