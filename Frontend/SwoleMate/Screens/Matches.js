@@ -1,12 +1,12 @@
 import React from 'react';
 
-export default class RegisterScreen extends React.Component{
-
+export default class Matches extends React.Component{
+    
         //This sets the title on the top header
         static navigationOptions = {
-            title: 'Register',
+            title: 'Matches',
         };
-
+    
     render(){
         return null;
     }

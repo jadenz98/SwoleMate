@@ -6,6 +6,8 @@ import screens to be used in the navigator in the following way
 import Homescreen from './.../Homescreen';
 */
 import LoginScreen from './Screens/LoginScreen';
+import HomeScreen from './Screens/HomeScreen';
+import RegisterScreen from './Screens/RegisterScreen';
 
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/
@@ -20,6 +22,12 @@ const RootStack = createStackNavigator(
     { 
       Login: {
         screen: LoginScreen,
+      },
+      Home: {
+        screen: HomeScreen,
+      },
+      Register: {
+        screen: RegisterScreen,
       },
       //different screens go here
       //Home: Homescreen,
