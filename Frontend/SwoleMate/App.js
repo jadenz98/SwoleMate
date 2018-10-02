@@ -8,6 +8,7 @@ import Homescreen from './.../Homescreen';
 import LoginScreen from './Screens/LoginScreen';
 import HomeScreen from './Screens/HomeScreen';
 import RegisterScreen from './Screens/RegisterScreen';
+import CreateProfileScreen from './Screens/CreateProfile';
 
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/
@@ -19,7 +20,7 @@ export default class App extends React.Component {
 
 //creates navigation stack (push when new page, pop when previous page requested)
 const RootStack = createStackNavigator(
-    { 
+    {
       Login: {
         screen: LoginScreen,
       },
@@ -28,6 +29,9 @@ const RootStack = createStackNavigator(
       },
       Register: {
         screen: RegisterScreen,
+      },
+      CreateProfile: {
+        screen: CreateProfileScreen,
       },
       //different screens go here
       //Home: Homescreen,
