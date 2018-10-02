@@ -29,19 +29,19 @@ export default class LoginScreen extends React.Component {
         //inside of return is jsx style code that will be rendered on the page
         return(
             <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-                <TextInput 
+                <TextInput
                     placeholder='Username'
                     style={styles.textbox}
                     onChangeText={ (username) => this.setState({username})}
                 />
 
-                <TextInput 
+                <TextInput
                     placeholder='Password'
                     style={styles.textbox}
                     onChangeText={ (password) => this.setState({password})}
                 />
 
-                {/*TouchableOpacity will be used as a button because it is more customizable and can funtion the same. 
+                {/*TouchableOpacity will be used as a button because it is more customizable and can funtion the same.
                 This is the login button
                 onPress tells the button what do do when pressed (here it calls the login function defined below)*/}
                 <TouchableOpacity style={styles.button} onPress={this.login}>
@@ -71,12 +71,12 @@ export default class LoginScreen extends React.Component {
         }, {}, (response) => {
             console.log(response);
         });
-        
+
         this.props.navigation.navigate('Home');
     };
 
     //register function (needs to be implemented)
     register = () => {
-
+        this.props.navigation.navigate('Register')
     };
 }
