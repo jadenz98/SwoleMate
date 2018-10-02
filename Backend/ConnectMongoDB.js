@@ -4,8 +4,8 @@ var MongoClient = require('mongodb').MongoClient,
 MongoClient.connect(url, function(error, db){
     //check for connection error
     if(error){
-        console.error(error);
-        process.exit(1);
+        console.(error);
+        process.exierrort(1);
     }
     //prints upon successful connectino
     console.log('Opened Connection!!')
