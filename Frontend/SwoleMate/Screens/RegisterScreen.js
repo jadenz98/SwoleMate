@@ -11,6 +11,7 @@ export default class RegisterScreen extends React.Component{
       this.state={
         newUsername: '',
         newPassword: '',
+        email: '',
       }
     }
     //This sets the title on the top header
@@ -31,6 +32,16 @@ export default class RegisterScreen extends React.Component{
               onChangeText={ (newUsername) => this.setState({newUsername})}
               autoCapitalize='none'
               autoCorrect={false}
+              textContentType='username'
+            />
+
+            <TextInput
+              placeholder='Email'
+              style={styles.textbox}
+              onChangeText={ (email) => this.setState({email})}
+              autoCapitalize='none'
+              keyboardType='email-address'
+              textContentType='emailAddress'
             />
 
             <TextInput
@@ -38,12 +49,20 @@ export default class RegisterScreen extends React.Component{
               style={styles.textbox}
               onChangeText={ (newPassword) => this.setState({newPassword})}
               autoCapitalize='none'
+              autoCorrect={false}
               maxLength={15}
+              secureTextEntry={true}
+              textContentType='password'
             />
 
             <TextInput
               placeholder='Confirm Password'
               style={styles.textbox}
+              autoCapitalize='none'
+              autoCorrect={false}
+              maxLength={15}
+              secureTextEntry={true}
+              textContentType='password'
             />
 
             <TouchableOpacity style={styles.button} onPress={this.registerAccount}>

@@ -33,12 +33,20 @@ export default class LoginScreen extends React.Component {
                     placeholder='Username'
                     style={styles.textbox}
                     onChangeText={ (username) => this.setState({username})}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    textContentType='username'
                 />
 
                 <TextInput
                     placeholder='Password'
                     style={styles.textbox}
                     onChangeText={ (password) => this.setState({password})}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    maxLength={15}
+                    secureTextEntry={true}
+                    textContentType='password'
                 />
 
                 {/*TouchableOpacity will be used as a button because it is more customizable and can funtion the same.
