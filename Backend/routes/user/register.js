@@ -1,35 +1,32 @@
 var express = require('express');
 var router = express.Router();
-var MongoClient = require('mongodb').MongoClient,
-    url = 'mongodb://18.224.157.155:27017';
+import Mongo from '../../utils/Mongo';
 
 /* POST Register info */
 router.post('/', function(req, res, next) {
+    const body = req.body;
+
     const resp = {
-        user: req.body.username,
-        pass: req.body.password,
-        email: req.body.useremail,
-        dob: req.body.dateofbirth,
-        phone: req.body.userphone,
-        bio: req.body.userbio
+        user: body.username,
+        pass: body.password,
+        email: body.useremail,
+        dob: body.dateofbirth,
+        phone: body.userphone,
+        bio: body.userbio
     };
-    	// console.log(user);
-        MongoClient.connect(url, function(error, db){
-    	if(error) throw error;
-    	var dbo = db.db("SwoleMate");
-    	var myobj = { username: req.body.username, password: req.body.password, useremail: req.body.useremail, dateofbirth: req.body.dateofbirth, userphone: req.body.userphone, userbio: req.body.userbio };
-    	dbo.collection("Users").insertOne(myobj, function(err, res){
-    		if(err) throw err;
-    		console.log("1 docuemnt inserted");
-    		db.close();
-    	})
-	})
-    res.send(JSON.stringify(resp));
-    
+
+    const newUser = {
+        username: body.username,
+        password: body.password,
+        email: body.useremail,
+        dateOfBirth: body.dateofbirth,
+        phone: body.userphone,
+        bio: body.userbio
+    };
+
+    Mongo.insert("Users", newUser, () => {
+        res.send(JSON.stringify(resp));
+    });
 });
-
-
-
-
 
 module.exports = router;

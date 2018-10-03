@@ -4,6 +4,4 @@ export default class User {
     constructor (ID) {
         userID = ID;
     }
-
-    
 }
