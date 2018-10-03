@@ -15,7 +15,7 @@ export default class RegisterScreen extends React.Component{
         email: '',
         name: '',
         sex: '',
-        birtday: '',
+        birthday: '',
         phone_number: '',
       }
     }

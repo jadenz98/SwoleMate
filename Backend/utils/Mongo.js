@@ -3,6 +3,37 @@ const url = 'mongodb://18.224.157.155:27017';
 const DBName = "SwoleMate";
 
 export default class Mongo {
+    /**
+     * An abstraction to the find function
+     *
+     * @param collection        The collection to search in
+     * @param query             The query to execute
+     * @param sort              The sort conditions of the resulting query (Optional)
+     * @param callback          The callback to be executed after the query. The results are passed in to this.
+     */
+    static find (collection, query, sort, callback) {
+        MongoClient.connect(url, function(err, db) {
+            const dbo = db.db(DBName);
+
+            if (err)
+                throw err;
+
+            let result = dbo.collection(collection).find();
+
+            if (sort) {
+                result = result.sort(sort);
+            }
+
+            result.toArray(function(err, result) {
+                if (err)
+                    throw err;
+
+                db.close();
+
+                callback(result);
+            });
+        });
+    }
 
     /**
      * An abstraction to the insert function
@@ -25,7 +56,7 @@ export default class Mongo {
                 db.close();
 
                 if (callback)
-                    callback();
+                    callback(res);
             });
         });
     }
@@ -57,13 +88,15 @@ export default class Mongo {
                 db.close();
 
                 if (callback)
-                    callback();
+                    callback(res);
             });
         });
     }
 
     /**
      * An abstraction on the delete function
+     * THIS WILL DELETE EVERY MATCH TO THE SPECIFIED QUERY
+     * BE VERY CAREFUL
      *
      * @param collection        The collection to delete from
      * @param query             The query to select the object to be deleted
@@ -76,14 +109,14 @@ export default class Mongo {
             if (err)
                 throw err;
 
-            dbo.collection(collection).deleteOne(query, function(err, obj) {
+            dbo.collection(collection).deleteMany(query, function(err, obj) {
                 if (err)
                     throw err;
 
                 db.close();
 
                 if (callback)
-                    callback();
+                    callback(obj);
             });
         });
     }
