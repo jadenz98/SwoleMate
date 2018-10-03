@@ -97,7 +97,7 @@ export default class RegisterScreen extends React.Component{
             <TextInput
               placeholder='Birthday (mm/dd/yyyy)'
               style={styles.textbox}
-              onChangeText={ (birtday) => this.setState({birtday})}
+              onChangeText={ (birthday) => this.setState({birthday})}
               keyboardType='decimal-pad'
               maxLength={10}
             />
