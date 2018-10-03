@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+
 import Mongo from '../../utils/Mongo';
 
 /* POST Register info */

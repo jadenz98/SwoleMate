@@ -1,8 +1,8 @@
 const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://18.224.157.155:27017';
+const DBName = "SwoleMate";
 
 export default class Mongo {
-    static url = 'mongodb://18.224.157.155:27017';
-    static DBName = "SwoleMate";
 
     /**
      * An abstraction to the insert function
@@ -12,9 +12,7 @@ export default class Mongo {
      * @param callback      The function to be executed once the data has been put in the database
      */
     static insert (collection, object, callback) {
-        const DBName = this.DBName;
-
-        MongoClient.connect(this.url, function(error, db){
+        MongoClient.connect(url, function(error, db){
             const dbo = db.db(DBName);
 
             if (error)
@@ -33,17 +31,15 @@ export default class Mongo {
     }
 
     /**
-     * An absctraction to the update function
+     * An abstraction to the update function
      *
-     * @param collection    The collection to insert your new object into
+     * @param collection    The collection to update the object in
      * @param query         The query defining what to update
      * @param values        The values that are to be updated
      * @param callback      The function to be executed once the data has been put in the database
      */
     static update (collection, query, values, callback) {
-        const DBName = this.DBName;
-
-        MongoClient.connect(this.url, function(error, db){
+        MongoClient.connect(url, function(error, db){
             const dbo = db.db(DBName);
 
             //check for connection error
@@ -58,6 +54,32 @@ export default class Mongo {
                     throw err;
 
                 //close database
+                db.close();
+
+                if (callback)
+                    callback();
+            });
+        });
+    }
+
+    /**
+     * An abstraction on the delete function
+     *
+     * @param collection        The collection to delete from
+     * @param query             The query to select the object to be deleted
+     * @param callback          The function to be executed upon successful deletion
+     */
+    static delete (collection, query, callback) {
+        MongoClient.connect(url, function(err, db) {
+            const dbo = db.db(DBName);
+
+            if (err)
+                throw err;
+
+            dbo.collection(collection).deleteOne(query, function(err, obj) {
+                if (err)
+                    throw err;
+
                 db.close();
 
                 if (callback)
