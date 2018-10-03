@@ -80,7 +80,12 @@ export default class LoginScreen extends React.Component {
             console.log(response);
         });
 
-        this.props.navigation.navigate('Home');
+        //object to pass user info to next screen
+        var userinfo = {
+            username: this.state.username,
+        }
+
+        this.props.navigation.navigate('Home',userinfo);
     };
 
     //register function (sends to RegisterScreen)

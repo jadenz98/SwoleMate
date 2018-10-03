@@ -4,14 +4,13 @@ import { StyleSheet} from 'react-native';
 export default StyleSheet.create({
     //name
     icon: {
-        height: '50%',
-        width: '50%',
+        height: '100%',
+        width: '100%',
     },
     button: {
-        width: 75,
+        width: 35,
         height: 35,
         alignItems: 'center',
-        padding: 5,
         borderColor: 'black',
         backgroundColor: '#F9F9F9',
     },

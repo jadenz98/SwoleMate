@@ -16,4 +16,10 @@ export default StyleSheet.create({
         borderColor: 'black',
         backgroundColor: '#F9F9F9',
     },
+    clearButton: {
+        width: 75,
+        alignItems: 'center',
+        padding: 5,
+        borderColor: 'black',
+    }
 });

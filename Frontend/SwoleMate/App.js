@@ -9,6 +9,8 @@ import LoginScreen from './Screens/LoginScreen';
 import HomeScreen from './Screens/HomeScreen';
 import RegisterScreen from './Screens/RegisterScreen';
 import CreateProfileScreen from './Screens/CreateProfile';
+import Profile from './Screens/Profile';
+import EditProfile from './Screens/EditProfile';
 
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/
@@ -33,8 +35,12 @@ const RootStack = createStackNavigator(
       CreateProfile: {
         screen: CreateProfileScreen,
       },
-      //different screens go here
-      //Home: Homescreen,
+      Profile: {
+        screen: Profile,
+      },
+      EditProfile: {
+        screen: EditProfile,
+      }
     },
     {//options go here
       initialRouteName: 'Login',
