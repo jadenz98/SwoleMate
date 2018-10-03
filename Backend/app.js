@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var helloRouter = require('./routes/hello');
 var loginRouter = require('./routes/user/login');
 var registerRouter = require('./routes/user/register');
+var updateRouter = require('./routes/user/update');
 
 var app = express();
 app.set('port', 8000);
@@ -27,6 +28,7 @@ app.use('/', indexRouter);
 app.use('/hello', helloRouter);
 app.use('/user/login', loginRouter);
 app.use('/user/register', registerRouter);
+app.use('/user/update', updateRouter);
 
 app.disable('etag');
 
