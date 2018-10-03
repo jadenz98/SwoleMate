@@ -11,9 +11,11 @@ export default class RegisterScreen extends React.Component{
       this.state={
         newUsername: '',
         newPassword: '',
+        passwordConfirm: '',
         email: '',
       }
     }
+
     //This sets the title on the top header
     static navigationOptions = {
         title: 'Register',
@@ -58,6 +60,7 @@ export default class RegisterScreen extends React.Component{
             <TextInput
               placeholder='Confirm Password'
               style={styles.textbox}
+              onChangeText={ (passwordConfirm) => this.setState({passwordConfirm})}
               autoCapitalize='none'
               autoCorrect={false}
               maxLength={15}
@@ -76,6 +79,14 @@ export default class RegisterScreen extends React.Component{
 
     //register function
     registerAccount = () => {
-      alert('Username: ' + this.state.newUsername + '\nPassword: ' + this.state.newPassword);
+      Connector.post("/user/register", {
+        username: this.state.newUsername,
+        password: this.state.newPassword,
+        email:  this.state.email
+      }, {}, (response) => {
+        console.log(response);
+      });
+
+      this.props.navigation.navigate('CreateProfile');
     };
 }

@@ -83,7 +83,7 @@ export default class LoginScreen extends React.Component {
         this.props.navigation.navigate('Home');
     };
 
-    //register function (needs to be implemented)
+    //register function (sends to RegisterScreen)
     register = () => {
         this.props.navigation.navigate('Register')
     };
