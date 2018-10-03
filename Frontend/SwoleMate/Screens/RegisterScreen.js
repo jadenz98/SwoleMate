@@ -128,6 +128,7 @@ export default class RegisterScreen extends React.Component{
         console.log(response);
       });
 
-      this.props.navigation.navigate('CreateProfile');
+      //eventually change 'Home' to 'CreateProfile'
+      this.props.navigation.navigate('Home');
     };
 }
