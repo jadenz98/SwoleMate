@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import Connector from '../Utils/Connector';
 
@@ -17,7 +17,29 @@ export default class LoginScreen extends React.Component {
         this.state={
             username: '',
             password: '',
+            latitude: null,
+            longitude: null,
+            error: null,
         }
+        this.getLocation();
+    }
+
+    //Function to get user's location
+    getLocation(){
+      //alert('getLocation');
+      //get user's location
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            error: null,
+          });
+        },
+        (error) => alert(error.message),
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      );
+      //alert('Lat: ' + this.state.latitude + '\nLong: ' + this.state.longitude + '\nError: ' + this.state.error);
     }
 
     //This sets the title on the top header
@@ -26,6 +48,7 @@ export default class LoginScreen extends React.Component {
     };
 
     render () {
+      if (this.state.latitude == null) return null;
         //inside of return is jsx style code that will be rendered on the page
         return(
             <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
@@ -85,6 +108,20 @@ export default class LoginScreen extends React.Component {
             username: this.state.username,
         }
 
+        //get user's location
+        /*navigator.geolocation.getCurrentPosition(
+          (position) => {
+            this.setState({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              error: null,
+            });
+          },
+          (error) => this.setState({error: error.message }),
+          { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
+        );*/
+
+        alert('Lat: ' + this.state.latitude + '\nLong: ' + this.state.longitude + '\nError: ' + this.state.error);
         this.props.navigation.navigate('Home',userinfo);
     };
 
