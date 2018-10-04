@@ -202,4 +202,23 @@ export default class Mongo {
             this.find("Users", query, undefined, callback);
         });
     }
+
+    /**
+     * Method to get list of "likes"/matches by the specified user
+     * An abstraction on the find method
+     *
+     *
+     */
+    static getMatches (email, callback) {
+      this.find("Matches", {email: email}, undefined, (matches) => {
+        const likes = matches.likes;
+        var matchList = [];
+        for(var i = 0; i < likes.length; i++) {
+          if(likes[i].match) {
+            matchList.push(likes[i].email);
+          }
+        }
+        callback(matchList);
+      });
+    }
 }

@@ -3,12 +3,12 @@ var router = express.Router();
 
 import Mongo from '../../utils/Mongo';
 
-/* POST update info */
+/* GET matches */
 router.get('/', function(req, res, next) {
     const email = req.header("email");
 
-    Mongo.getNearbyUsers(email, (users) => {
-        res.json(users);
+    Mongo.getMatches(email, (matches) => {
+        res.json(matches);
     });
 });
 
