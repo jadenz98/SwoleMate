@@ -36,7 +36,7 @@ export default class RegisterScreen extends React.Component{
                 });
             },
             (error) => alert(error.message),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
         );
     }
 
@@ -65,6 +65,7 @@ export default class RegisterScreen extends React.Component{
             />
 
             <TextInput
+              ref={input => {this.emailInput = input }}
               placeholder='Email'
               style={styles.textbox}
               onChangeText={ (email) => this.setState({email})}
@@ -74,6 +75,7 @@ export default class RegisterScreen extends React.Component{
             />
 
             <TextInput
+              ref={input => {this.passwordInput = input }}
               placeholder='Password'
               style={styles.textbox}
               onChangeText={ (newPassword) => this.setState({newPassword})}
@@ -85,6 +87,7 @@ export default class RegisterScreen extends React.Component{
             />
 
             <TextInput
+              ref={input => {this.passConfirmInput = input }}
               placeholder='Confirm Password'
               style={styles.textbox}
               onChangeText={ (passwordConfirm) => this.setState({passwordConfirm})}
@@ -114,7 +117,7 @@ export default class RegisterScreen extends React.Component{
               <Picker.Item label="Male" value="male" />
               <Picker.Item label="Female" value="female" />
               <Picker.Item label="Prefer not to specify" value="not_specified" />
-              <Picker.Item label="Apache attack helicopter" value="heli" />
+              <Picker.Item label="Apache attack helicopter" value="not_specified" />
             </Picker>
 
             <TextInput
@@ -170,15 +173,21 @@ export default class RegisterScreen extends React.Component{
             }
         }, {}, (response) => {
             console.log(response);
+            if(response.success){ //Server return success on register
+              //this is how userinfo will be passed to other screens
+              var userinfo = {
+                  name: this.state.name,
+                  email: this.state.email,
+                  interests: []
+              };
+              //eventually change 'Home' to 'CreateProfile'
+              this.props.navigation.navigate('Home', userinfo);
+            } else{ //Server returned failure on register (should mean email is taken)
+              this.emailInput.clear(); //Clears email and both password TextInput's and displays alert
+              this.passwordInput.clear();
+              this.passConfirmInput.clear();
+              alert('Email is already registered to an account.\nTry again');
+            }
         });
-
-        //this is how userinfo will be passed to other screens
-        var userinfo = {
-            username: this.state.name,
-            email: this.state.email,
-            interests: []
-        };
-      //eventually change 'Home' to 'CreateProfile'
-      this.props.navigation.navigate('Home', userinfo);
     };
 }

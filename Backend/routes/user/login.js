@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
+import Mongo from '../../utils/Mongo';
 /* POST login info */
 router.post('/', function(req, res, next) {
     const userQuery = {
-        user: req.body.email,
-        pass: req.body.password
+        email: req.body.email,
+        password: req.body.password
     };
     Mongo.find("Users", userQuery, undefined, (result) => {
         if(result.length == 0){
