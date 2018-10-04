@@ -5,6 +5,12 @@
 	sex: 'male|female|not_specified',
 	birthday: 'mm/dd/yyyy',
 	phone: '1234567890',
+	bio: 'My bio string',
+	interests: [
+		'interest1',
+		'interest2',
+		'interest3'
+	],
 	location: {								// Not returned from GET /user
 		coordinates: [
 			'<longitude number>',
