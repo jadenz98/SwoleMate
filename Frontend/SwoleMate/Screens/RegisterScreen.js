@@ -17,6 +17,7 @@ export default class RegisterScreen extends React.Component{
         sex: '',
         birthday: '',
         phone_number: '',
+        bio: '',
       }
     }
 
@@ -33,12 +34,12 @@ export default class RegisterScreen extends React.Component{
             </Text>
 
             <TextInput
-              placeholder='Username'
+              /*placeholder='Username'
               style={styles.textbox}
               onChangeText={ (newUsername) => this.setState({newUsername})}
               autoCapitalize='none'
               autoCorrect={false}
-              textContentType='username'
+              textContentType='username'*/
             />
 
             <TextInput
@@ -109,6 +110,17 @@ export default class RegisterScreen extends React.Component{
               keyboardType='phone-pad'
             />
 
+            <Text>
+              Add a bio
+            </Text>
+
+            <TextInput
+              placeholder='Describe what you are looking for'
+              onChangeText={ (bio) => this.setState({bio})}
+              style={{height: 200, width: 200, borderColor: 'black', borderWidth: 1}}
+              multiline={true}
+            />
+
             <TouchableOpacity style={styles.button} onPress={this.registerAccount}>
               <Text>
                 Register Account
@@ -121,16 +133,19 @@ export default class RegisterScreen extends React.Component{
     //register function
     registerAccount = () => {
       Connector.post("/user/register", {
-        username: this.state.newUsername,
+        useremail:  this.state.email,
         password: this.state.newPassword,
-        email:  this.state.email
+        username: this.state.name,
+        dateofbirth: this.state.birthday,
+        userphone: this.state.phone_number,
+        userbio: this.state.bio,
       }, {}, (response) => {
         console.log(response);
       });
 
       //this is how userinfo will be passed to other screens
       var userinfo = {
-        username: this.state.newUsername,
+        username: this.state.name,
         email: this.state.email
       }
       //eventually change 'Home' to 'CreateProfile'
