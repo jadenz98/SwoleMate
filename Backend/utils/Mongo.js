@@ -127,28 +127,30 @@ export default class Mongo {
     /**
      * Method used to update a user's location
      *
-     * @param username      The username of the user to update
+     * @param email      The username of the user to update
      * @param latitude      The latitude
      * @param longitude     The longitude
      * @param callback      The function to be executed after update
      */
-    static updateLocation (username, latitude, longitude, callback) {
+    static updateLocation (email, latitude, longitude, callback) {
         MongoClient.connect(url, function(error, db){
             const dbo = db.db(DBName);
             const query = {
-                username: username
+                email: email
             };
 
             // location is a GeoJSON object describing the location of the user
             // it must follow in the order of longitude, latitude
             // https://docs.mongodb.com/manual/reference/geojson/#geojson-point
             const value = {
-                location : {
-                    type: "Point",
-                    coordinates: [
-                        longitude,
-                        latitude
-                    ]
+                $set: {
+                    location : {
+                        type: "Point",
+                        coordinates: [
+                            longitude,
+                            latitude
+                        ]
+                    }
                 }
             };
 
@@ -178,11 +180,11 @@ export default class Mongo {
      *
      *
      */
-    static getNearbyUsers (username, callback) {
+    static getNearbyUsers (email, callback) {
         const distance = 1000;      // Range of distance to search in meters
 
         // Get the coordinates of the user
-        this.find("Users", {username: username}, undefined, (user) => {
+        this.find("Users", {username: email}, undefined, (user) => {
             const coordinates = user.location.coordinates;
             const query = {
                 location: {

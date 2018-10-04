@@ -16,6 +16,7 @@ var helloRouter = require('./routes/hello');
 var loginRouter = require('./routes/user/login');
 var registerRouter = require('./routes/user/register');
 var updateRouter = require('./routes/user/update');
+var updateLocationRouter = require('./routes/user/updateLocation');
 var deleteRouter = require('./routes/user/delete');
 var userRouter = require('./routes/user/index');
 
@@ -39,6 +40,7 @@ app.use('/hello', helloRouter);
 app.use('/user/login', loginRouter);
 app.use('/user/register', registerRouter);
 app.use('/user/update', updateRouter);
+app.use('/user/updateLocation', updateLocationRouter);
 app.use('/user/delete', deleteRouter);
 app.use('/user', userRouter);
 

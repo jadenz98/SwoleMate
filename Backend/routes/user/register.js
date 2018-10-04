@@ -7,23 +7,9 @@ import Mongo from '../../utils/Mongo';
 router.post('/', function(req, res, next) {
     const body = req.body;
 
-    const resp = {
-        user: body.username,
-        pass: body.password,
-        email: body.useremail,
-        dob: body.dateofbirth,
-        phone: body.userphone,
-        bio: body.userbio
-    };
+    const resp = req.body;
 
-    const newUser = {
-        username: body.username,
-        password: body.password,
-        email: body.useremail,
-        dateOfBirth: body.dateofbirth,
-        phone: body.userphone,
-        bio: body.userbio
-    };
+    const newUser = req.body;
 
     Mongo.insert("Users", newUser, () => {
         res.json(resp);

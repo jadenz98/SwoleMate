@@ -18,7 +18,26 @@ export default class RegisterScreen extends React.Component{
         birthday: '',
         phone_number: '',
         bio: '',
-      }
+          latitude: null,
+          longitude: null,
+      };
+        this.getLocation();
+    }
+
+    //Function to get user's location
+    getLocation(){
+        //get user's location
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    error: null
+                });
+            },
+            (error) => alert(error.message),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+        );
     }
 
     //This sets the title on the top header
@@ -27,6 +46,9 @@ export default class RegisterScreen extends React.Component{
     };
 
     render(){
+        if (this.state.latitude == null || this.state.longitude == null)
+            return null;
+
         return(
           <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
             <Text>
@@ -132,23 +154,30 @@ export default class RegisterScreen extends React.Component{
 
     //register function
     registerAccount = () => {
-      Connector.post("/user/register", {
-        useremail:  this.state.email,
-        password: this.state.newPassword,
-        username: this.state.name,
-        dateofbirth: this.state.birthday,
-        userphone: this.state.phone_number,
-        userbio: this.state.bio,
-      }, {}, (response) => {
-        console.log(response);
-      });
+        Connector.post("/user/register", {
+            email:  this.state.email,
+            password: this.state.newPassword,
+            name: this.state.name,
+            birthday: this.state.birthday,
+            phone: this.state.phone_number,
+            bio: this.state.bio,
+            location: {
+                coordinates: [
+                    this.state.longitude,
+                    this.state.latitude
+                ],
+                type: 'Point'
+            }
+        }, {}, (response) => {
+            console.log(response);
+        });
 
-      //this is how userinfo will be passed to other screens
-      var userinfo = {
-        username: this.state.name,
-        email: this.state.email,
-        interests: [],
-      };
+        //this is how userinfo will be passed to other screens
+        var userinfo = {
+            username: this.state.name,
+            email: this.state.email,
+            interests: []
+        };
       //eventually change 'Home' to 'CreateProfile'
       this.props.navigation.navigate('Home', userinfo);
     };
