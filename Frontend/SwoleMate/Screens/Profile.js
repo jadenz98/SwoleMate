@@ -33,8 +33,9 @@ export default class Profile extends React.Component{
     }
 
     editProfile = () => {
+        const { navigation } = this.props;
         var userinfo={
-            username: navigation.getParam('username'),
+            email: navigation.getParam('email'),
             interests: navigation.getParam('interests'),
         }
         this.props.navigation.navigate('EditProfile',userinfo);

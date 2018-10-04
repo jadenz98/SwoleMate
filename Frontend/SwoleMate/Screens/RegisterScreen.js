@@ -146,7 +146,8 @@ export default class RegisterScreen extends React.Component{
       //this is how userinfo will be passed to other screens
       var userinfo = {
         username: this.state.name,
-        email: this.state.email
+        email: this.state.email,
+        interests: [],
       }
       //eventually change 'Home' to 'CreateProfile'
       this.props.navigation.navigate('Home', userinfo);
