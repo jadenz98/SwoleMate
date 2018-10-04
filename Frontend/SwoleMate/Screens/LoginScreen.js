@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import Connector from '../Utils/Connector';
 
@@ -15,9 +15,31 @@ export default class LoginScreen extends React.Component {
             done like this. Its possible to maybe use a normal variable
         */
         this.state={
-            username: '',
+            email: '',
             password: '',
-        }
+            latitude: null,
+            longitude: null,
+            error: null,
+        };
+        this.getLocation();
+    }
+
+    //Function to get user's location
+    getLocation(){
+      //alert('getLocation');
+      //get user's location
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            error: null,
+          });
+        },
+        (error) => alert(error.message),
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      );
+      //alert('Lat: ' + this.state.latitude + '\nLong: ' + this.state.longitude + '\nError: ' + this.state.error);
     }
 
     //This sets the title on the top header
@@ -26,16 +48,17 @@ export default class LoginScreen extends React.Component {
     };
 
     render () {
+      if (this.state.latitude == null || this.state.longitude == null) return null;
         //inside of return is jsx style code that will be rendered on the page
         return(
             <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TextInput
-                    placeholder='Username'
+                    placeholder='Email'
                     style={styles.textbox}
-                    onChangeText={ (username) => this.setState({username})}
+                    onChangeText={ (email) => this.setState({email})}
                     autoCapitalize='none'
-                    autoCorrect={false}
-                    textContentType='username'
+                    keyboardType='email-address'
+                    textContentType='emailAddress'
                 />
 
                 <TextInput
@@ -74,7 +97,7 @@ export default class LoginScreen extends React.Component {
         //alert('Username: ' + this.state.username + '\nPassword: ' + this.state.password);
 
         Connector.post("/user/login", {
-            username: this.state.username,
+            email: this.state.email,
             password: this.state.password
         }, {}, (response) => {
             console.log(response);
@@ -82,14 +105,32 @@ export default class LoginScreen extends React.Component {
 
         //object to pass user info to next screen
         var userinfo = {
-            username: this.state.username,
-        }
+            email: this.state.email,
+            interests: [],
+        };
 
+        Connector.post("/updateLocation", {
+          latitude: this.state.latitude,
+          longitude: this.state.longitude,
+        },
+        {
+          username: this.state.email
+        }
+      );
+
+        alert('Lat: ' + this.state.latitude + '\nLong: ' + this.state.longitude + '\nError: ' + this.state.error);
         this.props.navigation.navigate('Home',userinfo);
     };
 
     //register function (sends to RegisterScreen)
     register = () => {
+      Connector.post("/updateLocation", {
+        latitude: this.state.latitude,
+        longitude: this.state.longitude,
+      }, {
+        username: this.state.email
+      });
+
         this.props.navigation.navigate('Register')
     };
 }
