@@ -9,12 +9,17 @@ router.post('/', function(req, res, next) {
     const userQuery = {
         email: newUser.email
     };
+    const matches = {
+        email: newUser.email,
+        likes: []
+    };
 
     Mongo.find("Users", userQuery, undefined, (result) => {
         if (result.length === 0) {
             const resp = {
                 success: true
             };
+            Mongo.insert("Matches", matches, () => {});
             Mongo.insert("Users", newUser, () => {
                 res.json(resp);
             });

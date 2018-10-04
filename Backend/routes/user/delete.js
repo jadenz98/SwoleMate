@@ -21,6 +21,7 @@ router.post('/', function(req, res, next) {
         	Mongo.delete("Users", userQuery, () => {
         		res.json(resp);
     		});
+            // Mongo.delete("Matches", userQuery, () => {});
     	}
     });
     // Mongo.delete("Users", userQuery, (result) => {
