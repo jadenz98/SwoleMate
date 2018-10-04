@@ -21,6 +21,7 @@ export default class LoginScreen extends React.Component {
             longitude: null,
             error: null,
         };
+        this.getLocation();
     }
 
     //This sets the title on the top header
@@ -28,11 +29,28 @@ export default class LoginScreen extends React.Component {
         title: 'Login',
     };
 
+    getLocation(){
+        //get user's location
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    error: null
+                });
+            },
+            (error) => alert(error.message),
+            { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
+        );
+    }
+
     render () {
+      if(this.state.latitude == null) return null
         //inside of return is jsx style code that will be rendered on the page
         return(
             <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TextInput
+                    ref={input => { this.emailInput = input }}
                     placeholder='Email'
                     style={styles.textbox}
                     onChangeText={ (email) => this.setState({email})}
@@ -42,6 +60,7 @@ export default class LoginScreen extends React.Component {
                 />
 
                 <TextInput
+                    ref={input => { this.passwordInput = input }}
                     placeholder='Password'
                     style={styles.textbox}
                     onChangeText={ (password) => this.setState({password})}
@@ -80,26 +99,35 @@ export default class LoginScreen extends React.Component {
             email: this.state.email,
             password: this.state.password
         }, {}, (response) => {
-            console.log(response);
+            console.log(response.success);
+            if(response.success){
+              //object to pass user info to next screen
+              var userinfo = {
+                  email: this.state.email,
+                  interests: [],
+              };
+
+              Connector.post("/user/updateLocation", {
+                latitude: this.state.latitude,
+                longitude: this.state.longitude,
+              },
+              {
+                email: this.state.email
+              }, (response) => {
+                console.log(response);
+              }
+            );
+
+              alert('Lat: ' + this.state.latitude + '\nLong: ' + this.state.longitude + '\nError: ' + this.state.error);
+              this.props.navigation.navigate('Home',userinfo);
+            } else{
+              this.emailInput.clear();
+              this.passwordInput.clear();
+              alert('Login information was incorrect')
+            }
         });
 
-        //object to pass user info to next screen
-        var userinfo = {
-            email: this.state.email,
-            interests: [],
-        };
 
-        Connector.post("/updateLocation", {
-          latitude: this.state.latitude,
-          longitude: this.state.longitude,
-        },
-        {
-          username: this.state.email
-        }
-      );
-
-        alert('Lat: ' + this.state.latitude + '\nLong: ' + this.state.longitude + '\nError: ' + this.state.error);
-        this.props.navigation.navigate('Home',userinfo);
     };
 
     //register function (sends to RegisterScreen)
