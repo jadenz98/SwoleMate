@@ -6,13 +6,8 @@ import Mongo from '../../utils/Mongo';
 /* POST update info */
 router.post('/', function(req, res, next) {
     const username = req.header("username");
-    const userQuery = {username};
 
-    const newValues = {
-        $set: req.body
-    };
-
-    Mongo.update("Users", userQuery, newValues, () => {
+    Mongo.updateLocation(username, req.body.latitude, req.body.longitude, () => {
         const resp = {
             success: true
         };

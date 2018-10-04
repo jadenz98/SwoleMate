@@ -120,4 +120,81 @@ export default class Mongo {
             });
         });
     }
+
+    /**
+     * Method used to update a user's location
+     *
+     * @param username      The username of the user to update
+     * @param latitude      The latitude
+     * @param longitude     The longitude
+     * @param callback      The function to be executed after update
+     */
+    static updateLocation (username, latitude, longitude, callback) {
+        MongoClient.connect(url, function(error, db){
+            const dbo = db.db(DBName);
+            const query = {
+                username: username
+            };
+
+            // location is a GeoJSON object describing the location of the user
+            // it must follow in the order of longitude, latitude
+            // https://docs.mongodb.com/manual/reference/geojson/#geojson-point
+            const value = {
+                location : {
+                    type: "Point",
+                    coordinates: [
+                        longitude,
+                        latitude
+                    ]
+                }
+            };
+
+            //check for connection error
+            if(error){
+                console.error(error);
+                process.exit(1);
+            }
+
+            //put methods to modify database here
+            dbo.collection("Users").updateOne(query, value, function(err, res) {
+                if (err)
+                    throw err;
+
+                //close database
+                db.close();
+
+                if (callback)
+                    callback(res);
+            });
+        });
+    }
+
+    /**
+     * Method to get users close to the specified user
+     * An abstraction on the find method
+     *
+     *
+     */
+    static getNearbyUsers (username, callback) {
+        const distance = 1000;      // Range of distance to search in meters
+
+        // Get the coordinates of the user
+        this.find("Users", {username: username}, undefined, (user) => {
+            const coordinates = user.location.coordinates;
+            const query = {
+                location: {
+                    $near: {
+                        $geometry: {
+                            type: "Point",
+                            coordinates
+                        },
+                        $maxDistance: distance
+                    }
+                }
+            };
+
+            // Find the users in the proximity of the matching user's location
+            this.find("Users", query, undefined, callback);
+        });
+    }
 }
