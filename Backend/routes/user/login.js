@@ -7,7 +7,7 @@ router.post('/', function(req, res, next) {
         user: req.body.username,
         pass: req.body.password
     };
-    res.send(JSON.stringify(resp));
+    res.json(resp);
 });
 
 module.exports = router;

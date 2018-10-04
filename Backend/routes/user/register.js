@@ -26,7 +26,7 @@ router.post('/', function(req, res, next) {
     };
 
     Mongo.insert("Users", newUser, () => {
-        res.send(JSON.stringify(resp));
+        res.json(resp);
     });
 });
 

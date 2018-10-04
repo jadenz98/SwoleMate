@@ -12,7 +12,7 @@ router.post('/', function(req, res, next) {
             success: true
         };
 
-        res.send(JSON.stringify(resp));
+        res.json(resp);
     });
 });
 

@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
         whatever: "blah"
     };
 
-    res.send(JSON.stringify(resp));
+    res.json(resp);
 });
 
 module.exports = router;
