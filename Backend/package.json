@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./start.js"
+    "start": "node ./start.js",
+    "test": "mocha --timeout 10000"
   },
   "dependencies": {
     "babel-preset-env": "^1.7.0",
@@ -15,5 +16,10 @@
     "mongodb": "^3.1.6",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "mocha": "^5.2.0"
   }
 }

@@ -1,3 +1,8 @@
+// Transpile all code following this line with babel and use 'env' (aka ES6) preset.
+require('babel-register')({
+    presets: [ 'env' ]
+});
+
 var createError = require('http-errors');
 var http = require('http');
 var express = require('express');
