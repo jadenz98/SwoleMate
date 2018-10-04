@@ -1,0 +1,15 @@
+{
+	email: 'email@email.com',
+	password: 'passwordHash',				// Not returned from GET /user
+	name: 'First Last',
+	sex: 'male|female|not_specified',
+	birthday: 'mm/dd/yyyy',
+	phone: '1234567890',
+	location: {								// Not returned from GET /user
+		coordinates: [
+			'<longitude number>',
+			'<latitude number>'
+		],
+		type: 'Point'
+	}
+}
