@@ -8,6 +8,9 @@ router.get('/', function(req, res, next) {
     const username = req.header("username");
 
     Mongo.find("Users", {username: username}, undefined, (user) => {
+        user.password = undefined;
+        user.location = undefined;
+
         res.json(user);
     });
 });
