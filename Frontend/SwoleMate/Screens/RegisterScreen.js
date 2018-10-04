@@ -123,7 +123,7 @@ export default class RegisterScreen extends React.Component{
       Connector.post("/user/register", {
         username: this.state.newUsername,
         password: this.state.newPassword,
-        email:  this.state.email
+        email: this.state.email
       }, {}, (response) => {
         console.log(response);
       });

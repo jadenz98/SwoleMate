@@ -7,6 +7,7 @@ router.post('/', function(req, res, next) {
         user: req.body.username,
         pass: req.body.password
     };
+
     res.json(resp);
 });
 

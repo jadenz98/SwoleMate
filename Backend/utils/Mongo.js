@@ -18,7 +18,7 @@ export default class Mongo {
             if (err)
                 throw err;
 
-            let result = dbo.collection(collection).find();
+            let result = dbo.collection(collection).find(query);
 
             if (sort) {
                 result = result.sort(sort);
@@ -29,6 +29,9 @@ export default class Mongo {
                     throw err;
 
                 db.close();
+
+                if (result.length === 1)
+                    result = result[0];
 
                 callback(result);
             });

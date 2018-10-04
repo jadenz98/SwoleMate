@@ -17,6 +17,7 @@ var loginRouter = require('./routes/user/login');
 var registerRouter = require('./routes/user/register');
 var updateRouter = require('./routes/user/update');
 var deleteRouter = require('./routes/user/delete');
+var userRouter = require('./routes/user/index');
 
 var app = express();
 app.set('port', 8000);
@@ -39,6 +40,7 @@ app.use('/user/login', loginRouter);
 app.use('/user/register', registerRouter);
 app.use('/user/update', updateRouter);
 app.use('/user/delete', deleteRouter);
+app.use('/user', userRouter);
 
 app.disable('etag');
 
