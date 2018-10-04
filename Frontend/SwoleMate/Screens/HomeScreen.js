@@ -4,7 +4,6 @@ import styles from './Styles/HomeScreenStyles';
 
 
 export default class HomeScreen extends React.Component{
-    
     constructor(props){
         super(props);
         const { navigation } = this.props;
@@ -29,9 +28,15 @@ export default class HomeScreen extends React.Component{
         );
     }
 
+
     goToProfile = () => {
         //this alert tests that username was successfully recieved from previous page
         //alert('Username: ' + name);
-        this.props.navigation.navigate('Profile');
+        const { navigation } = this.props;
+        var userinfo={
+            email: navigation.getParam('email'),
+            interests: navigation.getParam('interests'),
+        }
+        this.props.navigation.navigate('Profile',userinfo);
     }
 }
