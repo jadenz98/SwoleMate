@@ -100,7 +100,7 @@ export default class LoginScreen extends React.Component {
             password: this.state.password
         }, {}, (response) => {
             console.log(response.success);
-            if(response.success){
+            if(response.success){ //Server returned success on login
               //object to pass user info to next screen
               var userinfo = {
                   email: this.state.email,
@@ -117,11 +117,11 @@ export default class LoginScreen extends React.Component {
                 console.log(response);
               }
             );
-
+              //this should eventually be removed
               alert('Lat: ' + this.state.latitude + '\nLong: ' + this.state.longitude + '\nError: ' + this.state.error);
               this.props.navigation.navigate('Home',userinfo);
-            } else{
-              this.emailInput.clear();
+            } else{ //Server returned failure on login
+              this.emailInput.clear(); //Clears both TextInput's and displays alert
               this.passwordInput.clear();
               alert('Login information was incorrect')
             }
