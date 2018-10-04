@@ -18,6 +18,9 @@ export default class HomeScreen extends React.Component{
     render(){
         return(
             <TouchableOpacity style={styles.button} onPress={this.goToProfile}>
+                    <Text>
+                        Profile
+                    </Text>
                     {/*<Image
                         style={styles.icon}
                         source={require('./generic-profile-picture.png')}
