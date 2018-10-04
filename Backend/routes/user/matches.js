@@ -5,9 +5,9 @@ import Mongo from '../../utils/Mongo';
 
 /* POST update info */
 router.get('/', function(req, res, next) {
-    const username = req.header("username");
+    const email = req.header("email");
 
-    Mongo.getNearbyUsers(username, (users) => {
+    Mongo.getNearbyUsers(email, (users) => {
         res.json(users);
     });
 });

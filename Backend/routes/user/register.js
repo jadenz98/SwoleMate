@@ -5,14 +5,25 @@ import Mongo from '../../utils/Mongo';
 
 /* POST Register info */
 router.post('/', function(req, res, next) {
-    const body = req.body;
-
-    const resp = req.body;
-
     const newUser = req.body;
+    const userQuery = {
+        email: newUser.email
+    };
 
-    Mongo.insert("Users", newUser, () => {
-        res.json(resp);
+    Mongo.find("Users", userQuery, undefined, (result) => {
+        if (result.length === 0) {
+            const resp = {
+                success: true
+            };
+            Mongo.insert("Users", newUser, () => {
+                res.json(resp);
+            });
+        } else {
+            const resp = {
+                success: false
+            };
+            res.json(resp);
+        }
     });
 });
 
