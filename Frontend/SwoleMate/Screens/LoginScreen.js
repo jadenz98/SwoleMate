@@ -106,6 +106,7 @@ export default class LoginScreen extends React.Component {
         //object to pass user info to next screen
         var userinfo = {
             username: this.state.username,
+            interests: [],
         }
 
         //get user's location
