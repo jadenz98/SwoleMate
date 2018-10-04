@@ -5,8 +5,8 @@ import Mongo from '../../utils/Mongo';
 
 /* POST update info */
 router.post('/', function(req, res, next) {
-    const username = req.header("username");
-    const userQuery = {username};
+    const email = req.header("email");
+    const userQuery = {email};
 
     const newValues = {
         $set: req.body

@@ -5,9 +5,9 @@ import Mongo from '../../utils/Mongo';
 
 /* GET test. */
 router.get('/', function(req, res, next) {
-    const username = req.header("username");
+    const email = req.header("email");
 
-    Mongo.find("Users", {username: username}, undefined, (user) => {
+    Mongo.find("Users", {email: email}, undefined, (user) => {
         user.password = undefined;
         user.location = undefined;
 

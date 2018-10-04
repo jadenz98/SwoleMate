@@ -19,17 +19,16 @@ describe('SwoleMate API endpoint testing', () => {
                     arbitraryData: "123456",
                     whatever: "blah"
                 });
-
                 done();
             });
     });
 
     it('Should be able to delete a user', (done) => {
         const newUser = {
-            username: 'mocha-test',
+            name: 'mocha-test',
             password: 'test',
             email: 'test@test.com',
-            dateOfBirth: '01/01/01',
+            birthday: '01/01/01',
             phone: '1234567890',
             bio: 'test bio!'
         };
@@ -40,12 +39,12 @@ describe('SwoleMate API endpoint testing', () => {
             .send(newUser)
             .end((err, res) => {
                 res.should.have.status(200);
-                res.body.user.should.equal('mocha-test');
-
+                res.body.success.should.be.true;
+                // done();
                 // Delete the user
                 chai.request(server)
                     .post('/user/delete')
-                    .send({username: newUser.username})
+                    .send({email: newUser.email})
                     .end((err, res) => {
                         res.body.should.be.an('object');
                         res.body.success.should.be.true;
