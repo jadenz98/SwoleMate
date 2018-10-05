@@ -126,7 +126,7 @@ export default class RegisterScreen extends React.Component{
               placeholder='Birthday (mm/dd/yyyy)'
               style={styles.textbox}
               onChangeText={ (birthday) => this.setState({birthday})}
-              keyboardType='decimal-pad'
+              //keyboardType='decimal-pad'
               maxLength={10}
             />
 
@@ -182,7 +182,8 @@ export default class RegisterScreen extends React.Component{
               //this is how userinfo will be passed to other screens
               var userinfo = {
                   name: this.state.name,
-                  email: this.state.email
+                  email: this.state.email,
+                  interests: ['Swimming','Running']
               };
               //eventually change 'Home' to 'CreateProfile'
               this.props.navigation.navigate('Home', userinfo);

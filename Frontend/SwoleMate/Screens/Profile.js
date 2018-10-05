@@ -22,8 +22,8 @@ export default class Profile extends React.Component{
                 'Lifting': false,
                 'Hiking': false,
             };
-
-            const interests = res.interests;
+            interests=navigation.getParam('interests');
+            //const interests = res.interests;
 
             for(let i=0;i<interests.length;i++){
                 if(interests[i] in this.renderImage){

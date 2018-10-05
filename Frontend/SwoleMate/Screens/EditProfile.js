@@ -151,7 +151,7 @@ export default class EditProfile extends React.Component {
                         </TouchableHighlight>
                     </View>
                 </Modal>
-                <Modal
+                
                     transparent={false}
                     visible={this.state.cameraRollVisible}>
                     <View style={{marginTop: 22}}>
@@ -164,7 +164,7 @@ export default class EditProfile extends React.Component {
                         <CameraRollPicker callback={this.getSelectedImages} />
                         
                     </View>
-                </Modal>
+                
                 <TouchableHighlight
                     onPress={() => {
                         this.setModalVisibility(true);
