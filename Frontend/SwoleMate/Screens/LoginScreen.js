@@ -104,7 +104,7 @@ export default class LoginScreen extends React.Component {
               //object to pass user info to next screen
               var userinfo = {
                   email: this.state.email,
-                  interests: [],
+                  interests: ['Swimming','Running'],
               };
 
               Connector.post("/user/updateLocation", {

@@ -13,9 +13,10 @@ export default class HomeScreen extends React.Component{
     static navigationOptions = {
         title: 'SwoleMate',
     };
-    
+
     render(){
         return(
+          <View>
             <TouchableOpacity style={styles.button} onPress={this.goToProfile}>
                     <Text>
                         Profile
@@ -25,9 +26,19 @@ export default class HomeScreen extends React.Component{
                         source={require('./generic-profile-picture.png')}
                     />*/}
                 </TouchableOpacity>
+                <TouchableOpacity onPress={this.goToMatches}>
+                  <Text>
+                    Matches
+                  </Text>
+                </TouchableOpacity>
+        </View>
         );
     }
 
+    goToMatches = () => {
+      this.props.navigation.navigate('Matches');
+
+    }
 
     goToProfile = () => {
         //this alert tests that username was successfully recieved from previous page
