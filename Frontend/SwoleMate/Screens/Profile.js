@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, Text, View} from 'react-native';
+import {TouchableOpacity, Text, View, Image} from 'react-native';
 import styles from './Styles/LoginScreenStyles';
 
 export default class Profile extends React.Component{
@@ -7,7 +7,20 @@ export default class Profile extends React.Component{
     constructor(props){
         super(props);
         const { navigation } = this.props;
-        name = navigation.getParam('username');
+        renderImage={
+            'Swimming': false,
+            'Running': false,
+            'Lifting': false,
+            'Hiking': false,
+        };
+        interests = navigation.getParam('interests');
+        
+        var i;
+        for(i=0;i<interests.length;i++){
+            if(interests[i] in renderImage){
+                renderImage[interests[i]]=true;
+            }
+        }
     }
 
         //This sets the title on the top header
@@ -16,8 +29,29 @@ export default class Profile extends React.Component{
         };
     
     render(){
-        return(
+        var images = (
             <View>
+            {renderImage['Swimming'] && <Image  source={require('./images/Swimming.png')}
+            />}
+            {renderImage['Running'] &&<Image  source={require('./images/Running.png')}
+            />}
+            {renderImage['Lifting'] && <Image  source={require('./images/Lifting.png')}
+            />}
+            {<Image  source={require('./images/Hiking.png')}
+            />}
+            </View>
+        )
+
+        /*var i;
+        for(i=0; i<interests.length; i++){
+            var uri = './images/'+interests[i]+'.png'
+            images += <Image  source={{uri}}
+            />
+        }*/
+        return(
+        
+        <View>
+            {images}
             <TouchableOpacity style={styles.clearButton} onPress={this.editProfile}>
                 <Text>
                     Edit
@@ -28,6 +62,8 @@ export default class Profile extends React.Component{
                 Test
             </Text>        
         </TouchableOpacity>
+        
+
         </View>
         );
     }
@@ -43,7 +79,7 @@ export default class Profile extends React.Component{
 
     testName = () => {
         //this alert tests that username was successfully recieved from previous page
-        alert('Username: ' + name);
+        alert('Interests1: ' + interests[0] + "\nInterests2: " + interests[1]);
         //this.props.navigation.navigate('Profile');
     }
 }
