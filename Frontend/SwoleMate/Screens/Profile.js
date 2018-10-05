@@ -37,7 +37,7 @@ export default class Profile extends React.Component{
             />}
             {renderImage['Lifting'] && <Image  source={require('./images/Lifting.png')}
             />}
-            {<Image  source={require('./images/Hiking.png')}
+            {renderImage['Hiking'] &&<Image  source={require('./images/Hiking.png')}
             />}
             </View>
         )
