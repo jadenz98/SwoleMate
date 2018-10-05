@@ -9,14 +9,14 @@ chai.use(chaiHttp);
 
 describe('SwoleMate API endpoint testing', () => {
     // it('Deleting old User', (done) => {
-    //     const newUser = {
-    //         name: 'mocha-test',
-    //         password: 'test',
-    //         email: 'test@test.com',
-    //         birthday: '01/01/01',
-    //         phone: '1234567890',
-    //         bio: 'test bio!'
-    //     };
+    newUser = {
+        name: 'mocha-test',
+        password: 'test',
+        email: 'test@test.com',
+        birthday: '01/01/01',
+        phone: '1234567890',
+        bio: 'test bio!'
+    };
     //     chai.request(server)
     //         .get('user/delete')
     //         .send(newUser)
@@ -25,6 +25,17 @@ describe('SwoleMate API endpoint testing', () => {
     //             done();
     //         });
     // });
+    it('Delete User for re-testing', (done) => {
+        chai.request(server)
+            .post('/user/delete')
+            .send(newUser)
+            .end((err, res) => {
+                res.body.should.be.an('object');
+                // res.body.success.should.be.true;
+                done();
+            });
+
+    });
 
     it('Should handle a get request', (done) => {
         chai.request(server)
@@ -71,17 +82,17 @@ describe('SwoleMate API endpoint testing', () => {
                     });
             });
     });
-    const newUser = {
-            name: 'mocha-test',
-            password: 'test',
-            email: 'test@test.com',
-            sex: 'Male',
-            birthday: '01/01/01',
-            phone: '1234567890',
-            bio: 'test bio!'
-        };
+    // const newUser = {
+    //         name: 'mocha-test',
+    //         password: 'test',
+    //         email: 'test@test.com',
+    //         sex: 'Male',
+    //         birthday: '01/01/01',
+    //         phone: '1234567890',
+    //         bio: 'test bio!'
+    //     };
 
-    it('Should be able to log a user in with there email', (done) => {
+    it('Should be able to block wrong login creds', (done) => {
         const badPass = {
             name: 'mocha-test',
             password: 'test1',
@@ -143,7 +154,7 @@ describe('SwoleMate API endpoint testing', () => {
                     done();
             });
     });
-    it('Should be able to Login with valid email+password', (done) => {
+    it('Should be able to Login with valid email + password', (done) => {
         chai.request(server)
             .post('/user/login')
             .send(newUser)
@@ -154,7 +165,7 @@ describe('SwoleMate API endpoint testing', () => {
             });
 
     });
-    
+
     it('Should be able update Location', (done) => {
         chai.request(server)
             .post('/user/updateLocation')
@@ -163,24 +174,8 @@ describe('SwoleMate API endpoint testing', () => {
                 res.should.have.status(200);
                 res.body.should.be.an('object');
                 res.body.success.should.be.true;
-                chai.request(server)
-                    .post('/user/delete')
-                    .send(newUser)
-                    .end((err, res) => {
-                        res.body.should.be.an('object');
-                        res.body.success.should.be.true;
-                        chai.request(server)
-                            .post('/user/delete')
-                            .send(newUser)
-                            .end((err, res) => {
-                                res.should.have.status(200);
-                                res.body.should.be.an('object');
-                                res.body.success.should.be.true;
-                            done();
-                        });
-                    });
+                done();
             });
-
     });
 
 
