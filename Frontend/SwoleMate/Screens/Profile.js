@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, Text, View, Image} from 'react-native';
+import {TouchableOpacity, Text, View, Image, Button} from 'react-native';
 import styles from './Styles/LoginScreenStyles';
 
 export default class Profile extends React.Component{
