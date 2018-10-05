@@ -8,6 +8,24 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 describe('SwoleMate API endpoint testing', () => {
+    // it('Deleting old User', (done) => {
+    //     const newUser = {
+    //         name: 'mocha-test',
+    //         password: 'test',
+    //         email: 'test@test.com',
+    //         birthday: '01/01/01',
+    //         phone: '1234567890',
+    //         bio: 'test bio!'
+    //     };
+    //     chai.request(server)
+    //         .get('user/delete')
+    //         .send(newUser)
+    //         .end((err, res) => {
+    //             res.should.have.status(200);
+    //             done();
+    //         });
+    // });
+
     it('Should handle a get request', (done) => {
         chai.request(server)
             .get('/hello')
@@ -53,20 +71,22 @@ describe('SwoleMate API endpoint testing', () => {
                     });
             });
     });
-
-    it('Should be able to log a user in with there email', (done) => {
-        const newUser = {
+    const newUser = {
             name: 'mocha-test',
             password: 'test',
             email: 'test@test.com',
+            sex: 'Male',
             birthday: '01/01/01',
             phone: '1234567890',
             bio: 'test bio!'
         };
+
+    it('Should be able to log a user in with there email', (done) => {
         const badPass = {
             name: 'mocha-test',
             password: 'test1',
             email: 'test@test.com',
+            sex: 'Male',
             birthday: '01/01/01',
             phone: '1234567890',
             bio: 'test bio!'
@@ -75,6 +95,7 @@ describe('SwoleMate API endpoint testing', () => {
             name: 'mocha-test1',
             password: 'test',
             email: 'test@test.com',
+            sex: 'Male',
             birthday: '01/01/01',
             phone: '1234567890',
             bio: 'test bio!'
@@ -83,6 +104,7 @@ describe('SwoleMate API endpoint testing', () => {
             name: 'mocha-test1',
             password: 'test1',
             email: 'test@test.com',
+            sex: 'Male',
             birthday: '01/01/01',
             phone: '1234567890',
             bio: 'test bio!'
@@ -95,8 +117,8 @@ describe('SwoleMate API endpoint testing', () => {
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.success.should.be.true;
-                // done();
                 // Delete the user
+
                 chai.request(server)
                     .post('/user/login')
                     .send({email: badPass.email})
@@ -118,22 +140,53 @@ describe('SwoleMate API endpoint testing', () => {
                         res.body.should.be.an('object');
                         res.body.success.should.be.false;
                     });
-                chai.request(server)
-                    .post('/user/login')
-                    .send({email: newUser.email})
-                    .end((err, res) => {
-                        res.body.should.be.an('object');
-                        res.body.success.should.be.true;
-                    });
-                chai.request(server)
-                    .post('/user/delete')
-                    .send({email: newUser.email})
-                    .end((err, res) => {
-                        res.body.should.be.an('object');
-                        res.body.success.should.be.true;
-
-                        done();
-                    });
+                    done();
             });
     });
+    it('Should be able to Login with valid email+password', (done) => {
+        chai.request(server)
+            .post('/user/login')
+            .send(newUser)
+            .end((err, res) => {
+                res.body.should.be.an('object');
+                res.body.success.should.be.true;
+                done();
+            });
+
+    });
+    
+    it('Should be able update Location', (done) => {
+        chai.request(server)
+            .post('/user/updateLocation')
+            .send({email: newUser.email})
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.an('object');
+                res.body.success.should.be.true;
+                chai.request(server)
+                    .post('/user/delete')
+                    .send(newUser)
+                    .end((err, res) => {
+                        res.body.should.be.an('object');
+                        res.body.success.should.be.true;
+                        chai.request(server)
+                            .post('/user/delete')
+                            .send(newUser)
+                            .end((err, res) => {
+                                res.should.have.status(200);
+                                res.body.should.be.an('object');
+                                res.body.success.should.be.true;
+                            done();
+                        });
+                    });
+            });
+
+    });
+
+
 });
+
+
+
+
+ 
