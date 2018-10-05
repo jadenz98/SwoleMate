@@ -18,8 +18,8 @@ export default class RegisterScreen extends React.Component{
         birthday: '',
         phone_number: '',
         bio: '',
-          latitude: null,
-          longitude: null,
+        latitude: null,
+        longitude: null,
       };
         this.getLocation();
     }
@@ -103,6 +103,7 @@ export default class RegisterScreen extends React.Component{
             </Text>
 
             <TextInput
+              ref={input => {this.nameInput = input }}
               placeholder='Name'
               style={styles.textbox}
               onChangeText={ (name) => this.setState({name})}
@@ -121,6 +122,7 @@ export default class RegisterScreen extends React.Component{
             </Picker>
 
             <TextInput
+              ref={input => {this.birthdayInput = input }}
               placeholder='Birthday (mm/dd/yyyy)'
               style={styles.textbox}
               onChangeText={ (birthday) => this.setState({birthday})}
@@ -129,6 +131,7 @@ export default class RegisterScreen extends React.Component{
             />
 
             <TextInput
+              ref={input => {this.phoneInput = input }}
               placeholder='Phone number'
               style={styles.textbox}
               onChangeText={ (phone_number) => this.setState({phone_number})}
@@ -157,6 +160,8 @@ export default class RegisterScreen extends React.Component{
 
     //register function
     registerAccount = () => {
+      if(this.validateInput()){
+        //alert('success');
         Connector.post("/user/register", {
             email:  this.state.email,
             password: this.state.newPassword,
@@ -188,5 +193,63 @@ export default class RegisterScreen extends React.Component{
               alert('Email is already registered to an account.\nTry again');
             }
         });
+      } else {
+          //alert('Input not valid');
+      }
     };
+
+    //Function to test all inputs
+    validateInput(){
+      //make sure email is not empty and valid
+      var emailRGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if(this.state.email == '' | !emailRGEX.test(this.state.email)){
+        this.setState({ email: '' });
+        this.emailInput.clear();
+        alert('Email is not valid');
+        return false;
+      }
+      //make sure password and passwordConfirm match and not empty
+      if(this.state.newPassword == '' | this.state.passwordConfirm == ''){
+        this.setState({
+          newPassword: '',
+          passwordConfirm: '',
+        });
+        this.passwordInput.clear();
+        this.passConfirmInput.clear();
+        alert('Password is not valid');
+        return false;
+      }
+      if(this.state.newPassword != this.state.passwordConfirm){
+        this.setState({
+          newPassword: '',
+          passwordConfirm: '',
+        });
+        this.passwordInput.clear();
+        this.passConfirmInput.clear();
+        alert('Passwords do not match');
+        return false;
+      }
+      //make sure name is not empty
+      if(this.state.name == ''){
+        alert('Name is not valid');
+        return false;
+      }
+      //make sure birthday is not empty and is valid
+      var birthdayRGEX = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/
+      if(this.state.birthday == '' | !birthdayRGEX.test(this.state.birthday)){
+        this.setState({ birthday: ''});
+        alert('Birthday is not valid');
+        return false;
+      }
+
+      //make sure phone number is not empty and is valid
+      var phoneRGEX = /^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/;
+      if(this.state.phone_number == '' | !phoneRGEX.test(this.state.phone_number)){
+        this.setState({ phone_number: ''});
+        alert('Phone number is not valid');
+        return false;
+      }
+
+      return true;
+    }
 }

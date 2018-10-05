@@ -1,10 +1,10 @@
 import React from 'react';
-import {TouchableOpacity, Text, View, Image} from 'react-native';
+import {TouchableOpacity, Text, View, Image, Button} from 'react-native';
 import styles from './Styles/LoginScreenStyles';
 import Connector from "../Utils/Connector";
 
 export default class Profile extends React.Component{
-    
+
     constructor(props){
         super(props);
         const { navigation } = this.props;
@@ -39,17 +39,17 @@ export default class Profile extends React.Component{
     };
 
     renderImage = {};
-    
+
     render(){
         const images = (
             <View>
             {this.renderImage['Swimming'] && <Image  source={require('./images/Swimming.png')}
             />}
-            {this.renderImage['Running'] &&<Image  source={require('./images/Running.png')}
+            {this.renderImage['Running'] && <Image  source={require('./images/Running.png')}
             />}
             {this.renderImage['Lifting'] && <Image  source={require('./images/Lifting.png')}
             />}
-            {this.renderImage['Hiking'] &&<Image  source={require('./images/Hiking.png')}
+            {this.renderImage['Hiking'] && <Image  source={require('./images/Hiking.png')}
             />}
             </View>
         );
@@ -73,6 +73,10 @@ export default class Profile extends React.Component{
             </View>
         );
     }
+
+    logout = () => {
+      this.props.navigation.navigate('Login');
+    };
 
     editProfile = () => {
         const { navigation } = this.props;

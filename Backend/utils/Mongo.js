@@ -204,7 +204,7 @@ export default class Mongo {
     }
 
     /**
-     * Method to get list of "likes"/matches by the specified user
+     * Method to get list of matches by the specified user
      * An abstraction on the find method
      *
      *
@@ -219,6 +219,19 @@ export default class Mongo {
           }
         }
         callback(matchList);
+      });
+    }
+
+    /**
+     * Method to get a conversation between two users
+     * An abstraction on the find method
+     *
+     *
+     */
+    static getConversation (email1, email2, callback) {
+      const query = { "users": { $all: [email1, email2]}}
+      this.find("Conversations", query, undefined, (conversation) => {
+        callback(conversation.conversation)
       });
     }
 }
