@@ -70,6 +70,13 @@ export default class Profile extends React.Component{
                         Test
                     </Text>
                 </TouchableOpacity>
+
+                <Button
+                    onPress={this.logout}
+                    title="Logout"
+                    color="#f4553d"
+                    accessibilityLabel="Logout of Swolemate account"
+                />
             </View>
         );
     }

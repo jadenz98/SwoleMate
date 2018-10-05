@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 import Mongo from '../../utils/Mongo';
 /* POST login info */
@@ -15,15 +15,13 @@ router.post('/', function(req, res, next) {
     // var email = userQuery.email;
     Mongo.find("Users", userQuery, undefined, (result) => {
 
-        if(result.length == 0){
+        if(result.length === 0){
             const resp = {
                 success: false
             };
             res.json(resp);
         }else{
-
             bcrypt.compare(req.body.password, result.password, function(err, re) {
-                // console.log(re + "\n\n\n\n");
                 if(re){
                     const resp = {
                         success: true
@@ -38,9 +36,7 @@ router.post('/', function(req, res, next) {
             });
 
         }
-        // res.json(resp);
     });
-    // res.json(resp);
 });
 
 module.exports = router;
