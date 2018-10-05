@@ -7,7 +7,7 @@ export default class HomeScreen extends React.Component{
     constructor(props){
         super(props);
         const { navigation } = this.props;
-        name = navigation.getParam('username');
+        const name = navigation.getParam('username');
     }
     //This sets the title on the top header
     static navigationOptions = {
@@ -45,9 +45,8 @@ export default class HomeScreen extends React.Component{
         //alert('Username: ' + name);
         const { navigation } = this.props;
         var userinfo={
-            email: navigation.getParam('email'),
-            interests: ['Swimming','Running'],//navigation.getParam('interests'),
-        }
-        this.props.navigation.navigate('Profile',userinfo);
+            email: navigation.getParam('email')
+        };
+        this.props.navigation.navigate('Profile', userinfo);
     }
 }

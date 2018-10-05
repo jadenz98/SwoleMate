@@ -1,81 +1,90 @@
 import React from 'react';
-import {TouchableOpacity, Text, View, Image} from 'react-native';
+import {TouchableOpacity, Text, View, Image, Button} from 'react-native';
 import styles from './Styles/LoginScreenStyles';
+import Connector from "../Utils/Connector";
 
 export default class Profile extends React.Component{
-    
+
     constructor(props){
         super(props);
         const { navigation } = this.props;
-        renderImage={
-            'Swimming': false,
-            'Running': false,
-            'Lifting': false,
-            'Hiking': false,
+
+        this.state = {
+            user: null
         };
-        interests = navigation.getParam('interests');
-        
-        var i;
-        for(i=0;i<interests.length;i++){
-            if(interests[i] in renderImage){
-                renderImage[interests[i]]=true;
+
+        Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
+            this.setState({user: res});
+
+            this.renderImage={
+                'Swimming': false,
+                'Running': false,
+                'Lifting': false,
+                'Hiking': false,
+            };
+
+            const interests = res.interests;
+
+            for(let i=0;i<interests.length;i++){
+                if(interests[i] in this.renderImage){
+                    this.renderImage[interests[i]]=true;
+                }
             }
-        }
+        });
     }
 
-        //This sets the title on the top header
-        static navigationOptions = {
-            title: 'Profile',
-        };
-    
+    //This sets the title on the top header
+    static navigationOptions = {
+        title: 'Profile',
+    };
+
+    renderImage = {};
+
     render(){
-        var images = (
+        const images = (
             <View>
-            {renderImage['Swimming'] && <Image  source={require('./images/Swimming.png')}
+            {this.renderImage['Swimming'] && <Image  source={require('./images/Swimming.png')}
             />}
-            {renderImage['Running'] &&<Image  source={require('./images/Running.png')}
+            {this.renderImage['Running'] && <Image  source={require('./images/Running.png')}
             />}
-            {renderImage['Lifting'] && <Image  source={require('./images/Lifting.png')}
+            {this.renderImage['Lifting'] && <Image  source={require('./images/Lifting.png')}
             />}
-            {renderImage['Hiking'] &&<Image  source={require('./images/Hiking.png')}
+            {this.renderImage['Hiking'] && <Image  source={require('./images/Hiking.png')}
             />}
             </View>
-        )
+        );
 
-        /*var i;
-        for(i=0; i<interests.length; i++){
-            var uri = './images/'+interests[i]+'.png'
-            images += <Image  source={{uri}}
-            />
-        }*/
+        if (this.state.user == null)
+            return null;
+
         return(
-        
-        <View>
-            {images}
-            <TouchableOpacity style={styles.clearButton} onPress={this.editProfile}>
-                <Text>
-                    Edit
-                </Text>        
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.clearButton} onPress={this.testName}>
-            <Text>
-                Test
-            </Text>        
-        </TouchableOpacity>
-        
-
-        </View>
+            <View>
+                {images}
+                <TouchableOpacity style={styles.clearButton} onPress={this.editProfile}>
+                    <Text>
+                        Edit
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.clearButton} onPress={this.testName}>
+                    <Text>
+                        Test
+                    </Text>
+                </TouchableOpacity>
+            </View>
         );
     }
+
+    logout = () => {
+      this.props.navigation.navigate('Login');
+    };
 
     editProfile = () => {
         const { navigation } = this.props;
         var userinfo={
-            email: navigation.getParam('email'),
-            interests: navigation.getParam('interests'),
-        }
-        this.props.navigation.navigate('EditProfile',userinfo);
-    }
+            email: navigation.getParam('email')
+        };
+        this.props.navigation.navigate('EditProfile', userinfo);
+    };
 
     testName = () => {
         //this alert tests that username was successfully recieved from previous page

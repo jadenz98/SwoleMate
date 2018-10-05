@@ -5,8 +5,9 @@ import Mongo from '../../utils/Mongo';
 
 /* POST update info */
 router.post('/', function(req, res, next) {
+    // console.log(req.body.email + " + \n\n\n\n");
     const userQuery = { email: req.body.email };
-    console.log(userQuery);
+    
 
     Mongo.find("Users", userQuery, undefined, (result) => {
     	if(result.length == 0){

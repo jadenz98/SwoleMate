@@ -1,5 +1,7 @@
+
 var express = require('express');
 var router = express.Router();
+var bcrypt = require('bcrypt');
 
 import Mongo from '../../utils/Mongo';
 
@@ -19,10 +21,22 @@ router.post('/', function(req, res, next) {
             const resp = {
                 success: true
             };
-            Mongo.insert("Matches", matches, () => {});
-            Mongo.insert("Users", newUser, () => {
-                res.json(resp);
+            // console.log("HERE1 STEVE: " + newUser.password + "\n\n");
+
+            bcrypt.hash(newUser.password, 10, function(err, hash) {
+                if(err){
+                    console.log(err);
+                }
+                // console.log(hash + "\n\n\n");
+                // console.log(hash + "\n\n\n");
+                newUser.password = hash;
+                Mongo.insert("Matches", matches, () => {});
+                Mongo.insert("Users", newUser, () => {
+                    res.json(resp);
+                });
             });
+            // console.log(hash + "\n\n\n");
+
         } else {
             const resp = {
                 success: false

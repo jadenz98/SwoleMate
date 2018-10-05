@@ -23,6 +23,8 @@
     "expo": "^27.0.1",
     "react": "16.3.1",
     "react-native": "~0.55.2",
+    "react-native-camera-picker": "^1.0.0",
+    "react-native-camera-roll-picker": "^1.2.3",
     "react-native-select-multiple": "^1.2.0",
     "react-native-selectmultiple-button": "^0.1.105",
     "react-navigation": "^2.16.0"
