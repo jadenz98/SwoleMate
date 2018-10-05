@@ -4,6 +4,8 @@ import styles from "./Styles/LoginScreenStyles";
 import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight } from 'react-native';
 import SelectMultiple from 'react-native-select-multiple';
 
+import CameraRollPicker from 'react-native-camera-roll-picker'
+
 import Connector from '../Utils/Connector';
 
 export default class EditProfile extends React.Component {
@@ -15,6 +17,7 @@ export default class EditProfile extends React.Component {
         this.state = {
             selectedInterests: [],
             modalVisible: false,
+            cameraRollVisible: false,
         };
 
         Connector.get('/user', {username: 'sam'}, (res) => {
@@ -28,9 +31,17 @@ export default class EditProfile extends React.Component {
         title: 'Edit',
     };
 
+    getSelectedImages(image){
+        
+    }
+
     onSelectionsChange = (selectedInterests) => {
         this.setState({selectedInterests});
     };
+
+    setCameraRollVisibility(visible){
+        this.setState({cameraRollVisible: visible});
+    }
 
     setModalVisibility(visible) {
         this.setState({modalVisible: visible});
@@ -112,6 +123,20 @@ export default class EditProfile extends React.Component {
                         </TouchableHighlight>
                     </View>
                 </Modal>
+                <Modal
+                    transparent={false}
+                    visible={this.state.cameraRollVisible}>
+                    <View style={{marginTop: 22}}>
+                        <TouchableHighlight
+                            onPress={() => {
+                                this.setCameraRollVisibility(!this.state.cameraRollVisible);
+                            }}>
+                            <Text>Hide camera roll</Text>
+                        </TouchableHighlight>
+                        <CameraRollPicker callback={this.getSelectedImages} />
+                        
+                    </View>
+                </Modal>
                 <TouchableHighlight
                     onPress={() => {
                         this.setModalVisibility(true);
@@ -119,6 +144,11 @@ export default class EditProfile extends React.Component {
                     <Text>Show Interests</Text>
                 </TouchableHighlight>
 
+                <TouchableOpacity style={styles.button} onPress={()=> { this.setCameraRollVisibility(true)}}>
+                    <Text>
+                        Add Profile Picture
+                    </Text>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={this.save}>
                     <Text>
                         Save
