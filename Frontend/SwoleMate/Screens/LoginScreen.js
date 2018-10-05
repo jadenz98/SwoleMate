@@ -126,8 +126,6 @@ export default class LoginScreen extends React.Component {
               alert('Login information was incorrect')
             }
         });
-
-
     };
 
     //register function (sends to RegisterScreen)

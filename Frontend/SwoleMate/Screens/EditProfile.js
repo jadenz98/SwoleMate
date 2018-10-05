@@ -13,14 +13,18 @@ export default class EditProfile extends React.Component {
         super(props);
 
         this.state = {
-            selectedInterests: [],
             modalVisible: false,
+            user: null,
+            selectedInterests: []
         };
 
-        Connector.get('/user', {username: 'sam'}, (res) => {
+        Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
             this.setState({user: res});
             console.log(res);
         });
+
+        this.save = this.save.bind(this);
+        this.cancel = this.cancel.bind(this);
     }
 
     //This sets the title on the top header
@@ -29,11 +33,35 @@ export default class EditProfile extends React.Component {
     };
 
     onSelectionsChange = (selectedInterests) => {
-        this.setState({selectedInterests});
+        let newUser = this.state.user;
+        let interests = [];
+
+        for (let i = 0; i < selectedInterests.length; i++) {
+            interests.push(selectedInterests[i].value);
+        }
+
+        newUser.interests = interests;
+
+        this.setState({
+            user: newUser,
+            selectedInterests: selectedInterests
+        });
     };
 
     setModalVisibility(visible) {
         this.setState({modalVisible: visible});
+    }
+
+    save () {
+        const user = this.state.user;
+
+        Connector.post('/user/update', user, {email: user.email}, () => {
+            this.props.navigation.pop();
+        });
+    }
+
+    cancel () {
+        this.props.navigation.pop();
     }
 
     render() {
@@ -44,20 +72,10 @@ export default class EditProfile extends React.Component {
         return (
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                 <TextInput
-                    value={this.state.user.username}
-                    placeholder='Username'
-                    style={styles.textbox}
-                    onChangeText={(username) => this.setState({user: {username: username}})}
-                    autoCapitalize='none'
-                    autoCorrect={false}
-                    textContentType='username'
-                />
-
-                <TextInput
                     value={this.state.user.name}
                     placeholder='Name'
                     style={styles.textbox}
-                    onChangeText={(name) => this.setState({user: {name: name}})}
+                    onChangeText={(name) => this.setState({user: {...this.state.user, name: name}})}
                     autoCapitalize='none'
                     autoCorrect={false}
                 />
@@ -66,34 +84,44 @@ export default class EditProfile extends React.Component {
                     value={this.state.user.email}
                     placeholder='Email'
                     style={styles.textbox}
-                    onChangeText={(email) => this.setState({user: {email: email}})}
+                    onChangeText={(email) => this.setState({user: {...this.state.user, email: email}})}
                     autoCapitalize='none'
                     autoCorrect={false}
                 />
 
                 <TextInput
+                    value={this.state.user.birthday}
                     placeholder='Birthday (mm/dd/yyyy)'
                     style={styles.textbox}
-                    onChangeText={(birthday) => this.setState({user: {birthday}})}
+                    onChangeText={(birthday) => this.setState({user: {...this.state.user, birthday}})}
                     keyboardType='decimal-pad'
                     maxLength={10}
                 />
 
                 <TextInput
+                    value={this.state.user.phone}
                     placeholder='Phone Number'
                     style={styles.textbox}
-                    onChangeText={(phone_number) => this.setState({user: {phone_number}})}
+                    onChangeText={(phone) => this.setState({user: {...this.state.user, phone}})}
                     keyboardType='phone-pad'
                 />
 
                 <Picker
                     selectedValue={this.state.user.sex}
                     style={{height: 50, width: 150}}
-                    onValueChange={(itemValue, itemIndex) => this.setState({user: {sex: itemValue}})}>
+                    onValueChange={(itemValue, itemIndex) => this.setState({user: {...this.state.user, sex: itemValue}})}>
                     <Picker.Item label="Male" value="male"/>
                     <Picker.Item label="Female" value="female"/>
                     <Picker.Item label="Prefer not to specify" value="not_specified"/>
                 </Picker>
+
+                <TextInput
+                    value={this.state.user.bio}
+                    placeholder='Describe what you are looking for'
+                    onChangeText={ (bio) => this.setState({user: {...this.state.user, bio}})}
+                    style={{height: 200, width: 200, borderColor: 'black', borderWidth: 1}}
+                    multiline={true}
+                />
 
                 <Modal
                     transparent={false}
@@ -125,7 +153,7 @@ export default class EditProfile extends React.Component {
                     </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button} onPress={this.register}>
+                <TouchableOpacity style={styles.button} onPress={this.cancel}>
                     <Text>
                         Cancel
                     </Text>
