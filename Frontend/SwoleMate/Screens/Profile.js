@@ -3,7 +3,7 @@ import {TouchableOpacity, Text, View, Image} from 'react-native';
 import styles from './Styles/LoginScreenStyles';
 
 export default class Profile extends React.Component{
-    
+
     constructor(props){
         super(props);
         const { navigation } = this.props;
@@ -14,7 +14,7 @@ export default class Profile extends React.Component{
             'Hiking': false,
         };
         interests = navigation.getParam('interests');
-        
+
         var i;
         for(i=0;i<interests.length;i++){
             if(interests[i] in renderImage){
@@ -27,7 +27,7 @@ export default class Profile extends React.Component{
         static navigationOptions = {
             title: 'Profile',
         };
-    
+
     render(){
         var images = (
             <View>
@@ -49,23 +49,33 @@ export default class Profile extends React.Component{
             />
         }*/
         return(
-        
+
         <View>
             {images}
             <TouchableOpacity style={styles.clearButton} onPress={this.editProfile}>
                 <Text>
                     Edit
-                </Text>        
+                </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.clearButton} onPress={this.testName}>
             <Text>
                 Test
-            </Text>        
+            </Text>
         </TouchableOpacity>
-        
+
+        <Button
+          onPress={this.logout}
+          title="Logout"
+          color="#f4553d"
+          accessibilityLabel="Logout of Swolemate account"
+        />
 
         </View>
         );
+    }
+
+    logout = () => {
+      this.props.navigation.navigate('Login');
     }
 
     editProfile = () => {
