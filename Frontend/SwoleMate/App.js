@@ -43,7 +43,7 @@ const RootStack = createStackNavigator(
       }
     },
     {//options go here
-      initialRouteName: 'Home',
+      initialRouteName: 'Login',
     }
 );
 
