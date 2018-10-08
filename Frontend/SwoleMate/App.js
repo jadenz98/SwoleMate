@@ -12,6 +12,7 @@ import CreateProfileScreen from './Screens/CreateProfile';
 import Profile from './Screens/Profile';
 import EditProfile from './Screens/EditProfile';
 import Matches from './Screens/Matches';
+import PickPhoto from './Screens/PickPhoto';
 
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/
@@ -44,6 +45,9 @@ const RootStack = createStackNavigator(
       },
       Matches: {
         screen: Matches,
+      },
+      PickPhoto: {
+        screen: PickPhoto,
       }
     },
     {//options go here

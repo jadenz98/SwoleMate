@@ -53,6 +53,7 @@ export default class EditProfile extends React.Component {
             user: newUser,
             selectedInterests: selectedInterests
         });
+        console.log(newUser.interests);
     };
 
     setCameraRollVisibility(visible){
@@ -152,19 +153,6 @@ export default class EditProfile extends React.Component {
                     </View>
                 </Modal>
                 
-                    transparent={false}
-                    visible={this.state.cameraRollVisible}>
-                    <View style={{marginTop: 22}}>
-                        <TouchableHighlight
-                            onPress={() => {
-                                this.setCameraRollVisibility(!this.state.cameraRollVisible);
-                            }}>
-                            <Text>Hide camera roll</Text>
-                        </TouchableHighlight>
-                        <CameraRollPicker callback={this.getSelectedImages} />
-                        
-                    </View>
-                
                 <TouchableHighlight
                     onPress={() => {
                         this.setModalVisibility(true);
@@ -172,7 +160,7 @@ export default class EditProfile extends React.Component {
                     <Text>Show Interests</Text>
                 </TouchableHighlight>
 
-                <TouchableOpacity style={styles.button} onPress={()=> { this.setCameraRollVisibility(true)}}>
+                <TouchableOpacity style={styles.button} onPress={()=> { this.props.navigation.navigate('PickPhoto')}}>
                     <Text>
                         Add Profile Picture
                     </Text>

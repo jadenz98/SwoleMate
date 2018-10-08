@@ -8,7 +8,12 @@ export default class Profile extends React.Component{
     constructor(props){
         super(props);
         const { navigation } = this.props;
-
+        this.renderImage={
+                'Swimming': false,
+                'Running': false,
+                'Lifting': false,
+                'Hiking': false,
+        };
         this.state = {
             user: null
         };
@@ -16,14 +21,8 @@ export default class Profile extends React.Component{
         Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
             this.setState({user: res});
 
-            this.renderImage={
-                'Swimming': false,
-                'Running': false,
-                'Lifting': false,
-                'Hiking': false,
-            };
-            interests=navigation.getParam('interests');
-            //const interests = res.interests;
+            
+            const interests = res.interests;
 
             for(let i=0;i<interests.length;i++){
                 if(interests[i] in this.renderImage){
@@ -37,8 +36,6 @@ export default class Profile extends React.Component{
     static navigationOptions = {
         title: 'Profile',
     };
-
-    renderImage = {};
 
     render(){
         const images = (
@@ -65,11 +62,6 @@ export default class Profile extends React.Component{
                         Edit
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.clearButton} onPress={this.testName}>
-                    <Text>
-                        Test
-                    </Text>
-                </TouchableOpacity>
 
                 <Button
                     onPress={this.logout}
@@ -93,9 +85,4 @@ export default class Profile extends React.Component{
         this.props.navigation.navigate('EditProfile', userinfo);
     };
 
-    testName = () => {
-        //this alert tests that username was successfully recieved from previous page
-        alert('Interests1: ' + interests[0] + "\nInterests2: " + interests[1]);
-        //this.props.navigation.navigate('Profile');
-    }
 }
