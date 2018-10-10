@@ -41,9 +41,11 @@ export default class Matches extends React.Component{
                         {key: 'Kevin'},
                     ]}
                     renderItem={({item}) =>
-                        <Text>
-                            {item.key}
-                        </Text>
+                        <TouchableOpacity>
+                            <Text>
+                                {item.key}
+                            </Text>
+                        </TouchableOpacity>
                     }
                 />
             </View>
