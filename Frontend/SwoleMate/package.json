@@ -25,8 +25,10 @@
     "react-native": "~0.55.2",
     "react-native-camera-picker": "^1.0.0",
     "react-native-camera-roll-picker": "^1.2.3",
+    "react-native-elements": "^0.19.1",
     "react-native-select-multiple": "^1.2.0",
     "react-native-selectmultiple-button": "^0.1.105",
+    "react-native-vector-icons": "^6.0.2",
     "react-navigation": "^2.16.0"
   }
 }
