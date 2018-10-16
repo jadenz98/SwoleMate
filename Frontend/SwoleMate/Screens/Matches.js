@@ -20,7 +20,8 @@ export default class Matches extends React.Component{
         };
 
     render(){
-        return(<TouchableOpacity onPress={this.getMatches}>
+        return(
+          <TouchableOpacity onPress={this.getMatches}>
           <Text>
             See Matches
           </Text>
