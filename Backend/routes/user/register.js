@@ -17,7 +17,7 @@ router.post('/', function(req, res, next) {
     };
 
     Mongo.find("Users", userQuery, undefined, (result) => {
-        if (result.length === 0) {
+        if (result.length == 0) {
             const resp = {
                 success: true
             };
