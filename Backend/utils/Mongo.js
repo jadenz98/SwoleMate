@@ -181,10 +181,11 @@ export default class Mongo {
      *
      */
     static getNearbyUsers (email, callback) {
-        const distance = 1000;      // Range of distance to search in meters
+        const distance = 5000;      // Range of distance to search in meters
 
         // Get the coordinates of the user
-        this.find("Users", {username: email}, undefined, (user) => {
+        this.find("Users", {email: email}, undefined, (user) => {
+            console.log(user);
             const coordinates = user.location.coordinates;
             const query = {
                 location: {
@@ -234,4 +235,5 @@ export default class Mongo {
         callback(conversation.conversation)
       });
     }
+
 }

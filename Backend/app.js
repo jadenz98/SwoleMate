@@ -21,6 +21,7 @@ var deleteRouter = require('./routes/user/delete');
 var matchesRouter = require('./routes/user/matches');
 var conversationRouter = require('./routes/user/conversation');
 var userRouter = require('./routes/user/index');
+var nearbyUsersRouter = require('./routes/user/nearbyUsers');
 
 var app = express();
 app.set('port', 8000);
@@ -46,6 +47,7 @@ app.use('/user/updateLocation', updateLocationRouter);
 app.use('/user/delete', deleteRouter);
 app.use('/user/matches', matchesRouter);
 app.use('/user/conversation', conversationRouter);
+app.use('/user/nearbyUsers', nearbyUsersRouter);
 app.use('/user', userRouter);
 
 app.disable('etag');

@@ -30,16 +30,9 @@ export default class Matches extends React.Component{
 
     render(){
         return(
-<<<<<<< HEAD
-          <TouchableOpacity onPress={this.getMatches}>
-          <Text>
-            See Matches
-          </Text>
-        </TouchableOpacity>);
-=======
             <View>
                 <FlatList
-                    
+
                     data={[
                         {key: 'Jaden'},
                         {key: 'Sam'},
@@ -57,7 +50,6 @@ export default class Matches extends React.Component{
                 />
             </View>
         );
-          
->>>>>>> 6d25b00b983224aa943b8c11be9ef2718353e75c
+
     }
 }
