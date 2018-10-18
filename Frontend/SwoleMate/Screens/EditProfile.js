@@ -8,6 +8,8 @@ import CameraRollPicker from 'react-native-camera-roll-picker'
 
 import Connector from '../Utils/Connector';
 
+//testing 123
+
 export default class EditProfile extends React.Component {
     interests = ['Biking', 'Running', 'Swimming'];
 
@@ -36,7 +38,7 @@ export default class EditProfile extends React.Component {
     };
 
     getSelectedImages(image){
-        
+
     }
 
     onSelectionsChange = (selectedInterests) => {
@@ -152,7 +154,7 @@ export default class EditProfile extends React.Component {
                         </TouchableHighlight>
                     </View>
                 </Modal>
-                
+
                 <TouchableHighlight
                     onPress={() => {
                         this.setModalVisibility(true);
