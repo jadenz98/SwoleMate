@@ -14,4 +14,13 @@ export default StyleSheet.create({
         borderColor: 'black',
         backgroundColor: '#F9F9F9',
     },
+    card: {
+        flex: 1,
+        borderRadius: 10,
+        borderWidth: 20,
+        borderColor: "white",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "white"
+      },
 });
