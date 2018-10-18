@@ -213,10 +213,13 @@ export default class Mongo {
       this.find("Matches", {email: email}, undefined, (matches) => {
         const likes = matches.likes;
         var matchList = [];
-        for(var i = 0; i < likes.length; i++) {
-          if(likes[i].match) {
-            matchList.push(likes[i].email);
-          }
+        if(likes != undefined){
+            // callback(0);
+            for(var i = 0; i < likes.length; i++) {
+              if(likes[i].match) {
+                matchList.push(likes[i].email);
+              }
+            }
         }
         callback(matchList);
       });
