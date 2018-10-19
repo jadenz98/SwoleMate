@@ -32,7 +32,7 @@ export default class Matches extends React.Component{
         return(
             <View>
                 <FlatList
-                    
+
                     data={[
                         {key: 'Jaden'},
                         {key: 'Sam'},
@@ -50,6 +50,6 @@ export default class Matches extends React.Component{
                 />
             </View>
         );
-          
+
     }
 }
