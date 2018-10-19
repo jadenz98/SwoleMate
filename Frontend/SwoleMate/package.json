@@ -21,8 +21,12 @@
   "dependencies": {
     "@expo/vector-icons": "^8.0.0",
     "expo": "^27.0.1",
+    "expo-asset-utils": "0.0.5",
+    "expo-constants": "^1.0.2",
+    "expo-react-native-adapter": "^1.1.1",
     "react": "16.3.1",
     "react-native": "~0.55.2",
+    "react-native-asset-library-to-base64": "^1.1.0",
     "react-native-camera-picker": "^1.0.0",
     "react-native-camera-roll-picker": "^1.2.3",
     "react-native-deck-swiper": "^1.5.22",
