@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from "./Styles/LoginScreenStyles";
 
-import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, Slider } from 'react-native';
 import SelectMultiple from 'react-native-select-multiple';
+
 
 import CameraRollPicker from 'react-native-camera-roll-picker'
 
@@ -20,7 +21,8 @@ export default class EditProfile extends React.Component {
             modalVisible: false,
             user: null,
             selectedInterests: [],
-            cameraRollVisible: false
+            cameraRollVisible: false,
+            searchDistance: 1,
         };
 
         Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
@@ -167,6 +169,23 @@ export default class EditProfile extends React.Component {
                         Add Profile Picture
                     </Text>
                 </TouchableOpacity>
+
+                <Text>
+                  Set search distance
+                </Text>
+
+                <View style={styles.container}>
+                  <Text>{this.state.searchDistance}</Text>
+                  <Slider
+                    style={{ width: 300 }}
+                    minimumValue={1}
+                    maximumValue={100}
+                    step={1}
+                    onValueChange={val => this.setState({searchDistance: val})}
+                    value={this.state.searchDistance}
+                  />
+                </View>
+
                 <TouchableOpacity style={styles.button} onPress={this.save}>
                     <Text>
                         Save
