@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from "./Styles/LoginScreenStyles";
 
-import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, Slider } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, Slider, Switch, ScrollView } from 'react-native';
 import SelectMultiple from 'react-native-select-multiple';
 
 
@@ -23,6 +23,7 @@ export default class EditProfile extends React.Component {
             selectedInterests: [],
             cameraRollVisible: false,
             searchDistance: 1,
+            isHidden: false,
         };
 
         Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
@@ -86,6 +87,7 @@ export default class EditProfile extends React.Component {
             return null;
 
         return (
+          <ScrollView>
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                 <TextInput
                     value={this.state.user.name}
@@ -186,6 +188,16 @@ export default class EditProfile extends React.Component {
                   />
                 </View>
 
+                <View style={styles.container}>
+                  <Text>
+                    Go ghost
+                  </Text>
+                  <Switch
+                    onValueChange={switchState => this.setState({isHidden: switchState})}
+                    value={this.state.isHidden}
+                  />
+                </View>
+
                 <TouchableOpacity style={styles.button} onPress={this.save}>
                     <Text>
                         Save
@@ -198,6 +210,7 @@ export default class EditProfile extends React.Component {
                     </Text>
                 </TouchableOpacity>
             </View>
+          </ScrollView>
         );
     }
 }
