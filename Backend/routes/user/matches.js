@@ -9,8 +9,8 @@ import Mongo from '../../utils/Mongo';
      const email = req.header("email");
 
      Mongo.getMatches(email, (matches) => {
-     	// Console.log(matches);
-         res.json(req.body);
+     	   //console.log(matches);
+         res.json(matches);
      });
  });
 
