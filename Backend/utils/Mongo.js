@@ -222,6 +222,7 @@ export default class Mongo {
               }
             }
         }
+        //console.log(matchList);
         callback(matchList);
       });
     }
@@ -236,55 +237,44 @@ export default class Mongo {
       var match = false;
       this.find("Matches", {email: email1}, undefined, (matches1) => {
         this.find("Matches", {email: email2}, undefined, (matches2) => {
-          if(matches2.likes != undefined){
-            for(var i = 0; i < matches2.likes.length; i++) {
-              if(matches2.likes[i].email == email1) {
-                console.log("found match");
-                matches2.likes[i].match = true;
-                console.log("set match true");
-                const newValues = {
+          const likes2 = matches2.likes;
+            for(var i = 0; i < likes2.length; i++) {
+              if(likes2[i].email == email1) {
+                match = true;
+                matches2.likes[i].match = match;
+                const newValues2 = {
                   $set: matches2
                 };
-                console.log("set new values");
-                this.update("Matches", {email: email2}, newValues, () => {
-
+                this.update("Matches", {email: email2}, newValues2, () => {
+                  //callback();
                 });
-                console.log("updated");
-                match = true;
-                console.log("set match");
-                //break;
+                const like = {
+                  email: email2,
+                  match: match
+                };
+                matches1.likes.push(like);
+                const newValues1 = {
+                  $set: matches1
+                };
+                this.update("Matches", {email: email1}, newValues1, () => {
+                  callback();
+                });
               }
             }
-          }
-          callback();
+            if(!match) {
+                const like = {
+                  email: email2,
+                  match: match
+                };
+                matches1.likes.push(like);
+                const newValues = {
+                  $set: matches1
+                };
+                this.update("Matches", {email: email1}, newValues, () => {
+                  callback();
+                });
+            }
         });
-        if(match) {
-          const like = {
-            email: email2,
-            match: match
-          };
-          matches1.likes.push(like);
-          const newValues = {
-            $set: matches1
-          };
-          this.update("Matches", {email: email1}, newValues, () => {
-
-          });
-        }
-        else {
-          const like = {
-            email: email2,
-            match: match
-          };
-          matches1.likes.push(like);
-          const newValues = {
-            $set: matches1
-          };
-          this.update("Matches", {email: email1}, newValues, () => {
-
-          });
-      }
-      callback();
     });
   }
 

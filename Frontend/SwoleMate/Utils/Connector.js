@@ -1,6 +1,6 @@
 export default class Connector {
     // Paste your local IP here for local dev
-    static url = "http://10.186.115.248:8000";
+    static url = "http://10.186.115.248:3000";
 
     /**
      * Use this to send a post request to the server
