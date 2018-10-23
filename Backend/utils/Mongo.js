@@ -227,6 +227,68 @@ export default class Mongo {
     }
 
     /**
+     * Method to get list of matches by the specified user
+     * An abstraction on the find method
+     *
+     *
+     */
+    static setMatches (email1, email2, callback) {
+      var match = false;
+      this.find("Matches", {email: email1}, undefined, (matches1) => {
+        this.find("Matches", {email: email2}, undefined, (matches2) => {
+          if(matches2.likes != undefined){
+            for(var i = 0; i < matches2.likes.length; i++) {
+              if(matches2.likes[i].email == email1) {
+                console.log("found match");
+                matches2.likes[i].match = true;
+                console.log("set match true");
+                const newValues = {
+                  $set: matches2
+                };
+                console.log("set new values");
+                this.update("Matches", {email: email2}, newValues, () => {
+
+                });
+                console.log("updated");
+                match = true;
+                console.log("set match");
+                //break;
+              }
+            }
+          }
+          callback();
+        });
+        if(match) {
+          const like = {
+            email: email2,
+            match: match
+          };
+          matches1.likes.push(like);
+          const newValues = {
+            $set: matches1
+          };
+          this.update("Matches", {email: email1}, newValues, () => {
+
+          });
+        }
+        else {
+          const like = {
+            email: email2,
+            match: match
+          };
+          matches1.likes.push(like);
+          const newValues = {
+            $set: matches1
+          };
+          this.update("Matches", {email: email1}, newValues, () => {
+
+          });
+      }
+      callback();
+    });
+  }
+
+    /**
      * Method to get a conversation between two users
      * An abstraction on the find method
      *
