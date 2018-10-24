@@ -40,7 +40,7 @@ export default class HomeScreen extends React.Component{
                 </TouchableOpacity>
               ),
         };
-    }
+    };
 
     render(){
         return(
@@ -73,7 +73,7 @@ export default class HomeScreen extends React.Component{
     goToMatches = () => {
       this.props.navigation.navigate('Matches');
 
-    }
+    };
 
     goToProfile = () => {
         //this alert tests that username was successfully recieved from previous page

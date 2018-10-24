@@ -19,9 +19,6 @@ export default class Profile extends React.Component{
         };
 
         Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
-            this.setState({user: res});
-
-            
             const interests = res.interests;
 
             for(let i=0;i<interests.length;i++){
@@ -29,6 +26,8 @@ export default class Profile extends React.Component{
                     this.renderImage[interests[i]]=true;
                 }
             }
+
+            this.setState({user: res});
         });
     }
 
@@ -37,7 +36,7 @@ export default class Profile extends React.Component{
         title: 'Profile',
     };
 
-    render(){
+    render () {
         const images = (
             <View>
             {this.renderImage['Swimming'] && <Image  source={require('./images/Swimming.png')}

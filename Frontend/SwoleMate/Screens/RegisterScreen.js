@@ -175,7 +175,8 @@ export default class RegisterScreen extends React.Component{
                     this.state.latitude
                 ],
                 type: 'Point'
-            }
+            },
+            interests: []
         }, {}, (response) => {
             console.log(response);
             if(response.success){ //Server return success on register

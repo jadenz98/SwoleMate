@@ -179,12 +179,11 @@ describe('SwoleMate API endpoint testing', () => {
                 res.body.success.should.be.true;
                 done();
             });
-
     });
+
     /*
     This test updating location (does not actaully check if its right though :( )
     */
-
     it('Should be able update Location', (done) => {
         chai.request(server)
             .post('/user/updateLocation')
