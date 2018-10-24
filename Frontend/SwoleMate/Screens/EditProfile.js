@@ -1,12 +1,15 @@
 import React from 'react';
 import styles from "./Styles/LoginScreenStyles";
 
-import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, Slider, Switch, ScrollView } from 'react-native';
 import SelectMultiple from 'react-native-select-multiple';
+
 
 import CameraRollPicker from 'react-native-camera-roll-picker'
 
 import Connector from '../Utils/Connector';
+
+//testing 123
 
 export default class EditProfile extends React.Component {
     interests = ['Biking', 'Running', 'Swimming'];
@@ -18,7 +21,9 @@ export default class EditProfile extends React.Component {
             modalVisible: false,
             user: null,
             selectedInterests: [],
-            cameraRollVisible: false
+            cameraRollVisible: false,
+            searchDistance: 1,
+            isHidden: false,
         };
 
         Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
@@ -36,7 +41,7 @@ export default class EditProfile extends React.Component {
     };
 
     getSelectedImages(image){
-        
+
     }
 
     onSelectionsChange = (selectedInterests) => {
@@ -82,6 +87,7 @@ export default class EditProfile extends React.Component {
             return null;
 
         return (
+          <ScrollView>
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                 <TextInput
                     value={this.state.user.name}
@@ -152,7 +158,7 @@ export default class EditProfile extends React.Component {
                         </TouchableHighlight>
                     </View>
                 </Modal>
-                
+
                 <TouchableHighlight
                     onPress={() => {
                         this.setModalVisibility(true);
@@ -165,6 +171,33 @@ export default class EditProfile extends React.Component {
                         Add Profile Picture
                     </Text>
                 </TouchableOpacity>
+
+                <Text>
+                  Set search distance
+                </Text>
+
+                <View style={styles.container}>
+                  <Text>{this.state.searchDistance}</Text>
+                  <Slider
+                    style={{ width: 300 }}
+                    minimumValue={1}
+                    maximumValue={100}
+                    step={1}
+                    onValueChange={val => this.setState({searchDistance: val})}
+                    value={this.state.searchDistance}
+                  />
+                </View>
+
+                <View style={styles.container}>
+                  <Text>
+                    Go ghost
+                  </Text>
+                  <Switch
+                    onValueChange={switchState => this.setState({isHidden: switchState})}
+                    value={this.state.isHidden}
+                  />
+                </View>
+
                 <TouchableOpacity style={styles.button} onPress={this.save}>
                     <Text>
                         Save
@@ -177,6 +210,7 @@ export default class EditProfile extends React.Component {
                     </Text>
                 </TouchableOpacity>
             </View>
+          </ScrollView>
         );
     }
 }

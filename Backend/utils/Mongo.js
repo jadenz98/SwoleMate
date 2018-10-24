@@ -181,10 +181,11 @@ export default class Mongo {
      *
      */
     static getNearbyUsers (email, callback) {
-        const distance = 1000;      // Range of distance to search in meters
+        const distance = 5000;      // Range of distance to search in meters
 
         // Get the coordinates of the user
-        this.find("Users", {username: email}, undefined, (user) => {
+        this.find("Users", {email: email}, undefined, (user) => {
+            console.log(user);
             const coordinates = user.location.coordinates;
             const query = {
                 location: {
@@ -221,9 +222,61 @@ export default class Mongo {
               }
             }
         }
+        //console.log(matchList);
         callback(matchList);
       });
     }
+
+    /**
+     * Method to get list of matches by the specified user
+     * An abstraction on the find method
+     *
+     *
+     */
+    static setMatches (email1, email2, callback) {
+      var match = false;
+      this.find("Matches", {email: email1}, undefined, (matches1) => {
+        this.find("Matches", {email: email2}, undefined, (matches2) => {
+          const likes2 = matches2.likes;
+            for(var i = 0; i < likes2.length; i++) {
+              if(likes2[i].email == email1) {
+                match = true;
+                matches2.likes[i].match = match;
+                const newValues2 = {
+                  $set: matches2
+                };
+                this.update("Matches", {email: email2}, newValues2, () => {
+                  //callback();
+                });
+                const like = {
+                  email: email2,
+                  match: match
+                };
+                matches1.likes.push(like);
+                const newValues1 = {
+                  $set: matches1
+                };
+                this.update("Matches", {email: email1}, newValues1, () => {
+                  callback();
+                });
+              }
+            }
+            if(!match) {
+                const like = {
+                  email: email2,
+                  match: match
+                };
+                matches1.likes.push(like);
+                const newValues = {
+                  $set: matches1
+                };
+                this.update("Matches", {email: email1}, newValues, () => {
+                  callback();
+                });
+            }
+        });
+    });
+  }
 
     /**
      * Method to get a conversation between two users
@@ -237,4 +290,5 @@ export default class Mongo {
         callback(conversation.conversation)
       });
     }
+
 }

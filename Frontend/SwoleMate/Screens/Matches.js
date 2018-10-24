@@ -31,25 +31,32 @@ export default class Matches extends React.Component{
     render(){
         return(
             <View>
-                <FlatList
-                    
-                    data={[
-                        {key: 'Jaden'},
-                        {key: 'Sam'},
-                        {key: 'Steven'},
-                        {key: 'Ryan'},
-                        {key: 'Kevin'},
-                    ]}
-                    renderItem={({item}) =>
-                        <TouchableOpacity>
-                            <Text>
-                                {item.key}
-                            </Text>
-                        </TouchableOpacity>
-                    }
-                />
+                {/*<List>*/}
+                    <FlatList
+
+                        data={[
+                            {key: 'Jaden'},
+                            {key: 'Sam'},
+                            {key: 'Steven'},
+                            {key: 'Ryan'},
+                            {key: 'Kevin'},
+                        ]}
+                        keyExtractor={(x,i) => i}
+                        renderItem={({item}) =>
+                            <TouchableOpacity>
+                                <Text>
+                                    {item.key}
+                                </Text>
+                            </TouchableOpacity>
+                            /* remove or comment the TouchableOpacity code above and uncomment code below
+                            <ListItem
+                                title={item.key}
+                            </ListItem>*/
+                        }
+                    />
+                {/*</List>*/}
             </View>
         );
-          
+
     }
 }

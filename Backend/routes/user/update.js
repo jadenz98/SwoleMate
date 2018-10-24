@@ -8,6 +8,8 @@ router.post('/', function(req, res, next) {
     const email = req.header("email");
     const userQuery = {email};
 
+    console.log(req.body);
+
     const newValues = {
         $set: req.body
     };
