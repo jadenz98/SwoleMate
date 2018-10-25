@@ -7,10 +7,12 @@ import Mongo from '../../utils/Mongo';
 
  router.get('/', function(req, res, next) {
      const email = req.header("email");
+     
+     // console.log(email);
 
      Mongo.getMatches(email, (matches) => {
-     	   //console.log(matches);
-         res.json(matches);
+     	// console.log("HERE");
+        res.json(matches);
      });
  });
 
@@ -25,7 +27,7 @@ router.post('/', function(req, res, next) {
 	const body = req.body;
 	const email1 = body.email1;
 	const email2 = body.email2;
-	console.log(email1);
+	// console.log(email1);
 
 	if(body.swipe == "true"){ //If they swipe right
 		Mongo.find("Matches", {email: email1}, undefined, (matches1) => { //get matchlist of email 1
