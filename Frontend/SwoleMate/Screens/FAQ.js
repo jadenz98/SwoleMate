@@ -11,12 +11,16 @@ export default class FAQ extends React.Component {
 
     questions = [
         {
-            q: "How?",
+            q: "How now brown cow?",
             a: "Because"
         },
         {
+            q: "Hello World",
+            a: "Goodbye World"
+        },
+        {
             q: "Why?",
-            a: "Idk man"
+            a: "Who knows"
         }
     ];
 
@@ -28,12 +32,12 @@ export default class FAQ extends React.Component {
     render () {
         const questions = [];
 
-        for (let question in this.questions) {
-            questions.concat(<QnA question={question.q} answer={question.a} />);
+        for (let i = 0; i < this.questions.length; i++) {
+            questions.push(<QnA question={this.questions[i].q} answer={this.questions[i].a} key={i}/>);
         }
 
         return (
-            <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+            <View style={{flex:1, alignItems: 'stretch'}}>
                 {questions}
             </View>
         );

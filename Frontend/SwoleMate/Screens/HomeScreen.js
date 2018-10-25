@@ -28,7 +28,7 @@ export default class HomeScreen extends React.Component{
                     email: navigation.getParam('email'),
                     interests: navigation.getParam('interests')
                 };
-                navigation.navigate('Profile', userinfo);
+                navigation.navigate('FAQ', userinfo);
             }}>
               {/*<Text>
                   Profile
