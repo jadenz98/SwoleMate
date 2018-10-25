@@ -211,19 +211,49 @@ export default class Mongo {
      *
      */
     static getMatches (email, callback) {
-      this.find("Matches", {email: email}, undefined, (matches) => {
-        const likes = matches.likes;
-        var matchList = [];
-        if(likes != undefined){
-            // callback(0);
-            for(var i = 0; i < likes.length; i++) {
-              if(likes[i].match) {
-                matchList.push(likes[i].email);
-              }
+      // this.find("Matches", {email: email}, undefined, (matches) => {
+      //   const likes = matches.likes;
+      //   var matchList = [];
+      //   if(likes != undefined){
+      //       // callback(0);
+      //       for(var i = 0; i < likes.length; i++) {
+      //         if(likes[i].match) {
+      //           matchList.push(likes[i].email);
+      //         }
+      //       }
+      //   }
+      //   //console.log(matchList);
+      //   callback(matchList);
+      // });
+        this.find("Conversations", {email1: email}, undefined, (matches1) => {
+            // console.log(email);
+            // console.log(matches1.length);
+            var matchList = [];
+            if(matches1.length === undefined){
+                matchList.push(matches1.email2);
             }
-        }
-        callback(matchList);
-      });
+            // const likes = matches1.likes;
+            
+            for (var i = 0; i < matches1.length; i++) {
+                // console.log(matches1[i].email2);
+                matchList.push(matches1[i].email2);
+            }
+            // console.log(matchList);
+            // matchList.push(matches1);
+            this.find("Conversations", {email2: email}, undefined, (matches2) => {
+                // matchList.push(ma tches2);
+                if(matches2.length === undefined){
+                    console.log("UNDEF2");
+                    matchList.push(matches2.email1);
+                }
+                // console.log(matches2.length);
+                for (var i = 0; i < matches2.length; i++) {
+                    matchList.push(matches2[i].email1);
+                }
+                // console.log(matchList);
+                callback(matchList);
+            });
+        });
     }
 
     /**
@@ -236,55 +266,44 @@ export default class Mongo {
       var match = false;
       this.find("Matches", {email: email1}, undefined, (matches1) => {
         this.find("Matches", {email: email2}, undefined, (matches2) => {
-          if(matches2.likes != undefined){
-            for(var i = 0; i < matches2.likes.length; i++) {
-              if(matches2.likes[i].email == email1) {
-                console.log("found match");
-                matches2.likes[i].match = true;
-                console.log("set match true");
-                const newValues = {
+          const likes2 = matches2.likes;
+            for(var i = 0; i < likes2.length; i++) {
+              if(likes2[i].email == email1) {
+                match = true;
+                matches2.likes[i].match = match;
+                const newValues2 = {
                   $set: matches2
                 };
-                console.log("set new values");
-                this.update("Matches", {email: email2}, newValues, () => {
-
+                this.update("Matches", {email: email2}, newValues2, () => {
+                  //callback();
                 });
-                console.log("updated");
-                match = true;
-                console.log("set match");
-                //break;
+                const like = {
+                  email: email2,
+                  match: match
+                };
+                matches1.likes.push(like);
+                const newValues1 = {
+                  $set: matches1
+                };
+                this.update("Matches", {email: email1}, newValues1, () => {
+                  callback();
+                });
               }
             }
-          }
-          callback();
+            if(!match) {
+                const like = {
+                  email: email2,
+                  match: match
+                };
+                matches1.likes.push(like);
+                const newValues = {
+                  $set: matches1
+                };
+                this.update("Matches", {email: email1}, newValues, () => {
+                  callback();
+                });
+            }
         });
-        if(match) {
-          const like = {
-            email: email2,
-            match: match
-          };
-          matches1.likes.push(like);
-          const newValues = {
-            $set: matches1
-          };
-          this.update("Matches", {email: email1}, newValues, () => {
-
-          });
-        }
-        else {
-          const like = {
-            email: email2,
-            match: match
-          };
-          matches1.likes.push(like);
-          const newValues = {
-            $set: matches1
-          };
-          this.update("Matches", {email: email1}, newValues, () => {
-
-          });
-      }
-      callback();
     });
   }
 
