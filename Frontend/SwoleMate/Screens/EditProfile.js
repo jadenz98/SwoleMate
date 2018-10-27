@@ -177,14 +177,14 @@ export default class EditProfile extends React.Component {
                 </Text>
 
                 <View style={styles.container}>
-                  <Text>{this.state.searchDistance}</Text>
+                  <Text>{this.state.user.searchDistance}</Text>
                   <Slider
+                    value={this.state.user.searchDistance}
                     style={{ width: 300 }}
                     minimumValue={1}
                     maximumValue={100}
                     step={1}
-                    onValueChange={val => this.setState({searchDistance: val})}
-                    value={this.state.searchDistance}
+                    onValueChange={(val) => this.setState({user: {...this.state.user, searchDistance: val}})}
                   />
                 </View>
 
@@ -193,8 +193,8 @@ export default class EditProfile extends React.Component {
                     Go ghost
                   </Text>
                   <Switch
-                    onValueChange={switchState => this.setState({isHidden: switchState})}
-                    value={this.state.isHidden}
+                    value={this.state.user.isHidden}
+                    onValueChange={(switchState) => this.setState({user: {...this.state.user, isHidden: switchState}})}
                   />
                 </View>
 
