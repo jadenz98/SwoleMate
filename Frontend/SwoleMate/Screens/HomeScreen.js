@@ -3,17 +3,17 @@ import {TouchableOpacity, View, Text, Image, Button, StyleSheet} from 'react-nat
 import styles from './Styles/HomeScreenStyles';
 import Swiper from 'react-native-deck-swiper';
 import Connector from '../Utils/Connector';
-
+import { DrawerActions } from 'react-navigation';
 
 export default class HomeScreen extends React.Component{
-    constructor(props){
+    constructor(props) {
         super(props);
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         const name = navigation.getParam('username');
-        this.state={
+        this.state = {
             user: null,
-            picture: null,
-        }
+            picture: null
+        };
         Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
             this.setState({
                 user: res,
@@ -22,39 +22,25 @@ export default class HomeScreen extends React.Component{
             //console.log("\n\n\n\n\n" + res.photoData);
         });
     }
-    //This sets the title on the top header
-    static navigationOptions = ({ navigation }) => {
-        return{
-            title: 'SwoleMate',
-            headerRight: (
-                <TouchableOpacity  onPress={() => navigation.navigate('Matches')}>
-                  <Text>
-                      Matches
-                  </Text>
-              </TouchableOpacity>),
-            headerLeft: (
-              <TouchableOpacity style={styles.button} onPress ={ () => {
-                //this alert tests that username was successfully recieved from previous page
-                //alert('Username: ' + name);
-                
-                var userinfo={
-                    email: navigation.getParam('email'),
-                    interests: navigation.getParam('interests')
-                };
-                navigation.navigate('Profile', userinfo);
-            }}>
-              {/*<Text>
-                  Profile
-              </Text>*/}
-              <Image
-                  style={styles.icon}
-                  source={require('./generic-profile-picture.png')}
-              />
-                </TouchableOpacity>
-              ),
-        };
-    };
 
+    //This sets the title on the top header
+    static navigationOptions = ({ navigation }) => ({
+        title: 'SwoleMate',
+        headerRight: (
+            <TouchableOpacity  onPress={() => navigation.navigate('Matches')}>
+              <Text>
+                  Matches
+              </Text>
+            </TouchableOpacity>
+        ),
+        headerLeft:
+            <TouchableOpacity style={styles.button} onPress = {() => {navigation.dispatch(DrawerActions.openDrawer()); console.log("asdfasdfsf");}}>
+                <Image
+                    style={styles.icon}
+                    source={require('./generic-profile-picture.png')}
+                />
+            </TouchableOpacity>
+    });
 
     render(){
         const encodedData=this.state.picture;
@@ -64,11 +50,12 @@ export default class HomeScreen extends React.Component{
             />
         );
         console.log("\n\n\n\n\n" + encodedData);
+
         return(
           <View>
             <Swiper
                 cards={[{word:'Hello', otherWord:'World', img: img},{word:'Goodbye', otherWord:'World', img: img}]}
-                
+
                 //stackSize={2}
                 renderCard={(card) => {
                     return (

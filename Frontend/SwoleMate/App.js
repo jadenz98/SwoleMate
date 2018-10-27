@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import {createStackNavigator, createDrawerNavigator, DrawerActions} from 'react-navigation';
 /*
 import screens to be used in the navigator in the following way
 import Homescreen from './.../Homescreen';
@@ -14,6 +14,7 @@ import EditProfile from './Screens/EditProfile';
 import Matches from './Screens/Matches';
 import PickPhoto from './Screens/PickPhoto';
 import FAQ from './Screens/FAQ';
+import DrawerScreen from './Screens/DrawerScreen';
 
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/
@@ -23,9 +24,26 @@ export default class App extends React.Component {
   }
 }
 
+const Drawer = createDrawerNavigator(
+    {
+        Home: {
+            screen: HomeScreen,
+        },
+        Profile: {
+            screen: Profile,
+        }
+    }, {
+        contentComponent: DrawerScreen,
+        drawerWidth: 1000
+    }
+);
+
 //creates navigation stack (push when new page, pop when previous page requested)
 const RootStack = createStackNavigator(
     {
+        Drawer: {
+            screen: Drawer
+        },
       Login: {
         screen: LoginScreen,
       },
@@ -55,7 +73,7 @@ const RootStack = createStackNavigator(
         }
     },
     {//options go here
-      initialRouteName: 'Login',
+        initialRouteName: 'Login',
     }
 );
 
@@ -65,5 +83,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 });
