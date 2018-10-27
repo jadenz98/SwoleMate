@@ -58,6 +58,8 @@
 		17FF39B1E658467992616DE2 /* libEXConstants.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F05A6EBDD7400A80230698 /* libEXConstants.a */; };
 		89F2C9F05282489BBFA98B66 /* libEXReactNativeAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEC8D5824F4E49839836C130 /* libEXReactNativeAdapter.a */; };
 		F5CD395EA1454ACDA681D39D /* libRangeSlider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 562A74096376450FB1CFD35E /* libRangeSlider.a */; };
+		4E4C1A26E23B440B9F122C82 /* libRCTImageResizer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27523E4BBCF24E81AF17AAAE /* libRCTImageResizer.a */; };
+		69D163FA75D9408B9BE5B25F /* libRNAssetResizeToBase64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 639F9CB831DE4B83AD675930 /* libRNAssetResizeToBase64.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -395,6 +397,10 @@
 		DEC8D5824F4E49839836C130 /* libEXReactNativeAdapter.a */ = {isa = PBXFileReference; name = "libEXReactNativeAdapter.a"; path = "libEXReactNativeAdapter.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		296BE21FA7394D8ABBB3EC07 /* RangeSlider.xcodeproj */ = {isa = PBXFileReference; name = "RangeSlider.xcodeproj"; path = "../node_modules/react-native-range-slider/ios/RangeSlider.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		562A74096376450FB1CFD35E /* libRangeSlider.a */ = {isa = PBXFileReference; name = "libRangeSlider.a"; path = "libRangeSlider.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		C558873C845F4F81BFA49522 /* RCTImageResizer.xcodeproj */ = {isa = PBXFileReference; name = "RCTImageResizer.xcodeproj"; path = "../node_modules/react-native-image-resizer/ios/RCTImageResizer.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		27523E4BBCF24E81AF17AAAE /* libRCTImageResizer.a */ = {isa = PBXFileReference; name = "libRCTImageResizer.a"; path = "libRCTImageResizer.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		521CBB93AEEA40F78D82AFBA /* RNAssetResizeToBase64.xcodeproj */ = {isa = PBXFileReference; name = "RNAssetResizeToBase64.xcodeproj"; path = "../node_modules/react-native-asset-resize-to-base64/ios/RNAssetResizeToBase64.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		639F9CB831DE4B83AD675930 /* libRNAssetResizeToBase64.a */ = {isa = PBXFileReference; name = "libRNAssetResizeToBase64.a"; path = "libRNAssetResizeToBase64.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -428,6 +434,8 @@
 				17FF39B1E658467992616DE2 /* libEXConstants.a in Frameworks */,
 				89F2C9F05282489BBFA98B66 /* libEXReactNativeAdapter.a in Frameworks */,
 				F5CD395EA1454ACDA681D39D /* libRangeSlider.a in Frameworks */,
+				4E4C1A26E23B440B9F122C82 /* libRCTImageResizer.a in Frameworks */,
+				69D163FA75D9408B9BE5B25F /* libRNAssetResizeToBase64.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -642,6 +650,8 @@
 				33D3A341ECB3488EBDE3CDB4 /* EXConstants.xcodeproj */,
 				A020DF31F3CE4F6DBA16C8AF /* EXReactNativeAdapter.xcodeproj */,
 				296BE21FA7394D8ABBB3EC07 /* RangeSlider.xcodeproj */,
+				C558873C845F4F81BFA49522 /* RCTImageResizer.xcodeproj */,
+				521CBB93AEEA40F78D82AFBA /* RNAssetResizeToBase64.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1298,12 +1308,16 @@
 					"$(SRCROOT)\..\node_modules\expo-constants\ios\EXConstants",
 					"$(SRCROOT)\..\node_modules\expo-react-native-adapter\ios\EXReactNativeAdapter/**",
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
+					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
 				);
 				INFOPLIST_FILE = SwoleMateTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1330,12 +1344,16 @@
 					"$(SRCROOT)\..\node_modules\expo-constants\ios\EXConstants",
 					"$(SRCROOT)\..\node_modules\expo-react-native-adapter\ios\EXReactNativeAdapter/**",
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
+					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
 				);
 				INFOPLIST_FILE = SwoleMateTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1363,6 +1381,8 @@
 					"$(SRCROOT)\..\node_modules\expo-constants\ios\EXConstants",
 					"$(SRCROOT)\..\node_modules\expo-react-native-adapter\ios\EXReactNativeAdapter/**",
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
+					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
 				);
 				INFOPLIST_FILE = SwoleMate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1387,6 +1407,8 @@
 					"$(SRCROOT)\..\node_modules\expo-constants\ios\EXConstants",
 					"$(SRCROOT)\..\node_modules\expo-react-native-adapter\ios\EXReactNativeAdapter/**",
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
+					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
 				);
 				INFOPLIST_FILE = SwoleMate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1418,11 +1440,15 @@
 					"$(SRCROOT)\..\node_modules\expo-constants\ios\EXConstants",
 					"$(SRCROOT)\..\node_modules\expo-react-native-adapter\ios\EXReactNativeAdapter/**",
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
+					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
 				);
 				INFOPLIST_FILE = "SwoleMate-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1459,11 +1485,15 @@
 					"$(SRCROOT)\..\node_modules\expo-constants\ios\EXConstants",
 					"$(SRCROOT)\..\node_modules\expo-react-native-adapter\ios\EXReactNativeAdapter/**",
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
+					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
 				);
 				INFOPLIST_FILE = "SwoleMate-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1499,11 +1529,15 @@
 					"$(SRCROOT)\..\node_modules\expo-constants\ios\EXConstants",
 					"$(SRCROOT)\..\node_modules\expo-react-native-adapter\ios\EXReactNativeAdapter/**",
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
+					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
 				);
 				INFOPLIST_FILE = "SwoleMate-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1539,11 +1573,15 @@
 					"$(SRCROOT)\..\node_modules\expo-constants\ios\EXConstants",
 					"$(SRCROOT)\..\node_modules\expo-react-native-adapter\ios\EXReactNativeAdapter/**",
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
+					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
 				);
 				INFOPLIST_FILE = "SwoleMate-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

@@ -1,4 +1,10 @@
 rootProject.name = 'SwoleMate'
+include ':react-native-asset-resize-to-base64'
+project(':react-native-asset-resize-to-base64').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-asset-resize-to-base64/android')
+include ':react-native-asset-resize-to-base64'
+project(':react-native-asset-resize-to-base64').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-asset-resize-to-base64/android')
+include ':react-native-image-resizer'
+project(':react-native-image-resizer').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-resizer/android')
 include ':expo-react-native-adapter'
 project(':expo-react-native-adapter').projectDir = new File(rootProject.projectDir, '../node_modules/expo-react-native-adapter/android')
 include ':react-native-vector-icons'
