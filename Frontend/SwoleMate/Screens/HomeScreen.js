@@ -49,7 +49,7 @@ export default class HomeScreen extends React.Component{
                  source={{uri: `data:image/gif;base64,${encodedData}`}}
             />
         );
-        console.log("\n\n\n\n\n" + encodedData);
+        //console.log("\n\n\n\n\n" + encodedData);
 
         return(
           <View>

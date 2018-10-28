@@ -8,7 +8,6 @@ import Homescreen from './.../Homescreen';
 import LoginScreen from './Screens/LoginScreen';
 import HomeScreen from './Screens/HomeScreen';
 import RegisterScreen from './Screens/RegisterScreen';
-import CreateProfileScreen from './Screens/CreateProfile';
 import Profile from './Screens/Profile';
 import EditProfile from './Screens/EditProfile';
 import Matches from './Screens/Matches';
@@ -20,17 +19,17 @@ import DrawerScreen from './Screens/DrawerScreen';
 page and places it on the stack to be displayed*/
 export default class App extends React.Component {
   render() {
-    return <RootStack />;
+    return <DrawerNavigator />;
   }
 }
 
 const Drawer = createDrawerNavigator(
     {
         Home: {
-            screen: HomeScreen,
+            screen: HomeScreen
         },
         Profile: {
-            screen: Profile,
+            screen: Profile
         }
     }, {
         contentComponent: DrawerScreen,
@@ -38,42 +37,86 @@ const Drawer = createDrawerNavigator(
     }
 );
 
-//creates navigation stack (push when new page, pop when previous page requested)
-const RootStack = createStackNavigator(
+const startStack = createStackNavigator(
     {
-        Drawer: {
-            screen: Drawer
+        Login: {
+            screen: LoginScreen
         },
-      Login: {
-        screen: LoginScreen,
-      },
-      Home: {
-        screen: HomeScreen,
-      },
-      Register: {
-        screen: RegisterScreen,
-      },
-      CreateProfile: {
-        screen: CreateProfileScreen,
-      },
-      Profile: {
-        screen: Profile,
-      },
-      EditProfile: {
-        screen: EditProfile,
-      },
-      Matches: {
-        screen: Matches,
-      },
-      PickPhoto: {
-        screen: PickPhoto,
-      },
+        Register: {
+            screen: RegisterScreen
+        }
+    }, {
+        initialRouteName: 'Login'
+    }
+);
+
+const ProfileStack = createStackNavigator(
+    {
+        Profile: {
+            screen: Profile
+        },
+        EditProfile: {
+            screen: EditProfile
+        },
+        PickPhoto: {
+            screen: PickPhoto
+        }
+    }, {
+        initialRouteName: 'Profile'
+    }
+);
+
+const homeStack = createStackNavigator(
+    {
+        Home: {
+            screen: HomeScreen
+        }
+    }, {
+        initialRouteName: 'Home'
+    }
+);
+
+const matchesStack = createStackNavigator(
+    {
+        Matches: {
+            screen: Matches
+        }
+    }
+);
+
+const FAQStack = createStackNavigator(
+    {
         FAQ: {
-            screen: FAQ,
+            screen: FAQ
+        }
+    }
+);
+
+//creates navigation stack (push when new page, pop when previous page requested)
+const DrawerNavigator = createDrawerNavigator(
+    {
+        Start: {
+            screen: startStack,
+            navigationOptions: {
+                drawerLabel: () => null,
+                drawerLockMode: 'locked-closed'
+            },
+        },
+        Home: {
+            screen: homeStack
+        },
+        Profile: {
+            screen: ProfileStack
+        },
+        Matches: {
+            screen: matchesStack
+        },
+        FAQ: {
+            screen: FAQStack
         }
     },
     {//options go here
-        initialRouteName: 'Login',
+        initialRouteName: 'Start'
     }
 );
 

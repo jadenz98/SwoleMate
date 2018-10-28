@@ -119,7 +119,7 @@ export default class LoginScreen extends React.Component {
             );
               //this should eventually be removed
               alert('Lat: ' + this.state.latitude + '\nLong: ' + this.state.longitude + '\nError: ' + this.state.error);
-              this.props.navigation.navigate('Home',userinfo);
+              this.props.navigation.navigate('Home', userinfo);
             } else{ //Server returned failure on login
               this.emailInput.clear(); //Clears both TextInput's and displays alert
               this.passwordInput.clear();
