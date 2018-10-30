@@ -14,6 +14,9 @@ export default class HomeScreen extends React.Component{
             user: null,
             picture: null
         };
+
+        console.log(props.navigation.dangerouslyGetParent().getParam('email') + " HOME");
+
         Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
             this.setState({
                 user: res,
@@ -26,18 +29,11 @@ export default class HomeScreen extends React.Component{
     //This sets the title on the top header
     static navigationOptions = ({ navigation }) => ({
         title: 'SwoleMate',
-        headerRight: (
-            <TouchableOpacity  onPress={() => navigation.navigate('Matches')}>
-              <Text>
-                  Matches
-              </Text>
-            </TouchableOpacity>
-        ),
         headerLeft:
             <TouchableOpacity style={styles.button} onPress = {() => {navigation.dispatch(DrawerActions.openDrawer()); console.log("asdfasdfsf");}}>
                 <Image
                     style={styles.icon}
-                    source={require('./generic-profile-picture.png')}
+                    source={require('./images/hamburger.png')}
                 />
             </TouchableOpacity>
     });

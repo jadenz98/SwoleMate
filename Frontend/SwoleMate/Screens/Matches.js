@@ -1,12 +1,13 @@
 import React from 'react';
 import styles from "./Styles/LoginScreenStyles";
-
-import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList } from 'react-native';
+import globalStyles from './Styles/Global';
+import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList, Image } from 'react-native';
 import { List, ListItem } from 'react-native-elements'
 
 import SelectMultiple from 'react-native-select-multiple';
 
 import Connector from '../Utils/Connector';
+import {DrawerActions} from "react-navigation";
 
 export default class Matches extends React.Component{
 
@@ -14,19 +15,28 @@ export default class Matches extends React.Component{
         super(props);
         this.state = {
             data: null
-        }
+        };
+
+        console.log(props.navigation.dangerouslyGetParent().getParam('email') + " Matches");
     }
 
-  getMatches = () => {
-    Connector.get('/user/matches', {email: 'sam@samingram.me'}, (matches) => {
-        console.log(matches);
-    });
-  }
+    getMatches = () => {
+        Connector.get('/user/matches', {email: 'sam@samingram.me'}, (matches) => {
+            console.log(matches);
+        });
+    };
 
-        //This sets the title on the top header
-        static navigationOptions = {
-            title: 'Matches',
-        };
+    //This sets the title on the top header
+    static navigationOptions = ({ navigation }) => ({
+        title: 'Matches',
+        headerLeft:
+            <TouchableOpacity style={globalStyles.button} onPress = {() => {navigation.dispatch(DrawerActions.openDrawer()); console.log("asdfasdfsf");}}>
+                <Image
+                    style={globalStyles.icon}
+                    source={require('./images/hamburger.png')}
+                />
+            </TouchableOpacity>
+    });
 
     render(){
         return(

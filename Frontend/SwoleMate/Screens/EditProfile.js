@@ -26,7 +26,7 @@ export default class EditProfile extends React.Component {
             isHidden: false,
         };
 
-        Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
+        Connector.get('/user', {email: props.navigation.dangerouslyGetParent().getParam('email')}, (res) => {
             this.setState({user: res});
             console.log(res);
         });
