@@ -36,7 +36,7 @@ export default class HomeScreen extends React.Component{
               <TouchableOpacity style={styles.button} onPress ={ () => {
                 //this alert tests that username was successfully recieved from previous page
                 //alert('Username: ' + name);
-                
+
                 var userinfo={
                     email: navigation.getParam('email'),
                     interests: navigation.getParam('interests')
@@ -63,12 +63,12 @@ export default class HomeScreen extends React.Component{
                  source={{uri: `data:image/gif;base64,${encodedData}`}}
             />
         );
-        console.log("\n\n\n\n\n" + encodedData);
+        //console.log("\n\n\n\n\n" + encodedData);
         return(
           <View>
             <Swiper
                 cards={[{word:'Hello', otherWord:'World', img: img},{word:'Goodbye', otherWord:'World', img: img}]}
-                
+
                 //stackSize={2}
                 renderCard={(card) => {
                     return (
