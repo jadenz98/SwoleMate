@@ -13,7 +13,9 @@ export default class HomeScreen extends React.Component{
         this.state={
             user: null,
             picture: null,
+            potentialMatches: null,
         }
+
         Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
             this.setState({
                 user: res,
@@ -21,13 +23,22 @@ export default class HomeScreen extends React.Component{
             });
             //console.log("\n\n\n\n\n" + res.photoData);
         });
+        Connector.get('/nearbyUsers', {email: props.navigation.getParam('email')}, (res)=>{
+            this.setState({
+                potentialMatches: res,
+            });
+            console.log(res);
+        })
     }
     //This sets the title on the top header
     static navigationOptions = ({ navigation }) => {
+        var userinfo={
+            email: navigation.getParam('email'),
+        };
         return{
             title: 'SwoleMate',
             headerRight: (
-                <TouchableOpacity  onPress={() => navigation.navigate('Matches')}>
+                <TouchableOpacity  onPress={() => navigation.navigate('Matches',userinfo)}>
                   <Text>
                       Matches
                   </Text>
@@ -43,9 +54,6 @@ export default class HomeScreen extends React.Component{
                 };
                 navigation.navigate('Profile', userinfo);
             }}>
-              {/*<Text>
-                  Profile
-              </Text>*/}
               <Image
                   style={styles.icon}
                   source={require('./generic-profile-picture.png')}
@@ -63,7 +71,7 @@ export default class HomeScreen extends React.Component{
                  source={{uri: `data:image/gif;base64,${encodedData}`}}
             />
         );
-        console.log("\n\n\n\n\n" + encodedData);
+        //console.log("\n\n\n\n\n" + encodedData);
         return(
           <View>
             <Swiper
@@ -79,6 +87,9 @@ export default class HomeScreen extends React.Component{
                     )
                 }}
                 onSwiped={(cardIndex) => {console.log(cardIndex)}}
+                /*onSwipedRight={(cardIndex) => {
+                    Connector.post('user/matches',{email: })
+                }}*/
                 onSwipedAll={() => {console.log('No More Potential Matches')}}
                 cardIndex={0}
                 backgroundColor={'#45a1e8'}
@@ -92,6 +103,10 @@ export default class HomeScreen extends React.Component{
     }
 
     goToMatches = () => {
+        var userinfo={
+            email: props.navigation.getParam('email'),
+        };
+        console.log("Going to matches: " + userinfo.email);
       this.props.navigation.navigate('Matches');
 
     };
