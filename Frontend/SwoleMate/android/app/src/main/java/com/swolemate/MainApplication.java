@@ -3,6 +3,9 @@ package com.swolemate;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import RNAssetResizeToBase64.RNAssetResizeToBase64Package;
+import RNAssetResizeToBase64.RNAssetResizeToBase64Package;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import expo.adapters.react.ModuleRegistryAdapter;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -25,6 +28,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNAssetResizeToBase64Package(),
+            new RNAssetResizeToBase64Package(),
+            new ImageResizerPackage(),
             new ModuleRegistryAdapter(),
             new VectorIconsPackage(),
       );

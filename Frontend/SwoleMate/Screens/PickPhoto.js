@@ -2,11 +2,14 @@ import React from 'react';
 
 import AssetUtils from 'expo-asset-utils';
 
-import { ImageStore, Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight } from 'react-native';
+import {ImageEditor, ImageStore, Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight } from 'react-native';
 import SelectMultiple from 'react-native-select-multiple';
+
+import NativeModules from 'NativeModules';
 
 import CameraRollPicker from 'react-native-camera-roll-picker'
 
+import ImageResizer from 'react-native-image-resizer';
 
 import Connector from '../Utils/Connector';
 
@@ -16,40 +19,56 @@ export default class PickPhoto extends React.Component{
         super(props);
         this.state= {
             photos: [],
+            user: null,
+            smallerPhotoUri: null,
         }
+        Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
+            this.setState({user: res});
+            //console.log(res);
+        });
     }
+
+    
 
     static navigationOptions = {
         title: 'Pick Photo',
     };
 
     getSelectedImages = (image) =>{
+        console.log(image);
         if (typeof image != 'undefined'){
             this.setState({photos: image});
         }
-        
-        /*AssetUtils.base64forImageUriAsync(image[0].uri)
-            .then(base64data => {
-                console.log(base64data)
-            });
-
-            */
-
-        //image is an array of image object
-        //the state photo is set to the image object including the uri
     }
 
     save = () => {
-        base64Photos = [];
-        console.log("photos length:" + this.state.photos.length);
-        for(i=0;i<this.state.photos.length;i++){
-        AssetUtils.base64forImageUriAsync(this.state.photos[i].uri)
-        .then(base64data => {
-            base64Photos[i]=base64data;
-            //console.log(base64data.size)
-            //console.log(base64Photos[i]);
-        });
-        }
+        let photo = {};
+
+        cropData = {
+            offset: {x: 0, y: 0},
+            size: {
+                width: this.state.photos[0].width,
+                height: this.state.photos[0].height,
+            },
+            displaySize: {
+                width: ((this.state.photos[0].width)/12),
+                height: ((this.state.photos[0].height)/12)
+            }
+        };
+        ImageEditor.cropImage(this.state.photos[0].uri, cropData, success => { 
+            ImageStore.getBase64ForTag(success, base64Success =>
+                {
+                    photo.photoData = base64Success;
+                    photo.photoWidth = cropData.displaySize.width;
+                    photo.photoHeight = cropData.displaySize.height;
+                    const user= this.state.user;
+                    Connector.post('/user/update', photo, {email: user.email}, () => {
+                        this.props.navigation.pop();
+                    }
+                    );
+                    
+                }, base64Failure => {console.log(base64Failure)});
+        }, failure => { console.log(failure)});
         
     }
 

@@ -11,6 +11,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var config = require('config');
 
+var bodyParser = require('body-parser');
+
 var indexRouter = require('./routes/index');
 var helloRouter = require('./routes/hello');
 var loginRouter = require('./routes/user/login');
@@ -38,6 +40,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json({limit: '10gb'}));
+app.use(bodyParser.urlencoded({limit: "10gb", extended: true}))
 
 app.use('/', indexRouter);
 app.use('/hello', helloRouter);

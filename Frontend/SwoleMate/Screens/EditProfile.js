@@ -166,7 +166,7 @@ export default class EditProfile extends React.Component {
                     <Text>Show Interests</Text>
                 </TouchableHighlight>
 
-                <TouchableOpacity style={styles.button} onPress={()=> { this.props.navigation.navigate('PickPhoto')}}>
+                <TouchableOpacity style={styles.button} onPress={()=> { this.props.navigation.navigate('PickPhoto',{email: this.props.navigation.getParam('email')})}}>
                     <Text>
                         Add Profile Picture
                     </Text>

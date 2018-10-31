@@ -184,8 +184,9 @@ export default class Mongo {
         const distance = 5000;      // Range of distance to search in meters
 
         // Get the coordinates of the user
-        this.find("Users", {email: email}, undefined, (user) => {
+        this.find("Users", "", undefined, (user) => {
             console.log(user);
+<<<<<<< HEAD
             const coordinates = user.location.coordinates;
             const query = {
                 //interests: user.interests,
@@ -199,10 +200,27 @@ export default class Mongo {
                     }
                 }
             };
+=======
+
+            // const coordinates = user.location.coordinates;
+            // const query = {
+            //     location: {
+            //         $near: {
+            //             $geometry: {
+            //                 type: "Point",
+            //                 coordinates
+            //             },
+            //             $maxDistance: distance
+            //         }
+            //     }
+            // };
+>>>>>>> fa33e42cffafeae88da064c8a42bd0432045db9b
 
             // Find the users in the proximity of the matching user's location
-            this.find("Users", query, undefined, callback);
+            // this.find("Users", query, undefined, callback);
+            callback(user)
         });
+
     }
 
     /**
@@ -212,20 +230,6 @@ export default class Mongo {
      *
      */
     static getMatches (email, callback) {
-      // this.find("Matches", {email: email}, undefined, (matches) => {
-      //   const likes = matches.likes;
-      //   var matchList = [];
-      //   if(likes != undefined){
-      //       // callback(0);
-      //       for(var i = 0; i < likes.length; i++) {
-      //         if(likes[i].match) {
-      //           matchList.push(likes[i].email);
-      //         }
-      //       }
-      //   }
-      //   //console.log(matchList);
-      //   callback(matchList);
-      // });
         this.find("Conversations", {email1: email}, undefined, (matches1) => {
             // console.log(email);
             // console.log(matches1.length);
@@ -324,9 +328,18 @@ export default class Mongo {
      */
     static getConversation (email1, email2, callback) {
       const query = { "users": { $all: [email1, email2]}}
+      // console.log(query);
       this.find("Conversations", query, undefined, (conversation) => {
         callback(conversation.conversation)
       });
     }
 
+
+    static setConversation (email1, email2, callback) {
+      const query = { "users": { $all: [email1, email2]}}
+
+      this.find("Conversations", query, undefined, (conversation) => {
+        callback(conversation.conversation)
+      });
+    }
 }
