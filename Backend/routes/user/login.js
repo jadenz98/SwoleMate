@@ -7,7 +7,6 @@ import Mongo from '../../utils/Mongo';
 router.post('/', function(req, res, next) {
     const userQuery = {
         email: req.body.email,
-        // password: req.body.password
     };
 
 

@@ -30,8 +30,33 @@ export default class Mongo {
 
                 db.close();
 
-                if (result.length === 1)
+                // uncomment this if it broke everyhting
+                if (result.length == 1)
                     result = result[0];
+
+                callback(result);
+            });
+        });
+    }
+
+    static findReal (collection, query, sort, callback) {
+        MongoClient.connect(url, function(err, db) {
+            const dbo = db.db(DBName);
+
+            if (err)
+                throw err;
+
+            let result = dbo.collection(collection).find(query);
+
+            if (sort) {
+                result = result.sort(sort);
+            }
+
+            result.toArray(function(err, result) {
+                if (err)
+                    throw err;
+
+                db.close();
 
                 callback(result);
             });
@@ -120,6 +145,7 @@ export default class Mongo {
 
                 if (callback)
                     callback(obj);
+                
             });
         });
     }
@@ -305,17 +331,72 @@ export default class Mongo {
     static getConversation (email1, email2, callback) {
       const query = { "users": { $all: [email1, email2]}}
       // console.log(query);
-      this.find("Conversations", query, undefined, (conversation) => {
-        callback(conversation.conversation)
+      var convo = [];
+      this.findReal("Conversations", {email1 : email1}, undefined, (tryone) => {
+        for (var i = 0; i < tryone.length; i++) {
+          if(tryone[i].email2 == email2){
+            // console.log("GG");
+            callback(tryone[i].conversation);
+            return;
+          }
+        }
+      });
+      this.findReal("Conversations", {email2 : email1}, undefined, (tryone) => {
+        for (var i = 0; i < tryone.length; i++) {
+          if(tryone[i].email1 == email2){
+            callback(tryone[i].conversation);
+            return;
+          }
+        }
       });
     }
 
 
-    static setConversation (email1, email2, callback) {
-      const query = { "users": { $all: [email1, email2]}}
-
-      this.find("Conversations", query, undefined, (conversation) => {
-        callback(conversation.conversation)
-      });
+    static setConversation (email1, email2, msg, callback) {
+      // const query = { "email2": { $all: [email1, email2]}}
+      const newMessage = {
+        email: email1,
+        msg: msg
+      }
+        // console.log(query);
+        var convo = [];
+        this.findReal("Conversations", {email1 : email1}, undefined, (tryone) => {
+          for (var i = 0; i < tryone.length; i++) {
+            if(tryone[i].email2 == email2){
+              convo = tryone[i].conversation;
+              convo.push(newMessage);
+              const insertNewConvo = {
+                email1: email1,
+                email2: email2,
+                conversation: convo
+              }
+              this.delete("Conversations", {_id:tryone[i]._id}, () => {
+                this.insert("Conversations", insertNewConvo, () => {
+                  callback("R");
+                  return;
+                });
+              });
+            }
+          }
+        });
+        this.findReal("Conversations", {email2 : email1}, undefined, (tryone) => {
+          for (var i = 0; i < tryone.length; i++) {
+            if(tryone[i].email1 == email2){
+             convo = tryone[i].conversation;
+              convo.push(newMessage);
+              const insertNewConvo = {
+                email1: email1,
+                email2: email2,
+                conversation: convo
+              }
+              this.delete("Conversations", {_id:tryone[i]._id}, () => {
+                this.insert("Conversations", insertNewConvo, () => {
+                  callback("R");
+                  return;
+                });
+              });
+            }
+          }
+        });
     }
 }
