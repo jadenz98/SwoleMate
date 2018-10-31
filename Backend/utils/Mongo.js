@@ -188,11 +188,12 @@ export default class Mongo {
             console.log(user);
             const coordinates = user.location.coordinates;
             const query = {
+                //interests: user.interests,
                 location: {
                     $near: {
                         $geometry: {
                             type: "Point",
-                            coordinates
+                            coordinates: coordinates
                         },
                         $maxDistance: distance
                     }
@@ -233,7 +234,7 @@ export default class Mongo {
                 matchList.push(matches1.email2);
             }
             // const likes = matches1.likes;
-            
+
             for (var i = 0; i < matches1.length; i++) {
                 // console.log(matches1[i].email2);
                 matchList.push(matches1[i].email2);
@@ -269,25 +270,33 @@ export default class Mongo {
           const likes2 = matches2.likes;
             for(var i = 0; i < likes2.length; i++) {
               if(likes2[i].email == email1) {
-                match = true;
-                matches2.likes[i].match = match;
-                const newValues2 = {
-                  $set: matches2
-                };
-                this.update("Matches", {email: email2}, newValues2, () => {
-                  //callback();
-                });
-                const like = {
-                  email: email2,
-                  match: match
-                };
-                matches1.likes.push(like);
-                const newValues1 = {
-                  $set: matches1
-                };
-                this.update("Matches", {email: email1}, newValues1, () => {
-                  callback();
-                });
+                if(matches2.likes[i].match == true){ 	//if that says true we know its a match!
+    							const conver = {	//create convo format
+    								email1: email1,
+    								email2: email2,
+    								conversation: []
+    							}
+    							Mongo.insert("Conversations", conver, () => {}); //insert the new convo!
+                  match = true;
+                  matches2.likes[i].match = match;
+                  const newValues2 = {
+                    $set: matches2
+                  };
+                  this.update("Matches", {email: email2}, newValues2, () => {
+                    //callback();
+                  });
+                  const like = {
+                    email: email2,
+                    match: match
+                  };
+                  matches1.likes.push(like);
+                  const newValues1 = {
+                    $set: matches1
+                  };
+                  this.update("Matches", {email: email1}, newValues1, () => {
+                    callback();
+                  });
+                }
               }
             }
             if(!match) {
