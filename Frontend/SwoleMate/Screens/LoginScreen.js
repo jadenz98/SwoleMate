@@ -114,7 +114,7 @@ export default class LoginScreen extends React.Component {
               {
                 email: this.state.email
               }, (response) => {
-                console.log(response);
+                //console.log(response);
               }
             );
               //this should eventually be removed

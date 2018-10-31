@@ -47,7 +47,7 @@ export default class HomeScreen extends React.Component{
               <TouchableOpacity style={styles.button} onPress ={ () => {
                 //this alert tests that username was successfully recieved from previous page
                 //alert('Username: ' + name);
-                
+
                 var userinfo={
                     email: navigation.getParam('email'),
                     interests: navigation.getParam('interests')
@@ -100,8 +100,13 @@ export default class HomeScreen extends React.Component{
         return(
           <View>
             <Swiper
+<<<<<<< HEAD
                 cards={potentialMatchInfo}
                 
+=======
+                cards={[{word:'Hello', otherWord:'World', img: img},{word:'Goodbye', otherWord:'World', img: img}]}
+
+>>>>>>> 22989e5a2cfb70a47d649ea50a8cfa6865932c25
                 //stackSize={2}
                 renderCard={(card) => {
                     return (

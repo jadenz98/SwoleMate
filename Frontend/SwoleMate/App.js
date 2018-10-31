@@ -12,6 +12,7 @@ import CreateProfileScreen from './Screens/CreateProfile';
 import Profile from './Screens/Profile';
 import EditProfile from './Screens/EditProfile';
 import Matches from './Screens/Matches';
+import Messages from './Screens/Messsages';
 import PickPhoto from './Screens/PickPhoto';
 import FAQ from './Screens/FAQ';
 
@@ -46,6 +47,9 @@ const RootStack = createStackNavigator(
       },
       Matches: {
         screen: Matches,
+      },
+      Messages: {
+        screen: Messages,
       },
       PickPhoto: {
         screen: PickPhoto,
