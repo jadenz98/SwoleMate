@@ -1,20 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {createStackNavigator, createDrawerNavigator, DrawerActions} from 'react-navigation';
-/*
-import screens to be used in the navigator in the following way
-import Homescreen from './.../Homescreen';
-*/
+import { StyleSheet } from 'react-native';
+import {createStackNavigator, createDrawerNavigator} from 'react-navigation';
+
 import LoginScreen from './Screens/LoginScreen';
 import HomeScreen from './Screens/HomeScreen';
 import RegisterScreen from './Screens/RegisterScreen';
-import Profile from './Screens/Profile';
+import ProfileScreen from './Screens/ProfileScreen';
 import EditProfile from './Screens/EditProfile';
 import Matches from './Screens/Matches';
 import Messages from './Screens/Messsages';
 import PickPhoto from './Screens/PickPhoto';
 import FAQ from './Screens/FAQ';
-import DrawerScreen from './Screens/DrawerScreen';
+import OtherProfileScreen from "./Screens/OtherProfileScreen";
 
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/
@@ -23,20 +20,6 @@ export default class App extends React.Component {
     return <DrawerNavigator />;
   }
 }
-
-const Drawer = createDrawerNavigator(
-    {
-        Home: {
-            screen: HomeScreen
-        },
-        Profile: {
-            screen: Profile
-        }
-    }, {
-        contentComponent: DrawerScreen,
-        drawerWidth: 1000
-    }
-);
 
 const startStack = createStackNavigator(
     {
@@ -53,8 +36,8 @@ const startStack = createStackNavigator(
 
 const ProfileStack = createStackNavigator(
     {
-        Profile: {
-            screen: Profile
+        ProfileScreen: {
+            screen: ProfileScreen
         },
         EditProfile: {
             screen: EditProfile
@@ -63,7 +46,7 @@ const ProfileStack = createStackNavigator(
             screen: PickPhoto
         }
     }, {
-        initialRouteName: 'Profile'
+        initialRouteName: 'ProfileScreen'
     }
 );
 
@@ -71,6 +54,9 @@ const homeStack = createStackNavigator(
     {
         Home: {
             screen: HomeScreen
+        },
+        ExpandedProfile: {
+            screen: OtherProfileScreen
         }
     }, {
         initialRouteName: 'Home'
@@ -99,13 +85,6 @@ const FAQStack = createStackNavigator(
 //creates navigation stack (push when new page, pop when previous page requested)
 const DrawerNavigator = createDrawerNavigator(
     {
-        Start: {
-            screen: startStack,
-            navigationOptions: {
-                drawerLabel: () => null,
-                drawerLockMode: 'locked-closed'
-            },
-        },
         Home: {
             screen: homeStack
         },
@@ -117,10 +96,16 @@ const DrawerNavigator = createDrawerNavigator(
         },
         FAQ: {
             screen: FAQStack
+        },
+        Logout: {
+            screen: startStack,
+            navigationOptions: {
+                drawerLockMode: 'locked-closed'
+            }
         }
     },
     {//options go here
-        initialRouteName: 'Start'
+        initialRouteName: 'Logout'
     }
 );
 

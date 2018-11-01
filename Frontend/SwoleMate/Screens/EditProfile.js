@@ -4,8 +4,7 @@ import styles from "./Styles/LoginScreenStyles";
 import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, Slider, Switch, ScrollView } from 'react-native';
 import SelectMultiple from 'react-native-select-multiple';
 
-
-import CameraRollPicker from 'react-native-camera-roll-picker'
+import Loader from './Components/Loader';
 
 import Connector from '../Utils/Connector';
 
@@ -37,7 +36,7 @@ export default class EditProfile extends React.Component {
 
     //This sets the title on the top header
     static navigationOptions = {
-        title: 'Edit',
+        title: 'Edit Your Profile',
     };
 
     getSelectedImages(image){
@@ -84,7 +83,7 @@ export default class EditProfile extends React.Component {
     render() {
 
         if (this.state.user == null)
-            return null;
+            return <Loader/>;
 
         return (
           <ScrollView>

@@ -1,9 +1,12 @@
 import React from 'react';
 import {TouchableOpacity, View, Text, Image, Button, StyleSheet} from 'react-native';
 import styles from './Styles/HomeScreenStyles';
+import globalStyles from './Styles/Global';
 import Swiper from 'react-native-deck-swiper';
 import Connector from '../Utils/Connector';
 import { DrawerActions } from 'react-navigation';
+
+import Loader from './Components/Loader';
 
 export default class HomeScreen extends React.Component{
     constructor(props) {
@@ -34,19 +37,20 @@ export default class HomeScreen extends React.Component{
     //This sets the title on the top header
     static navigationOptions = ({ navigation }) => ({
         title: 'SwoleMate',
-        headerLeft:
-            <TouchableOpacity style={styles.button} onPress = {() => {navigation.dispatch(DrawerActions.openDrawer()); console.log("asdfasdfsf");}}>
+        headerLeft: (
+            <TouchableOpacity style={globalStyles.hamburger} onPress = {() => {navigation.dispatch(DrawerActions.openDrawer())}}>
                 <Image
-                    style={styles.icon}
+                    style={globalStyles.icon}
                     source={require('./images/hamburger.png')}
                 />
             </TouchableOpacity>
+        )
     });
 
     render(){
         let potentialMatchInfo = this.state.potentialMatches;
         if(potentialMatchInfo==null){
-            return null;
+            return <Loader/>;
         }
         for(let i=0; i < potentialMatchInfo.length; i++){
             if(potentialMatchInfo[i].photoData === undefined){
@@ -60,8 +64,9 @@ export default class HomeScreen extends React.Component{
             else{
                 const encodedData=potentialMatchInfo[i].photoData;
                 potentialMatchInfo[i].img=(
-                    <Image style={{width: 300, height: 400}}
-                     source={{uri: `data:image/jpeg;base64,${encodedData}`}}
+                    <Image
+                        style={{width: 300, height: 400}}
+                        source={{uri: `data:image/jpeg;base64,${encodedData}`}}
                     />
                 );
             }

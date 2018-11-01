@@ -3,6 +3,8 @@ import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import Connector from '../Utils/Connector';
 import { NavigationActions } from 'react-navigation';
 
+import Loader from './Components/Loader';
+
 //imports stylesheet for the LoginScreen
 import styles from './Styles/LoginScreenStyles';
 
@@ -46,7 +48,9 @@ export default class LoginScreen extends React.Component {
     }
 
     render () {
-      if(this.state.latitude == null) return null
+      if(this.state.latitude == null)
+          return <Loader/>;
+
         //inside of return is jsx style code that will be rendered on the page
         return(
             <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>

@@ -7,11 +7,12 @@ export default StyleSheet.create({
         height: '100%',
         width: '100%',
     },
-    button: {
+    hamburger: {
         width: 35,
         height: 35,
+        marginLeft: 15,
         alignItems: 'center',
         borderColor: 'black',
-        backgroundColor: '#F9F9F9',
+        backgroundColor: '#F9F9F9'
     }
 });

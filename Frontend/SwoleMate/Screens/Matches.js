@@ -51,7 +51,7 @@ export default class Matches extends React.Component{
     static navigationOptions = ({ navigation }) => ({
         title: 'Matches',
         headerLeft:
-            <TouchableOpacity style={globalStyles.button} onPress = {() => {navigation.dispatch(DrawerActions.openDrawer()); console.log("asdfasdfsf");}}>
+            <TouchableOpacity style={globalStyles.hamburger} onPress = {() => {navigation.dispatch(DrawerActions.openDrawer())}}>
                 <Image
                     style={globalStyles.icon}
                     source={require('./images/hamburger.png')}
