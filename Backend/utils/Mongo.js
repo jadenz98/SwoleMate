@@ -207,29 +207,49 @@ export default class Mongo {
      *
      */
     static getNearbyUsers (email, callback) {
-        const distance = 5000;      // Range of distance to search in meters
+        //MongoClient.connect(url, function(error, db){
+        //const dbo = db.db(DBName);
+        const distance = 1000000000;      // Range of distance to search in meters
 
         // Get the coordinates of the user
-        this.find("Users", "", undefined, (user) => {
+        this.find("Users", {email: email}, undefined, (user) => {
             console.log(user);
+             const coordinates = user.location.coordinates;
+             //console.log(coordinates);
+            MongoClient.connect(url, function(error, db){
+             const dbo = db.db(DBName);
+             dbo.collection("Users").createIndex({location:"2dsphere"});
+             const query = {
+                 location: {
+                     $nearSphere: {
+                         $geometry: {
+                             type: "Point",
+                             coordinates: coordinates
+                         },
+                         $minDistance: 1,
+                         $maxDistance: distance
+                     }
+                 }
+             };
+/*
+             dbo.collection("Users").find(query).toArray(function(err, result) {
+               if(err) throw err;
+               console.log(result);
+               callback(result);
+             });
+*/
+             Mongo.find("Users", query, undefined, (result) => {
+               console.log(result);
+               callback(result);
+             });
+           });
 
-            // const coordinates = user.location.coordinates;
-            // const query = {
-            //     location: {
-            //         $near: {
-            //             $geometry: {
-            //                 type: "Point",
-            //                 coordinates
-            //             },
-            //             $maxDistance: distance
-            //         }
-            //     }
-            // };
 
             // Find the users in the proximity of the matching user's location
             // this.find("Users", query, undefined, callback);
-            callback(user)
+            //callback(user)
         });
+      //});
 
     }
 
@@ -248,7 +268,7 @@ export default class Mongo {
                 matchList.push(matches1.email2);
             }
             // const likes = matches1.likes;
-            
+
             for (var i = 0; i < matches1.length; i++) {
                 // console.log(matches1[i].email2);
                 matchList.push(matches1[i].email2);
@@ -284,25 +304,33 @@ export default class Mongo {
           const likes2 = matches2.likes;
             for(var i = 0; i < likes2.length; i++) {
               if(likes2[i].email == email1) {
-                match = true;
-                matches2.likes[i].match = match;
-                const newValues2 = {
-                  $set: matches2
-                };
-                this.update("Matches", {email: email2}, newValues2, () => {
-                  //callback();
-                });
-                const like = {
-                  email: email2,
-                  match: match
-                };
-                matches1.likes.push(like);
-                const newValues1 = {
-                  $set: matches1
-                };
-                this.update("Matches", {email: email1}, newValues1, () => {
-                  callback();
-                });
+                if(matches2.likes[i].match == true){ 	//if that says true we know its a match!
+    							const conver = {	//create convo format
+    								email1: email1,
+    								email2: email2,
+    								conversation: []
+    							}
+    							Mongo.insert("Conversations", conver, () => {}); //insert the new convo!
+                  match = true;
+                  matches2.likes[i].match = match;
+                  const newValues2 = {
+                    $set: matches2
+                  };
+                  this.update("Matches", {email: email2}, newValues2, () => {
+                    //callback();
+                  });
+                  const like = {
+                    email: email2,
+                    match: match
+                  };
+                  matches1.likes.push(like);
+                  const newValues1 = {
+                    $set: matches1
+                  };
+                  this.update("Matches", {email: email1}, newValues1, () => {
+                    callback();
+                  });
+                }
               }
             }
             if(!match) {
