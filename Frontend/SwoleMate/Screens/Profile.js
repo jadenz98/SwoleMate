@@ -1,7 +1,9 @@
 import React from 'react';
 import {TouchableOpacity, Text, View, Image, Button} from 'react-native';
 import styles from './Styles/LoginScreenStyles';
+import globalStyles from './Styles/Global';
 import Connector from "../Utils/Connector";
+import {DrawerActions} from "react-navigation";
 
 export default class Profile extends React.Component{
 
@@ -18,7 +20,9 @@ export default class Profile extends React.Component{
             user: null
         };
 
-        Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
+        console.log(props.navigation.dangerouslyGetParent().getParam('email') + " PROFILE");
+
+        Connector.get('/user', {email: props.navigation.dangerouslyGetParent().getParam('email')}, (res) => {
             const interests = res.interests;
 
             for(let i=0;i<interests.length;i++){
@@ -32,9 +36,16 @@ export default class Profile extends React.Component{
     }
 
     //This sets the title on the top header
-    static navigationOptions = {
+    static navigationOptions = ({ navigation }) => ({
         title: 'Profile',
-    };
+        headerLeft:
+            <TouchableOpacity style={globalStyles.button} onPress = {() => {navigation.dispatch(DrawerActions.openDrawer());}}>
+                <Image
+                    style={globalStyles.icon}
+                    source={require('./images/hamburger.png')}
+                />
+            </TouchableOpacity>
+    });
 
     render () {
         const images = (

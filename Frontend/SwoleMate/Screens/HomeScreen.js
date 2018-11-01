@@ -3,18 +3,18 @@ import {TouchableOpacity, View, Text, Image, Button, StyleSheet} from 'react-nat
 import styles from './Styles/HomeScreenStyles';
 import Swiper from 'react-native-deck-swiper';
 import Connector from '../Utils/Connector';
-
+import { DrawerActions } from 'react-navigation';
 
 export default class HomeScreen extends React.Component{
-    constructor(props){
+    constructor(props) {
         super(props);
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         const name = navigation.getParam('username');
-        this.state={
+        this.state = {
             user: null,
             picture: null,
-            potentialMatches: [],
-        }
+            potentialMatches: []
+        };
 
         Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
             this.setState({
@@ -30,83 +30,47 @@ export default class HomeScreen extends React.Component{
             //console.log(res);
         });
     }
+
     //This sets the title on the top header
-    static navigationOptions = ({ navigation }) => {
-        var userinfo={
-            email: navigation.getParam('email'),
-        };
-        return{
-            title: 'SwoleMate',
-            headerRight: (
-                <TouchableOpacity  onPress={() => navigation.navigate('Matches',userinfo)}>
-                  <Text>
-                      Matches
-                  </Text>
-              </TouchableOpacity>),
-            headerLeft: (
-              <TouchableOpacity style={styles.button} onPress ={ () => {
-                //this alert tests that username was successfully recieved from previous page
-                //alert('Username: ' + name);
-
-                var userinfo={
-                    email: navigation.getParam('email'),
-                    interests: navigation.getParam('interests')
-                };
-                navigation.navigate('Profile', userinfo);
-            }}>
-              <Image
-                  style={styles.icon}
-                  source={require('./generic-profile-picture.png')}
-              />
-                </TouchableOpacity>
-              ),
-        };
-    };
-
+    static navigationOptions = ({ navigation }) => ({
+        title: 'SwoleMate',
+        headerLeft:
+            <TouchableOpacity style={styles.button} onPress = {() => {navigation.dispatch(DrawerActions.openDrawer()); console.log("asdfasdfsf");}}>
+                <Image
+                    style={styles.icon}
+                    source={require('./images/hamburger.png')}
+                />
+            </TouchableOpacity>
+    });
 
     render(){
-        potentialMatchInfo = this.state.potentialMatches;
+        let potentialMatchInfo = this.state.potentialMatches;
         if(potentialMatchInfo==null){
             return null;
         }
-        for(i=0;i<potentialMatchInfo.length;i++){
-            if(potentialMatchInfo[i].photoData==undefined){
+        for(let i=0; i < potentialMatchInfo.length; i++){
+            if(potentialMatchInfo[i].photoData === undefined){
                 //console.log("\n\n\n\n\n\n\n\nIMAGE UNDEFINED\n\n\n\n\n\n\n\n")
                 potentialMatchInfo[i].img=(
                     <Image style={{width: 300, height: 400}}
-                        source={require('./generic-profile-picture.png')}
+                        source={require('./images/generic-profile-picture.png')}
                     />
                 );
             }
             else{
-                //console.log("\n\n\n\n\n\n\n\nIMAGE DEFINED\n\n\n\n\n\n\n\n")
-
                 const encodedData=potentialMatchInfo[i].photoData;
-                console.log("\n\n\n\n\n" + encodedData);
                 potentialMatchInfo[i].img=(
-                <Image style={{width: 300, height: 400}}
-                 source={{uri: `data:image/jpeg;base64,${encodedData}`}}
-                />
+                    <Image style={{width: 300, height: 400}}
+                     source={{uri: `data:image/jpeg;base64,${encodedData}`}}
+                    />
                 );
             }
         }
-        /*const encodedData=this.state.picture;
-        const img = (
-            <Image style={{width: 300, height: 400}}
-                 source={{uri: `data:image/gif;base64,${encodedData}`}}
-            />
-        );*/
-        //console.log("\n\n\n\n\n" + encodedData);
+
         return(
           <View>
             <Swiper
-<<<<<<< HEAD
                 cards={potentialMatchInfo}
-                
-=======
-                cards={[{word:'Hello', otherWord:'World', img: img},{word:'Goodbye', otherWord:'World', img: img}]}
-
->>>>>>> 22989e5a2cfb70a47d649ea50a8cfa6865932c25
                 //stackSize={2}
                 renderCard={(card) => {
                     return (

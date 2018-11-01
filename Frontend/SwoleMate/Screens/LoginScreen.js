@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import Connector from '../Utils/Connector';
+import { NavigationActions } from 'react-navigation';
 
 //imports stylesheet for the LoginScreen
 import styles from './Styles/LoginScreenStyles';
@@ -101,29 +102,44 @@ export default class LoginScreen extends React.Component {
         }, {}, (response) => {
             console.log(response.success);
             if(response.success){ //Server returned success on login
-              //object to pass user info to next screen
-              var userinfo = {
-                  email: this.state.email,
-                  interests: ['Swimming','Running'],
-              };
+                //object to pass user info to next screen
+                var userinfo = {
+                  email: this.state.email
+                };
 
-              Connector.post("/user/updateLocation", {
-                latitude: this.state.latitude,
-                longitude: this.state.longitude,
-              },
-              {
-                email: this.state.email
-              }, (response) => {
-                //console.log(response);
-              }
-            );
-              //this should eventually be removed
-              alert('Lat: ' + this.state.latitude + '\nLong: ' + this.state.longitude + '\nError: ' + this.state.error);
-              this.props.navigation.navigate('Home',userinfo);
-            } else{ //Server returned failure on login
-              this.emailInput.clear(); //Clears both TextInput's and displays alert
-              this.passwordInput.clear();
-              alert('Login information was incorrect')
+                Connector.post("/user/updateLocation",
+                  {
+                    latitude: this.state.latitude,
+                    longitude: this.state.longitude,
+                  },
+                  {
+                    email: this.state.email
+                  }, (response) => {
+                    console.log(response);
+                  }
+                );
+                //this should eventually be removed
+                alert('Lat: ' + this.state.latitude + '\nLong: ' + this.state.longitude + '\nError: ' + this.state.error);
+
+                const screensToPassInfoTo = [
+                    'Home',
+                    'Matches',
+                    'Profile'
+                ];
+
+                for (let i = 0; i < screensToPassInfoTo.length; i++){
+                    const setParamsAction = NavigationActions.setParams({
+                        params: userinfo,
+                        key: screensToPassInfoTo[i]
+                    });
+                    this.props.navigation.dangerouslyGetParent().dispatch(setParamsAction);
+                }
+
+                this.props.navigation.navigate('Home');
+            } else { //Server returned failure on login
+                this.emailInput.clear(); //Clears both TextInput's and displays alert
+                this.passwordInput.clear();
+                alert('Login information was incorrect')
             }
         });
     };

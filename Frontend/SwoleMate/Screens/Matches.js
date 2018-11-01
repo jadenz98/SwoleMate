@@ -1,15 +1,16 @@
 import React from 'react';
 import styles from "./Styles/LoginScreenStyles";
+import globalStyles from './Styles/Global';
+import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList, Image } from 'react-native';
 
 import {Font, AppLoading } from 'expo';
 import {MaterialIcons} from '@expo/vector-icons';
-import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList } from 'react-native';
 import { List, ListItem } from 'react-native-elements'
 
 import SelectMultiple from 'react-native-select-multiple';
 
 import Connector from '../Utils/Connector';
-
+import {DrawerActions} from "react-navigation";
 
 export default class Matches extends React.Component{
 
@@ -20,7 +21,7 @@ export default class Matches extends React.Component{
             fontsAreLoaded: false,
             user: null,
             picture: null
-        }
+        };
         Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
             this.setState({
                 user: res,
@@ -30,7 +31,7 @@ export default class Matches extends React.Component{
         });
     }
 
-   async componentDidMount(){
+    async componentDidMount(){
         await Font.loadAsync({
             'Material Icons' : require('../fonts/MaterialIcons.ttf')
         });
@@ -40,16 +41,23 @@ export default class Matches extends React.Component{
         //console.log("\n\n\n\n\n\n\n\n\n\n\nFonts Loaded");
     }
 
-  getMatches = () => {
-    Connector.get('/user/matches', {email: 'sam@samingram.me'}, (matches) => {
-        console.log(matches);
-    });
-  }
+    getMatches = () => {
+        Connector.get('/user/matches', {email: 'sam@samingram.me'}, (matches) => {
+            console.log(matches);
+        });
+    };
 
-        //This sets the title on the top header
-        static navigationOptions = {
-            title: 'Matches',
-        };
+    //This sets the title on the top header
+    static navigationOptions = ({ navigation }) => ({
+        title: 'Matches',
+        headerLeft:
+            <TouchableOpacity style={globalStyles.button} onPress = {() => {navigation.dispatch(DrawerActions.openDrawer()); console.log("asdfasdfsf");}}>
+                <Image
+                    style={globalStyles.icon}
+                    source={require('./images/hamburger.png')}
+                />
+            </TouchableOpacity>
+    });
 
     render(){
         const { fontsAreLoaded } = this.state.fontsAreLoaded;
