@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
 import Connector from '../Utils/Connector';
 import { NavigationActions } from 'react-navigation';
 
@@ -53,7 +53,11 @@ export default class LoginScreen extends React.Component {
 
         //inside of return is jsx style code that will be rendered on the page
         return(
-            <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+          <ScrollView contentContainerStyle={{flexGrow: 1}}
+                      scrollEnabled={false}
+                      keyboardShouldPersistTaps='handled'>
+            <KeyboardAvoidingView style={{flex:1, alignItems: 'center', justifyContent: 'center'}}
+                                  behavior="padding">
                 <TextInput
                     ref={input => { this.emailInput = input }}
                     placeholder='Email'
@@ -91,7 +95,8 @@ export default class LoginScreen extends React.Component {
                         Register
                     </Text>
                 </TouchableOpacity>
-            </View>
+            </KeyboardAvoidingView>
+          </ScrollView>
         );
     }
 
@@ -123,7 +128,7 @@ export default class LoginScreen extends React.Component {
                   }
                 );
                 //this should eventually be removed
-                alert('Lat: ' + this.state.latitude + '\nLong: ' + this.state.longitude + '\nError: ' + this.state.error);
+                //alert('Lat: ' + this.state.latitude + '\nLong: ' + this.state.longitude + '\nError: ' + this.state.error);
 
                 const screensToPassInfoTo = [
                     'Home',
@@ -141,7 +146,7 @@ export default class LoginScreen extends React.Component {
 
                 this.props.navigation.navigate('Home');
             } else { //Server returned failure on login
-                this.emailInput.clear(); //Clears both TextInput's and displays alert
+                //this.emailInput.clear(); //Clears both TextInput's and displays alert
                 this.passwordInput.clear();
                 alert('Login information was incorrect')
             }
