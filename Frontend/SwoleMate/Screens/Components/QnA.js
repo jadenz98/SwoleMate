@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Text, View} from 'react-native';
 
-import styles from '../Screens/Styles/FAQStyles';
+import styles from './Styles/FAQStyles';
 
 export default class QnA extends React.Component {
     constructor (props) {

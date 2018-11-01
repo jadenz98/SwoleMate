@@ -440,9 +440,9 @@ describe('SwoleMate API endpoint testing', () => {
     });
 
 
-    it('Should be able to check Conversations', (done) => {
+    it('Should check conversations', (done) => {
         chai.request(server)
-            .get('/user/matches')
+            .get('/user/conversation')
             // console.log(s1.email1)
             .set("email", "s@s1")
             // .send()

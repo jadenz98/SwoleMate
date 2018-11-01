@@ -4,6 +4,7 @@ import Connector from '../Utils/Connector'
 
 //import stylesheet
 import styles from './Styles/LoginScreenStyles';
+import {NavigationActions} from "react-navigation";
 
 export default class RegisterScreen extends React.Component{
     constructor(props){
@@ -180,14 +181,27 @@ export default class RegisterScreen extends React.Component{
         }, {}, (response) => {
             console.log(response);
             if(response.success){ //Server return success on register
-              //this is how userinfo will be passed to other screens
-              var userinfo = {
-                  name: this.state.name,
-                  email: this.state.email,
-                  interests: ['Swimming','Running']
-              };
-              //eventually change 'Home' to 'CreateProfile'
-              this.props.navigation.navigate('Home', userinfo);
+                //this is how userinfo will be passed to other screens
+                const userinfo = {
+                  email: this.state.email
+                };
+
+                const screensToPassInfoTo = [
+                    'Home',
+                    'Matches',
+                    'Profile'
+                ];
+
+                for (let i = 0; i < screensToPassInfoTo.length; i++){
+                    const setParamsAction = NavigationActions.setParams({
+                        params: userinfo,
+                        key: screensToPassInfoTo[i]
+                    });
+                    this.props.navigation.dangerouslyGetParent().dispatch(setParamsAction);
+                }
+
+                //eventually change 'Home' to 'CreateProfile'
+                this.props.navigation.navigate('Home', userinfo);
             } else{ //Server returned failure on register (should mean email is taken)
               this.emailInput.clear(); //Clears email and both password TextInput's and displays alert
               this.passwordInput.clear();

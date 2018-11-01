@@ -7,9 +7,6 @@ import Mongo from '../../utils/Mongo';
 
  router.get('/', function(req, res, next) {
      const email = req.header("email");
-     
-     // console.log(email);
-
      Mongo.getMatches(email, (matches) => {
      	// console.log("HERE");
         res.json(matches);
