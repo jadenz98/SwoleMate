@@ -19,14 +19,14 @@ export default class HomeScreen extends React.Component{
             potentialMatches: []
         };
 
-        Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
+        Connector.get('/user', {email: props.navigation.dangerouslyGetParent().getParam('email')}, (res) => {
             this.setState({
                 user: res,
                 picture: res.photoData,
             });
             //console.log("\n\n\n\n\n" + res.photoData);
         });
-        Connector.get('/user/nearbyUsers', {email: props.navigation.getParam('email')}, (res)=>{
+        Connector.get('/user/nearbyUsers', {email: props.navigation.dangerouslyGetParent().getParam('email')}, (res)=>{
             this.setState({
                 potentialMatches: res,
             });
