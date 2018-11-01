@@ -181,45 +181,49 @@ export default class Mongo {
      *
      */
     static getNearbyUsers (email, callback) {
-        const distance = 5000;      // Range of distance to search in meters
+        //MongoClient.connect(url, function(error, db){
+        //const dbo = db.db(DBName);
+        const distance = 1000000000;      // Range of distance to search in meters
 
         // Get the coordinates of the user
-        this.find("Users", "", undefined, (user) => {
+        this.find("Users", {email: email}, undefined, (user) => {
             console.log(user);
-<<<<<<< HEAD
-            const coordinates = user.location.coordinates;
-            const query = {
-                //interests: user.interests,
-                location: {
-                    $near: {
-                        $geometry: {
-                            type: "Point",
-                            coordinates: coordinates
-                        },
-                        $maxDistance: distance
-                    }
-                }
-            };
-=======
+             const coordinates = user.location.coordinates;
+             //console.log(coordinates);
+            MongoClient.connect(url, function(error, db){
+             const dbo = db.db(DBName);
+             dbo.collection("Users").createIndex({location:"2dsphere"});
+             const query = {
+                 location: {
+                     $nearSphere: {
+                         $geometry: {
+                             type: "Point",
+                             coordinates: coordinates
+                         },
+                         $minDistance: 1,
+                         $maxDistance: distance
+                     }
+                 }
+             };
+/*
+             dbo.collection("Users").find(query).toArray(function(err, result) {
+               if(err) throw err;
+               console.log(result);
+               callback(result);
+             });
+*/
+             Mongo.find("Users", query, undefined, (result) => {
+               console.log(result);
+               callback(result);
+             });
+           });
 
-            // const coordinates = user.location.coordinates;
-            // const query = {
-            //     location: {
-            //         $near: {
-            //             $geometry: {
-            //                 type: "Point",
-            //                 coordinates
-            //             },
-            //             $maxDistance: distance
-            //         }
-            //     }
-            // };
->>>>>>> fa33e42cffafeae88da064c8a42bd0432045db9b
 
             // Find the users in the proximity of the matching user's location
             // this.find("Users", query, undefined, callback);
-            callback(user)
+            //callback(user)
         });
+      //});
 
     }
 
