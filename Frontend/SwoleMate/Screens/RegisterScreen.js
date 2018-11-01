@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TextInput, TouchableOpacity, Picker } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Picker, ScrollView, KeyboardAvoidingView } from 'react-native';
 import Connector from '../Utils/Connector'
 
 //import stylesheet
@@ -51,112 +51,116 @@ export default class RegisterScreen extends React.Component{
             return null;
 
         return(
-          <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-            <Text>
-              Register new Swolemate account here
-            </Text>
-
-            <TextInput
-              /*placeholder='Username'
-              style={styles.textbox}
-              onChangeText={ (newUsername) => this.setState({newUsername})}
-              autoCapitalize='none'
-              autoCorrect={false}
-              textContentType='username'*/
-            />
-
-            <TextInput
-              ref={input => {this.emailInput = input }}
-              placeholder='Email'
-              style={styles.textbox}
-              onChangeText={ (email) => this.setState({email})}
-              autoCapitalize='none'
-              keyboardType='email-address'
-              textContentType='emailAddress'
-            />
-
-            <TextInput
-              ref={input => {this.passwordInput = input }}
-              placeholder='Password'
-              style={styles.textbox}
-              onChangeText={ (newPassword) => this.setState({newPassword})}
-              autoCapitalize='none'
-              autoCorrect={false}
-              maxLength={15}
-              secureTextEntry={true}
-              textContentType='password'
-            />
-
-            <TextInput
-              ref={input => {this.passConfirmInput = input }}
-              placeholder='Confirm Password'
-              style={styles.textbox}
-              onChangeText={ (passwordConfirm) => this.setState({passwordConfirm})}
-              autoCapitalize='none'
-              autoCorrect={false}
-              maxLength={15}
-              secureTextEntry={true}
-              textContentType='password'
-            />
-
-            <Text>
-              Create Profile
-            </Text>
-
-            <TextInput
-              ref={input => {this.nameInput = input }}
-              placeholder='Name'
-              style={styles.textbox}
-              onChangeText={ (name) => this.setState({name})}
-              autoCapitalize='words'
-              textContentType='name'
-            />
-
-            <Picker
-              selectedValue={this.state.sex}
-              style={{ height: 50, width: 150 }}
-              onValueChange={(itemValue, itemIndex) => this.setState({sex: itemValue})}>
-              <Picker.Item label="Male" value="male" />
-              <Picker.Item label="Female" value="female" />
-              <Picker.Item label="Prefer not to specify" value="not_specified" />
-              <Picker.Item label="Apache attack helicopter" value="not_specified" />
-            </Picker>
-
-            <TextInput
-              ref={input => {this.birthdayInput = input }}
-              placeholder='Birthday (mm/dd/yyyy)'
-              style={styles.textbox}
-              onChangeText={ (birthday) => this.setState({birthday})}
-              //keyboardType='decimal-pad'
-              maxLength={10}
-            />
-
-            <TextInput
-              ref={input => {this.phoneInput = input }}
-              placeholder='Phone number'
-              style={styles.textbox}
-              onChangeText={ (phone_number) => this.setState({phone_number})}
-              keyboardType='phone-pad'
-            />
-
-            <Text>
-              Add a bio
-            </Text>
-
-            <TextInput
-              placeholder='Describe what you are looking for'
-              onChangeText={ (bio) => this.setState({bio})}
-              style={{height: 200, width: 200, borderColor: 'black', borderWidth: 1}}
-              multiline={true}
-            />
-
-            <TouchableOpacity style={styles.button} onPress={this.registerAccount}>
+          <ScrollView contentContainerStyle={{flexGrow: 1}}
+                      keyboardShouldPersistTaps='handled'>
+            <KeyboardAvoidingView style={{flex:1, alignItems: 'center', justifyContent: 'center'}}
+                                  behavior="padding">
               <Text>
-                Register Account
+                Register new Swolemate account here
               </Text>
-            </TouchableOpacity>
-          </View>
-        )
+
+              <TextInput
+                /*placeholder='Username'
+                style={styles.textbox}
+                onChangeText={ (newUsername) => this.setState({newUsername})}
+                autoCapitalize='none'
+                autoCorrect={false}
+                textContentType='username'*/
+              />
+
+              <TextInput
+                ref={input => {this.emailInput = input }}
+                placeholder='Email'
+                style={styles.textbox}
+                onChangeText={ (email) => this.setState({email})}
+                autoCapitalize='none'
+                keyboardType='email-address'
+                textContentType='emailAddress'
+              />
+
+              <TextInput
+                ref={input => {this.passwordInput = input }}
+                placeholder='Password'
+                style={styles.textbox}
+                onChangeText={ (newPassword) => this.setState({newPassword})}
+                autoCapitalize='none'
+                autoCorrect={false}
+                maxLength={15}
+                secureTextEntry={true}
+                textContentType='password'
+              />
+
+              <TextInput
+                ref={input => {this.passConfirmInput = input }}
+                placeholder='Confirm Password'
+                style={styles.textbox}
+                onChangeText={ (passwordConfirm) => this.setState({passwordConfirm})}
+                autoCapitalize='none'
+                autoCorrect={false}
+                maxLength={15}
+                secureTextEntry={true}
+                textContentType='password'
+              />
+
+              <Text>
+                Create Profile
+              </Text>
+
+              <TextInput
+                ref={input => {this.nameInput = input }}
+                placeholder='Name'
+                style={styles.textbox}
+                onChangeText={ (name) => this.setState({name})}
+                autoCapitalize='words'
+                textContentType='name'
+              />
+
+              <Picker
+                selectedValue={this.state.sex}
+                style={{ height: 50, width: 150 }}
+                onValueChange={(itemValue, itemIndex) => this.setState({sex: itemValue})}>
+                <Picker.Item label="Male" value="male" />
+                <Picker.Item label="Female" value="female" />
+                <Picker.Item label="Prefer not to specify" value="not_specified" />
+                <Picker.Item label="Apache attack helicopter" value="not_specified" />
+              </Picker>
+
+              <TextInput
+                ref={input => {this.birthdayInput = input }}
+                placeholder='Birthday (mm/dd/yyyy)'
+                style={styles.textbox}
+                onChangeText={ (birthday) => this.setState({birthday})}
+                //keyboardType='decimal-pad'
+                maxLength={10}
+              />
+
+              <TextInput
+                ref={input => {this.phoneInput = input }}
+                placeholder='Phone number'
+                style={styles.textbox}
+                onChangeText={ (phone_number) => this.setState({phone_number})}
+                keyboardType='phone-pad'
+              />
+
+              <Text>
+                Add a bio
+              </Text>
+
+              <TextInput
+                placeholder='Describe what you are looking for'
+                onChangeText={ (bio) => this.setState({bio})}
+                style={{height: 200, width: 200, borderColor: 'black', borderWidth: 1}}
+                multiline={true}
+              />
+
+              <TouchableOpacity style={styles.button} onPress={this.registerAccount}>
+                <Text>
+                  Register Account
+                </Text>
+              </TouchableOpacity>
+            </KeyboardAvoidingView>
+          </ScrollView>
+        );
     }
 
     //register function
@@ -170,6 +174,7 @@ export default class RegisterScreen extends React.Component{
             birthday: this.state.birthday,
             phone: this.state.phone_number,
             bio: this.state.bio,
+            searchDistance: 15,
             location: {
                 coordinates: [
                     this.state.longitude,
