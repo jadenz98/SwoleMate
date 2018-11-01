@@ -11,6 +11,7 @@ import RegisterScreen from './Screens/RegisterScreen';
 import Profile from './Screens/Profile';
 import EditProfile from './Screens/EditProfile';
 import Matches from './Screens/Matches';
+import Messages from './Screens/Messsages';
 import PickPhoto from './Screens/PickPhoto';
 import FAQ from './Screens/FAQ';
 import DrawerScreen from './Screens/DrawerScreen';
@@ -80,6 +81,9 @@ const matchesStack = createStackNavigator(
     {
         Matches: {
             screen: Matches
+        },
+        Messages: {
+            screen: Messages,
         }
     }
 );

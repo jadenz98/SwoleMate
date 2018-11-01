@@ -340,7 +340,7 @@ describe('SwoleMate API endpoint testing', () => {
     /*
         Frontend testing??
     */
-    it('Should be able to logout after being logged in', (done) => {
+    it('Users Swipe!', (done) => {
         chai.request(server)
             .post('/user/matches')
             .send({email1: s1.email, email2: s2.email, swipe:"true"})
@@ -447,7 +447,7 @@ describe('SwoleMate API endpoint testing', () => {
             .set("email", "s@s1")
             // .send()
             .end((err, res) => {
-                // console.log(res);
+                console.log(res.body);
                 // res.should.have.status(200);
                 // res.body.should.be.an('object');
                 // res.body.success.should.be.true;

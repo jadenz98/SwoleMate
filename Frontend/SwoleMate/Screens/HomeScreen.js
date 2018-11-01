@@ -12,10 +12,9 @@ export default class HomeScreen extends React.Component{
         const name = navigation.getParam('username');
         this.state = {
             user: null,
-            picture: null
+            picture: null,
+            potentialMatches: []
         };
-
-        console.log(props.navigation.dangerouslyGetParent().getParam('email') + " HOME");
 
         Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
             this.setState({
@@ -23,6 +22,12 @@ export default class HomeScreen extends React.Component{
                 picture: res.photoData,
             });
             //console.log("\n\n\n\n\n" + res.photoData);
+        });
+        Connector.get('/user/nearbyUsers', {email: props.navigation.getParam('email')}, (res)=>{
+            this.setState({
+                potentialMatches: res,
+            });
+            //console.log(res);
         });
     }
 
@@ -39,29 +44,55 @@ export default class HomeScreen extends React.Component{
     });
 
     render(){
-        const encodedData=this.state.picture;
-        const img = (
-            <Image style={{width: 300, height: 400}}
-                 source={{uri: `data:image/gif;base64,${encodedData}`}}
-            />
-        );
-        //console.log("\n\n\n\n\n" + encodedData);
+        let potentialMatchInfo = this.state.potentialMatches;
+        if(potentialMatchInfo==null){
+            return null;
+        }
+        for(let i=0; i < potentialMatchInfo.length; i++){
+            if(potentialMatchInfo[i].photoData === undefined){
+                //console.log("\n\n\n\n\n\n\n\nIMAGE UNDEFINED\n\n\n\n\n\n\n\n")
+                potentialMatchInfo[i].img=(
+                    <Image style={{width: 300, height: 400}}
+                        source={require('./images/generic-profile-picture.png')}
+                    />
+                );
+            }
+            else{
+                const encodedData=potentialMatchInfo[i].photoData;
+                potentialMatchInfo[i].img=(
+                    <Image style={{width: 300, height: 400}}
+                     source={{uri: `data:image/jpeg;base64,${encodedData}`}}
+                    />
+                );
+            }
+        }
 
         return(
           <View>
             <Swiper
-                cards={[{word:'Hello', otherWord:'World', img: img},{word:'Goodbye', otherWord:'World', img: img}]}
-
+                cards={potentialMatchInfo}
                 //stackSize={2}
                 renderCard={(card) => {
                     return (
                         <View style={styles.card}>
-                            {img}
-                            <Text> {card.word}{card.otherWord} </Text>
+                            {card.img}
+                            <Text> {card.email} </Text>
                         </View>
                     )
                 }}
                 onSwiped={(cardIndex) => {console.log(cardIndex)}}
+                onSwipedRight={(cardIndex) => {
+                    console.log("EMAIL 1: " + this.props.navigation.getParam('email') + "\nEMAIL 2: " + this.state.potentialMatches[cardIndex].email);
+                    Connector.post('/user/matches',{"email1": this.props.navigation.getParam('email'), "email2": this.state.potentialMatches[cardIndex].email, "swipe": "true" },undefined,(res) => {
+                        console.log("Match Status: " + res.success);
+                    });
+                }}
+                onSwipedLeft={(cardIndex) => {
+                    console.log("EMAIL 1: " + this.props.navigation.getParam('email') + "\nEMAIL 2: " + this.state.potentialMatches[cardIndex].email);
+                    Connector.post('/user/matches',{"email1": this.props.navigation.getParam('email'), "email2": this.state.potentialMatches[cardIndex].email, "swipe": "false" },undefined,(res) => {
+                        console.log("Match Status: " + res.success);
+                    });
+                }}
                 onSwipedAll={() => {console.log('No More Potential Matches')}}
                 cardIndex={0}
                 backgroundColor={'#45a1e8'}
@@ -75,6 +106,10 @@ export default class HomeScreen extends React.Component{
     }
 
     goToMatches = () => {
+        var userinfo={
+            email: props.navigation.getParam('email'),
+        };
+        console.log("Going to matches: " + userinfo.email);
       this.props.navigation.navigate('Matches');
 
     };
