@@ -55,7 +55,7 @@ export default class RegisterScreen extends React.Component{
 
         return(
           <ScrollView contentContainerStyle={{flexGrow: 1}}
-                      scrollEnabled={false}
+                      scrollEnabled={true}
                       keyboardShouldPersistTaps='handled'>
             <KeyboardAvoidingView style={{flex:1, alignItems: 'center', justifyContent: 'center'}}
                                   behavior="padding" enabled>

@@ -30,11 +30,11 @@ export default class Messages extends React.Component{
  static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('email2'),
     headerRight: (
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress = {()=>{
             Connector.post('/user/unmatch',{email1: navigation.getParam('email'),email2: navigation.getParam('email2')},{email: navigation.getParam('email')},(res)=>{
               console.log(res);
-            });            
+            });
           }}>
 
             <Text>
@@ -112,7 +112,7 @@ componentWillUnmount() {
     Connector.post('/user/conversation', {sender: this.state.email, re: this.state.reEmail, msg: messages[0].text}, {email: this.state.email}, (res) => {
       //console.log(res);
     });
-    this.storeMessages(messages);
+    //this.storeMessages(messages);
   }
 
     render(){
