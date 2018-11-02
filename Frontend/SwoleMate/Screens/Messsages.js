@@ -5,8 +5,11 @@ import { Text, View, AsyncStorage, TextInput, TouchableOpacity, Picker, Modal, T
 //import SocketIOClient from 'socket.io-client';
 import SelectMultiple from 'react-native-select-multiple';
 import { GiftedChat } from 'react-native-gifted-chat';
-
+import { DrawerActions, StackActions } from 'react-navigation';
 import Connector from '../Utils/Connector';
+
+
+
 
 export default class Messages extends React.Component{
 
@@ -18,20 +21,22 @@ export default class Messages extends React.Component{
     };
   }
 
- /* static navigationOptions = ({ navigation }) => ({
+ static navigationOptions = ({ navigation }) => ({
     title: 'SwoleMate',
     headerRight: (
-        <TouchableOpacity onPress = {this.unmatch(navigation.dangerouslyGetParent().getParams('email'),navigation.dangerouslyGetParent().getParams('email2'))}>
+        <TouchableOpacity 
+          onPress = {()=>{
+            Connector.post('/user/unmatch',{email1: navigation.getParam('email'),email2: navigation.getParam('email2')},{email: navigation.getParam('email')},(res)=>{
+              console.log(res);
+            });            
+          }}>
             <Text>
               Unmatch
             </Text>
         </TouchableOpacity>
     )
-});*/
+  });
 
-unmatch = (email1,email2) => {
-
-}
 
   componentWillMount() {
     Connector.get('/user/conversation', {email1: 'a@a.com', email2: 'c@c.com'}, (conversation) => {

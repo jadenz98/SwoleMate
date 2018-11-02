@@ -17,8 +17,8 @@ router.post('/', function(req, res, next) {
 
     const userQuery2 =
     {
-      email2: req.body.email2,
-      email1: req.body.email1
+      email1: req.body.email2,
+      email2: req.body.email1
     };
     Mongo.delete("Conversations", userQuery2, () => {
       //res.json(resp);
@@ -31,14 +31,16 @@ router.post('/', function(req, res, next) {
           const newValues = {
             $set: matches
           };
-          const resp = {
-              success: true
-          };
-          Mongo.update("Matches", {email: req.body.email1}, newValues, () => {
-            res.json(resp);
+        
+          Mongo.update("Matches", {email: req.body.email1}, newValues, (success) => {
+            //res.json(resp);
           });
         }
       }
+      const resp = {
+        success: true
+      };
+      res.json(resp);
     });
 });
 
