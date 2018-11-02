@@ -60,6 +60,7 @@
 		F5CD395EA1454ACDA681D39D /* libRangeSlider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 562A74096376450FB1CFD35E /* libRangeSlider.a */; };
 		4E4C1A26E23B440B9F122C82 /* libRCTImageResizer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27523E4BBCF24E81AF17AAAE /* libRCTImageResizer.a */; };
 		69D163FA75D9408B9BE5B25F /* libRNAssetResizeToBase64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 639F9CB831DE4B83AD675930 /* libRNAssetResizeToBase64.a */; };
+		3007122E37FD4B3A9EA2D425 /* libEXFont.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4AB353DE874BD5A79C2293 /* libEXFont.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -401,6 +402,8 @@
 		27523E4BBCF24E81AF17AAAE /* libRCTImageResizer.a */ = {isa = PBXFileReference; name = "libRCTImageResizer.a"; path = "libRCTImageResizer.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		521CBB93AEEA40F78D82AFBA /* RNAssetResizeToBase64.xcodeproj */ = {isa = PBXFileReference; name = "RNAssetResizeToBase64.xcodeproj"; path = "../node_modules/react-native-asset-resize-to-base64/ios/RNAssetResizeToBase64.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		639F9CB831DE4B83AD675930 /* libRNAssetResizeToBase64.a */ = {isa = PBXFileReference; name = "libRNAssetResizeToBase64.a"; path = "libRNAssetResizeToBase64.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		60EF0150CFD44FE9B4A30D2A /* EXFont.xcodeproj */ = {isa = PBXFileReference; name = "EXFont.xcodeproj"; path = "../node_modules/expo-font/ios/EXFont.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		6E4AB353DE874BD5A79C2293 /* libEXFont.a */ = {isa = PBXFileReference; name = "libEXFont.a"; path = "libEXFont.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -436,6 +439,7 @@
 				F5CD395EA1454ACDA681D39D /* libRangeSlider.a in Frameworks */,
 				4E4C1A26E23B440B9F122C82 /* libRCTImageResizer.a in Frameworks */,
 				69D163FA75D9408B9BE5B25F /* libRNAssetResizeToBase64.a in Frameworks */,
+				3007122E37FD4B3A9EA2D425 /* libEXFont.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,6 +656,7 @@
 				296BE21FA7394D8ABBB3EC07 /* RangeSlider.xcodeproj */,
 				C558873C845F4F81BFA49522 /* RCTImageResizer.xcodeproj */,
 				521CBB93AEEA40F78D82AFBA /* RNAssetResizeToBase64.xcodeproj */,
+				60EF0150CFD44FE9B4A30D2A /* EXFont.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1310,12 +1315,14 @@
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
 					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
+					"$(SRCROOT)\..\node_modules\expo-font\ios\EXFont",
 				);
 				INFOPLIST_FILE = SwoleMateTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1346,12 +1353,14 @@
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
 					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
+					"$(SRCROOT)\..\node_modules\expo-font\ios\EXFont",
 				);
 				INFOPLIST_FILE = SwoleMateTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1383,6 +1392,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
 					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
+					"$(SRCROOT)\..\node_modules\expo-font\ios\EXFont",
 				);
 				INFOPLIST_FILE = SwoleMate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1409,6 +1419,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
 					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
+					"$(SRCROOT)\..\node_modules\expo-font\ios\EXFont",
 				);
 				INFOPLIST_FILE = SwoleMate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1442,11 +1453,13 @@
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
 					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
+					"$(SRCROOT)\..\node_modules\expo-font\ios\EXFont",
 				);
 				INFOPLIST_FILE = "SwoleMate-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1487,11 +1500,13 @@
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
 					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
+					"$(SRCROOT)\..\node_modules\expo-font\ios\EXFont",
 				);
 				INFOPLIST_FILE = "SwoleMate-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1531,11 +1546,13 @@
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
 					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
+					"$(SRCROOT)\..\node_modules\expo-font\ios\EXFont",
 				);
 				INFOPLIST_FILE = "SwoleMate-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1575,11 +1592,13 @@
 					"$(SRCROOT)\..\node_modules\react-native-range-slider\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-resizer\ios\RCTImageResizer",
 					"$(SRCROOT)\..\node_modules\react-native-asset-resize-to-base64\ios\RNAssetResizeToBase64/**",
+					"$(SRCROOT)\..\node_modules\expo-font\ios\EXFont",
 				);
 				INFOPLIST_FILE = "SwoleMate-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
