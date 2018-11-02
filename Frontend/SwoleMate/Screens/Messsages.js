@@ -15,7 +15,8 @@ export default class Messages extends React.Component{
     this.state = {
       messages: [],
       email: this.props.navigation.dangerouslyGetParent().getParam('email'),
-      reEmail: this.props.navigation.getParam('email2') //email of person receiving the messages
+      reEmail: this.props.navigation.getParam('email2'), //email of person receiving the messages
+      latestID: -1,
     };
     console.log('email: ' + this.state.email);
     console.log('remail: ' + this.state.reEmail);
@@ -38,7 +39,37 @@ unmatch = (email1,email2) => {
 
 }
 
-  componentWillMount() {
+componentWillMount() {
+  this._interval = setInterval(() => {
+    Connector.get('/user/conversation', {email1: this.state.email, email2: this.state.reEmail}, (conversation) => {
+      console.log(conversation);
+      for(var i = 0; i < conversation.length; i++){
+        if(conversation[i]._id > this.state.latestID){
+          var msg =
+            {
+              _id: conversation[i]._id,
+              text: conversation[i].msg,
+              user:{
+                _id: conversation[i].email,
+              }
+            }
+          this.setState((previousState) => {
+            return{
+              messages: GiftedChat.append(previousState.messages, msg),
+            };
+          });
+          this.setState({ latestID: conversation[i]._id});
+        }
+      }
+    });
+  }, 1000);
+}
+
+componentWillUnmount() {
+  clearInterval(this._interval);
+}
+
+  /*componentWillMount() {
     Connector.get('/user/conversation', {email1: this.state.email, email2: this.state.reEmail}, (conversation) => {
       console.log(conversation);
       for(var i = 0; i < conversation.length; i++){
@@ -58,7 +89,7 @@ unmatch = (email1,email2) => {
       }
     });
 
-  }
+  }*/
 
   /*getConversation = () => {
     Connector.get('/user/conversation', {email1: 'a@a.com', email2: 's@s1'}, (conversation) => {
