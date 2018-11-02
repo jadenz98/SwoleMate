@@ -73,7 +73,7 @@ export default class HomeScreen extends React.Component{
         }
 
         return(
-          <View>
+          <View style={{flex:1}}>
             <Swiper
                 cards={potentialMatchInfo}
                 //stackSize={2}
@@ -90,6 +90,9 @@ export default class HomeScreen extends React.Component{
                     console.log("EMAIL 1: " + this.props.navigation.getParam('email') + "\nEMAIL 2: " + this.state.potentialMatches[cardIndex].email);
                     Connector.post('/user/matches',{"email1": this.props.navigation.getParam('email'), "email2": this.state.potentialMatches[cardIndex].email, "swipe": "true" },undefined,(res) => {
                         console.log("Match Status: " + res.success);
+                        if(res.success){
+                          alert('You have a match')
+                        }
                     });
                 }}
                 onSwipedLeft={(cardIndex) => {
@@ -103,7 +106,7 @@ export default class HomeScreen extends React.Component{
                 backgroundColor={'#45a1e8'}
                 cardVerticalMargin={20}
                 marginTop={0}
-                marginBottom={120}
+                marginBottom={0}
                 >
             </Swiper>
         </View>
