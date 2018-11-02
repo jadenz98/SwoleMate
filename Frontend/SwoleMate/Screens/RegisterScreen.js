@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, View, TextInput, TouchableOpacity, Picker, ScrollView, KeyboardAvoidingView } from 'react-native';
 import Connector from '../Utils/Connector'
 
+import Loader from './Components/Loader';
+
 //import stylesheet
 import styles from './Styles/LoginScreenStyles';
 import {NavigationActions} from "react-navigation";
@@ -48,25 +50,17 @@ export default class RegisterScreen extends React.Component{
 
     render(){
         if (this.state.latitude == null || this.state.longitude == null)
-            return null;
+            return <Loader/>;
 
         return(
           <ScrollView contentContainerStyle={{flexGrow: 1}}
+                      scrollEnabled={false}
                       keyboardShouldPersistTaps='handled'>
             <KeyboardAvoidingView style={{flex:1, alignItems: 'center', justifyContent: 'center'}}
-                                  behavior="padding">
+                                  behavior="padding" enabled>
               <Text>
                 Register new Swolemate account here
               </Text>
-
-              <TextInput
-                /*placeholder='Username'
-                style={styles.textbox}
-                onChangeText={ (newUsername) => this.setState({newUsername})}
-                autoCapitalize='none'
-                autoCorrect={false}
-                textContentType='username'*/
-              />
 
               <TextInput
                 ref={input => {this.emailInput = input }}
@@ -158,6 +152,7 @@ export default class RegisterScreen extends React.Component{
                   Register Account
                 </Text>
               </TouchableOpacity>
+              <View style={{ height: 300 }} />
             </KeyboardAvoidingView>
           </ScrollView>
         );
