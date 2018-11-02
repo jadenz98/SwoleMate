@@ -246,7 +246,7 @@ export default class Mongo {
                    swiped = false;
                  }
 
-                 var filteredList = []
+                 var filteredList = [];
                  if(user.interests.length != 0) {
                    for(var i = 0; i < user.interests.length; i++) {
                      for(var j = 0; j < userList.length; j++) {
@@ -260,10 +260,16 @@ export default class Mongo {
                  for(var i = 0; i < userList.length; i++) {
                    filteredList.push(userList[i]);
                  }
+
+                 for (let i = 0; i < filteredList.length; i++) {
+                     if (filteredList[i].email === user.email) {
+                         filteredList.splice(i, 1);
+                     }
+                 }
+
                  if(filteredList.length == 0) {
                    callback(filteredList);
-                 }
-                 else {
+                 } else {
                    filteredList = filteredList.slice(0, 10);
                    callback(filteredList);
                  }
