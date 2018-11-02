@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from "./Styles/LoginScreenStyles";
+import globalStyles from './Styles/Global';
 
 import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, Slider, Switch, ScrollView } from 'react-native';
 import SelectMultiple from 'react-native-select-multiple';
@@ -8,11 +9,7 @@ import Loader from './Components/Loader';
 
 import Connector from '../Utils/Connector';
 
-//testing 123
-
 export default class EditProfile extends React.Component {
-    interests = ['Biking', 'Running', 'Swimming'];
-
     constructor(props) {
         super(props);
 
@@ -25,7 +22,15 @@ export default class EditProfile extends React.Component {
             isHidden: false,
         };
 
-        Connector.get('/user', {email: props.navigation.dangerouslyGetParent().getParam('email')}, (res) => {
+        this.interests = [
+            'Swimming',
+            'Running',
+            'Lifting',
+            'Hiking'
+        ];
+
+        const email = props.navigation.dangerouslyGetParent().getParam('email');
+        Connector.get('/user', {email: email}, (res) => {
             this.setState({user: res});
             console.log(res);
         });
@@ -38,10 +43,6 @@ export default class EditProfile extends React.Component {
     static navigationOptions = {
         title: 'Edit Your Profile',
     };
-
-    getSelectedImages(image){
-
-    }
 
     onSelectionsChange = (selectedInterests) => {
         let newUser = this.state.user;
@@ -57,12 +58,7 @@ export default class EditProfile extends React.Component {
             user: newUser,
             selectedInterests: selectedInterests
         });
-        console.log(newUser.interests);
     };
-
-    setCameraRollVisibility(visible){
-        this.setState({cameraRollVisible: visible});
-    }
 
     setModalVisibility(visible) {
         this.setState({modalVisible: visible});
@@ -87,7 +83,7 @@ export default class EditProfile extends React.Component {
 
         return (
           <ScrollView>
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 20}}>
                 <TextInput
                     value={this.state.user.name}
                     placeholder='Name'
@@ -96,6 +92,8 @@ export default class EditProfile extends React.Component {
                     autoCapitalize='none'
                     autoCorrect={false}
                 />
+
+                <View style={globalStyles.spacerSmall}/>
 
                 <TextInput
                     value={this.state.user.email}
@@ -106,6 +104,8 @@ export default class EditProfile extends React.Component {
                     autoCorrect={false}
                 />
 
+                <View style={globalStyles.spacerSmall}/>
+
                 <TextInput
                     value={this.state.user.birthday}
                     placeholder='Birthday (mm/dd/yyyy)'
@@ -114,6 +114,8 @@ export default class EditProfile extends React.Component {
                     keyboardType='decimal-pad'
                     maxLength={10}
                 />
+
+                <View style={globalStyles.spacerSmall}/>
 
                 <TextInput
                     value={this.state.user.phone}
@@ -140,38 +142,65 @@ export default class EditProfile extends React.Component {
                     multiline={true}
                 />
 
+                <View style={globalStyles.spacer}/>
+
                 <Modal
                     transparent={false}
-                    visible={this.state.modalVisible}>
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {}}
+                >
                     <View style={{marginTop: 22}}>
                         <SelectMultiple
                             items={this.interests}
                             selectedItems={this.state.selectedInterests}
                             onSelectionsChange={this.onSelectionsChange}
                         />
-                        <TouchableHighlight
+                        <TouchableOpacity
+                            style={globalStyles.btn}
                             onPress={() => {
                                 this.setModalVisibility(!this.state.modalVisible);
-                            }}>
-                            <Text>Hide Interests</Text>
-                        </TouchableHighlight>
+                            }}
+                        >
+                            <Text style={globalStyles.btnTextBlack}>
+                                Close
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                 </Modal>
 
                 <TouchableHighlight
                     onPress={() => {
                         this.setModalVisibility(true);
-                    }}>
-                    <Text>Show Interests</Text>
+                    }}
+                    style={globalStyles.btnSecondary}
+                >
+                    <Text style={globalStyles.btnText}>Edit Interests</Text>
                 </TouchableHighlight>
 
-                <TouchableOpacity style={styles.button} onPress={()=> { this.props.navigation.navigate('PickPhoto',{email: this.props.navigation.getParam('email')})}}>
-                    <Text>
+                <TouchableOpacity
+                    style={globalStyles.btnSecondary}
+                    onPress={()=> { this.props.navigation.navigate('PickPhoto',{email: this.props.navigation.getParam('email')})}}
+                >
+                    <Text style={globalStyles.btnText}>
                         Add Profile Picture
                     </Text>
                 </TouchableOpacity>
 
-                <Text>
+                <View style={globalStyles.spacer}/>
+
+                <Text style={globalStyles.header}>
+                    Go ghost
+                </Text>
+                <View style={globalStyles.btn}>
+                    <Switch
+                        value={this.state.user.isGhost}
+                        onValueChange={(switchState) => this.setState({user: {...this.state.user, isGhost: switchState}})}
+                    />
+                </View>
+
+                <View style={globalStyles.spacer}/>
+
+                <Text style={globalStyles.header}>
                   Set search distance
                 </Text>
 
@@ -187,24 +216,17 @@ export default class EditProfile extends React.Component {
                   />
                 </View>
 
-                <View style={styles.container}>
-                  <Text>
-                    Go ghost
-                  </Text>
-                  <Switch
-                    value={this.state.user.isHidden}
-                    onValueChange={(switchState) => this.setState({user: {...this.state.user, isHidden: switchState}})}
-                  />
-                </View>
+                <View style={globalStyles.spacer}/>
+                <View style={globalStyles.spacer}/>
 
-                <TouchableOpacity style={styles.button} onPress={this.save}>
-                    <Text>
+                <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.save}>
+                    <Text style={globalStyles.btnText}>
                         Save
                     </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button} onPress={this.cancel}>
-                    <Text>
+                <TouchableOpacity style={globalStyles.btn} onPress={this.cancel}>
+                    <Text style={globalStyles.btnTextBlack}>
                         Cancel
                     </Text>
                 </TouchableOpacity>
