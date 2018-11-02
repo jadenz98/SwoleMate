@@ -239,14 +239,14 @@ export default class Mongo {
                        swiped = true;
                      }
                    }
-                   if(!swiped) {
+                   if(!swiped && !result[i].isGhost) {
                      userList.push(result[i]);
                    }
                    swiped = false;
                  }
 
+                 var filteredList = []
                  if(user.interests.length != 0) {
-                   var filteredList = []
                    for(var i = 0; i < user.interests.length; i++) {
                      for(var j = 0; j < userList.length; j++) {
                        if(userList[j].interests.includes(user.interests[i])) {
@@ -265,7 +265,7 @@ export default class Mongo {
                  else {
                    filteredList = filteredList.slice(0, 10);
                    callback(filteredList);
-                 }           
+                 }
                });
              });
            });

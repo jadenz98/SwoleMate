@@ -4,13 +4,12 @@ import {Font, AppLoading } from 'expo';
 import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList, Image } from 'react-native';
 import { List, ListItem } from 'react-native-elements'
 
+import Loader from './Components/Loader';
 import Connector from '../Utils/Connector';
-
 
 import MaterialIcons from '../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
 import globalStyles from "./Styles/Global";
 import {DrawerActions} from "react-navigation";
-import Loader from "./Components/Loader";
 
 export default class Matches extends React.Component{
 
@@ -36,6 +35,7 @@ export default class Matches extends React.Component{
             });
         });
     }
+    
 
     async componentDidMount(){
         await Font.loadAsync({
@@ -73,10 +73,17 @@ export default class Matches extends React.Component{
         }
         for(i=0;i<matches.length;i++){
             matches[i].key=matches[i].email;
-            console.log(matches[i]);
+            //console.log(matches[i]);
+            if(matches[i].photoData === undefined){
+                matches[i].imgSrc = require('./images/generic-profile-picture.png');
+            }
+            else{
+                const encodedData=matches[i].photoData;
+                matches[i].imgSrc = {uri: `data:image/jpeg;base64,${encodedData}`};
+            }
         }
         const { fontsAreLoaded } = this.state.fontsAreLoaded;
-        const encodedData=this.state.picture;
+        //const encodedData=this.state.picture;
         return( 
             <View>
                 <List>
@@ -92,8 +99,8 @@ export default class Matches extends React.Component{
                             // remove or comment the TouchableOpacity code above and uncomment code below
                            this.state.fontsAreLoaded ? (
                            <ListItem
-                                //roundAvatar
-                                //avatar = {{uri: `data:image/gif;base64,${encodedData}`}}
+                                roundAvatar
+                                avatar = {item.imgSrc}
                                 onPress={()=> {
                                     var userinfo={
                                         email: this.props.navigation.dangerouslyGetParent().getParam('email'),
@@ -102,7 +109,7 @@ export default class Matches extends React.Component{
                                     this.props.navigation.dangerouslyGetParent().navigate('Messages', userinfo);
                                     }
                                 }
-                                title={item.key}>
+                                title={item.name}>
                             </ListItem>
                             ) : null
                         }
