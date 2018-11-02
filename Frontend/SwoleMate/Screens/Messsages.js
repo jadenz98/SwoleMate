@@ -14,17 +14,22 @@ export default class Messages extends React.Component{
     super(props);
     this.state = {
       messages: [],
-      email: 'a@a.com'
+      email: this.props.navigation.dangerouslyGetParent().getParam('email'),
+      reEmail: this.props.navigation.dangerouslyGetParent().getParam('email2') //email of person receiving the messages
     };
+    console.log('email: ' + this.state.email);
+    console.log('remail: ' + this.state.reEmail);
+    const {setParams} = this.props.navigation;
+    setParams({ title: this.state.reEmail })
   }
 
   componentWillMount() {
-    Connector.get('/user/conversation', {email1: 'a@a.com', email2: 'c@c.com'}, (conversation) => {
+    Connector.get('/user/conversation', {email1: this.state.email, email2: this.state.reEmail}, (conversation) => {
       console.log(conversation);
       for(var i = 0; i < conversation.length; i++){
         var msg =
           {
-            _id: i,
+            _id: conversation[i].id,
             text: conversation[i].msg,
             user:{
               _id: conversation[i].email,
@@ -52,6 +57,9 @@ export default class Messages extends React.Component{
 
   onSend = (messages=[]) => {
     console.log(messages);
+    Connector.post('/user/conversation', {sender: this.state.email, re: this.state.reEmail, msg: messages[0].text}, {email: this.state.email}, (res) => {
+      //console.log(res);
+    });
     this.storeMessages(messages);
   }
 
@@ -62,6 +70,7 @@ export default class Messages extends React.Component{
           messages={this.state.messages}
           onSend={this.onSend}
           user={user}
+          placeholder='Type a message...'
         />
       );
     }
