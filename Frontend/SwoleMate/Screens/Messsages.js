@@ -18,6 +18,21 @@ export default class Messages extends React.Component{
     };
   }
 
+ /* static navigationOptions = ({ navigation }) => ({
+    title: 'SwoleMate',
+    headerRight: (
+        <TouchableOpacity onPress = {this.unmatch(navigation.dangerouslyGetParent().getParams('email'),navigation.dangerouslyGetParent().getParams('email2'))}>
+            <Text>
+              Unmatch
+            </Text>
+        </TouchableOpacity>
+    )
+});*/
+
+unmatch = (email1,email2) => {
+
+}
+
   componentWillMount() {
     Connector.get('/user/conversation', {email1: 'a@a.com', email2: 'c@c.com'}, (conversation) => {
       console.log(conversation);

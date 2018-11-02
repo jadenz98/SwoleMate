@@ -3,7 +3,7 @@ import styles from "./Styles/LoginScreenStyles";
 
 import {Font, AppLoading } from 'expo';
 //import {MaterialIcons} from '@expo/vector-icons';
-import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList, Image } from 'react-native';
+import { Platform, Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList, Image } from 'react-native';
 import { List, ListItem } from 'react-native-elements'
 
 import SelectMultiple from 'react-native-select-multiple';
@@ -43,12 +43,22 @@ export default class Matches extends React.Component{
     
 
     async componentDidMount(){
+        if(Platform.OS === 'ios'){
         await Font.loadAsync({
-            MaterialIcons
+            'Material Icons': require('../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf')
         });
         this.setState({
             fontsAreLoaded: true
         });
+        }
+        else{
+            await Font.loadAsync({
+                MaterialIcons
+            });
+            this.setState({
+                fontsAreLoaded: true
+            }); 
+        }
         //console.log("\n\n\n\n\n\n\n\n\n\n\nFonts Loaded");
     }
 
@@ -106,12 +116,14 @@ export default class Matches extends React.Component{
                            <ListItem
                                 roundAvatar
                                 avatar = {item.imgSrc}
+                                
                                 onPress={()=> {
-                                    var userinfo={
-                                        email: this.props.navigation.dangerouslyGetParent().getParam('email'),
-                                        email2: item.email2,
-                                    };
-                                    this.props.navigation.dangerouslyGetParent().navigate('Messages', userinfo);
+                                        var userinfo={
+                                            email: this.props.navigation.dangerouslyGetParent().getParam('email'),
+                                            email2: item.email, 
+                                        };
+                                        console.log(userinfo.email + "\n" + userinfo.email2);
+                                        this.props.navigation.dangerouslyGetParent().navigate('Messages', userinfo);
                                     }
                                 }
                                 title={item.name}>
@@ -123,4 +135,5 @@ export default class Matches extends React.Component{
             </View>
         );
     }
+    
 }
