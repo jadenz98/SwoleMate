@@ -260,33 +260,28 @@ export default class Mongo {
      *
      */
     static getMatches (email, callback) {
-        this.find("Conversations", {email1: email}, undefined, (matches1) => {
+        const query = [];
+        this.findReal("Conversations", {email1: email}, undefined, (matches1) => {
             // console.log(email);
             // console.log(matches1.length);
             var matchList = [];
-            if(matches1.length === undefined){
-                matchList.push(matches1.email2);
-            }
-            // const likes = matches1.likes;
-
+            var test;
+            
             for (var i = 0; i < matches1.length; i++) {
-                // console.log(matches1[i].email2);
-                matchList.push(matches1[i].email2);
+                // console.log("FF");
+                query.push({email: matches1[i].email2});
+
             }
-            // console.log(matchList);
-            // matchList.push(matches1);
-            this.find("Conversations", {email2: email}, undefined, (matches2) => {
-                // matchList.push(ma tches2);
-                if(matches2.length === undefined){
-                    console.log("UNDEF2");
-                    matchList.push(matches2.email1);
-                }
-                // console.log(matches2.length);
+            this.findReal("Conversations", {email2: email}, undefined, (matches2) => {
+                // console.log(matches2);
                 for (var i = 0; i < matches2.length; i++) {
-                    matchList.push(matches2[i].email1);
+                    // console.log("FF");
+                    query.push({email: matches2[i].email1});
                 }
-                // console.log(matchList);
-                callback(matchList);
+                // console.log(query);
+                this.find("Users", {$or: query}, undefined, (u) => {
+                    callback(u)
+                });
             });
         });
     }
