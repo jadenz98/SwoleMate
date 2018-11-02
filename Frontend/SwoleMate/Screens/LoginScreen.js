@@ -5,7 +5,7 @@ import { NavigationActions } from 'react-navigation';
 
 import Loader from './Components/Loader';
 
-//imports stylesheet for the LoginScreen
+import globalStyles from './Styles/Global';
 import styles from './Styles/LoginScreenStyles';
 
 export default class LoginScreen extends React.Component {
@@ -68,6 +68,8 @@ export default class LoginScreen extends React.Component {
                     textContentType='emailAddress'
                 />
 
+                <View style={globalStyles.spacerSmall}/>
+
                 <TextInput
                     ref={input => { this.passwordInput = input }}
                     placeholder='Password'
@@ -83,15 +85,18 @@ export default class LoginScreen extends React.Component {
                 {/*TouchableOpacity will be used as a button because it is more customizable and can funtion the same.
                 This is the login button
                 onPress tells the button what do do when pressed (here it calls the login function defined below)*/}
-                <TouchableOpacity style={styles.button} onPress={this.login}>
-                    <Text>
+
+                <View style={globalStyles.spacer}/>
+
+                <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.login}>
+                    <Text style={globalStyles.btnText}>
                         Login
                     </Text>
                 </TouchableOpacity>
 
                 {/*This is the Register button*/}
-                <TouchableOpacity style={styles.button} onPress={this.register}>
-                    <Text>
+                <TouchableOpacity style={globalStyles.btn} onPress={this.register}>
+                    <Text style={globalStyles.btnTextBlack}>
                         Register
                     </Text>
                 </TouchableOpacity>

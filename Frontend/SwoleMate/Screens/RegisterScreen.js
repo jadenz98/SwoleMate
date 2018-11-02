@@ -4,7 +4,7 @@ import Connector from '../Utils/Connector'
 
 import Loader from './Components/Loader';
 
-//import stylesheet
+import globalStyles from './Styles/Global';
 import styles from './Styles/LoginScreenStyles';
 import {NavigationActions} from "react-navigation";
 
@@ -59,9 +59,14 @@ export default class RegisterScreen extends React.Component{
                       keyboardShouldPersistTaps='handled'>
             <KeyboardAvoidingView style={{flex:1, alignItems: 'center', justifyContent: 'center'}}
                                   behavior="padding" enabled>
-              <Text>
-                Register new Swolemate account here
+
+                <View style={globalStyles.spacer}/>
+
+              <Text style={globalStyles.header}>
+                Register a new Swolemate Account Here
               </Text>
+
+                <View style={globalStyles.spacer}/>
 
               <TextInput
                 ref={input => {this.emailInput = input }}
@@ -97,8 +102,10 @@ export default class RegisterScreen extends React.Component{
                 textContentType='password'
               />
 
-              <Text>
-                Create Profile
+                <View style={globalStyles.spacer}/>
+
+              <Text style={globalStyles.header}>
+                Create a Profile
               </Text>
 
               <TextInput
@@ -137,8 +144,10 @@ export default class RegisterScreen extends React.Component{
                 keyboardType='phone-pad'
               />
 
-              <Text>
-                Add a bio
+                <View style={globalStyles.spacer}/>
+
+              <Text style={globalStyles.header}>
+                Add a Bio
               </Text>
 
               <TextInput
@@ -148,11 +157,20 @@ export default class RegisterScreen extends React.Component{
                 multiline={true}
               />
 
-              <TouchableOpacity style={styles.button} onPress={this.registerAccount}>
-                <Text>
+                <View style={globalStyles.spacer}/>
+
+              <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.registerAccount}>
+                <Text style={globalStyles.btnText}>
                   Register Account
                 </Text>
               </TouchableOpacity>
+
+                <TouchableOpacity style={globalStyles.btn} onPress={() => {this.props.navigation.pop()}}>
+                    <Text style={globalStyles.btnTextBlack}>
+                        Cancel
+                    </Text>
+                </TouchableOpacity>
+
               <View style={{ height: 300 }} />
             </KeyboardAvoidingView>
           </ScrollView>
