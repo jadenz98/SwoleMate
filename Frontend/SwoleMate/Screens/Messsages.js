@@ -15,17 +15,17 @@ export default class Messages extends React.Component{
     this.state = {
       messages: [],
       email: this.props.navigation.dangerouslyGetParent().getParam('email'),
-      reEmail: this.props.navigation.dangerouslyGetParent().getParam('email2') //email of person receiving the messages
+      reEmail: this.props.navigation.getParam('email2') //email of person receiving the messages
     };
     console.log('email: ' + this.state.email);
     console.log('remail: ' + this.state.reEmail);
-    const {setParams} = this.props.navigation;
-    setParams({ title: this.state.reEmail })
+    this.props.navigation.setParams({ title: this.state.reEmail })
   }
 
- /* static navigationOptions = ({ navigation }) => ({
-    title: 'SwoleMate',
-    headerRight: (
+  static navigationOptions = ({ navigation }) => ({
+    title: typeof(navigation.state.params)==='undefined' || typeof(navigation.state.params.title) === 'undefined' ? 'find': navigation.state.params.title,
+  });
+    /*headerRight: (
         <TouchableOpacity onPress = {this.unmatch(navigation.dangerouslyGetParent().getParams('email'),navigation.dangerouslyGetParent().getParams('email2'))}>
             <Text>
               Unmatch
@@ -44,7 +44,7 @@ unmatch = (email1,email2) => {
       for(var i = 0; i < conversation.length; i++){
         var msg =
           {
-            _id: conversation[i].id,
+            _id: conversation[i]._id,
             text: conversation[i].msg,
             user:{
               _id: conversation[i].email,

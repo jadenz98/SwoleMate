@@ -35,7 +35,7 @@ export default class Matches extends React.Component{
             });
         });
     }
-    
+
 
     async componentDidMount(){
         if(Platform.OS === 'ios'){
@@ -52,7 +52,7 @@ export default class Matches extends React.Component{
             });
             this.setState({
                 fontsAreLoaded: true
-            }); 
+            });
         }
         //console.log("\n\n\n\n\n\n\n\n\n\n\nFonts Loaded");
     }
@@ -94,7 +94,7 @@ export default class Matches extends React.Component{
         }
         const { fontsAreLoaded } = this.state.fontsAreLoaded;
         //const encodedData=this.state.picture;
-        return( 
+        return(
             <View>
                 <List>
                     <FlatList
@@ -111,13 +111,13 @@ export default class Matches extends React.Component{
                            <ListItem
                                 roundAvatar
                                 avatar = {item.imgSrc}
-                                
+
                                 onPress={()=> {
                                         var userinfo={
                                             email: this.props.navigation.dangerouslyGetParent().getParam('email'),
-                                            email2: item.email, 
+                                            email2: item.email,
                                         };
-                                        console.log(userinfo.email + "\n" + userinfo.email2);
+                                        //console.log(userinfo.email + "\n" + userinfo.email2);
                                         this.props.navigation.dangerouslyGetParent().navigate('Messages', userinfo);
                                     }
                                 }
@@ -130,5 +130,5 @@ export default class Matches extends React.Component{
             </View>
         );
     }
-    
+
 }
