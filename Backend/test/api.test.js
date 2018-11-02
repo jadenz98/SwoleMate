@@ -8,40 +8,32 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 describe('SwoleMate API endpoint testing', () => {
-    /*
-    Creats a newUser with correct username and pass
-    */
-    newUser = {
-        name: 'mocha-test',
-        password: 'test',
-        email: 'test@test.com',
-        birthday: '01/01/01',
-        phone: '1234567890',
-        bio: 'test bio!'
-    };
-    /*
-    Creats a badUser with incorrect username and pass
-    */
-    badUser = {
-        name: 'mocha-test',
-        password: 'test1',
-        email: 'test@test.com1',
-        birthday: '01/01/01',
-        phone: '1234567890',
-        bio: 'test bio!'
-    };
+    let use = [];
     /*
     This is for testing purposes, deletes the user if he is already
     in the database, does not expect anything besides a 200 from the server 
     and a json object back. (does not check if true or false)
     */
 
+    it('DROP IT', (done) => {
+        // const x = use[0];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/deleteEverything')
+            .send()
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+                done();
+            });
+    });
+
     it('Create users!', (done) => {
-        let use = [];
+        
         // console.log(newUser)
         let lat = -39.54477844832991;
 
-        for (var i = 0; i < 30; i++) {
+        for (var i = 0; i < 41; i++) {
             lat += .00001;
             // console.log(lat);
             use[i] = {
@@ -62,12 +54,370 @@ describe('SwoleMate API endpoint testing', () => {
                 interests: ["swimming"],
                 isGhost: false
             };
-            // console.log(use);
+    //         // console.log(use);
  
         }
         
-        const x = use[0];
+        var x = use[0];
         console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+                // done();
+            });
+        x = use[1];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[2];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[3];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[4];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[5];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[6];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[7];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[8];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[9];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[10];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[11];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[12];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[13];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[14];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[15];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[16];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[17];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[18];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[19];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[20];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[21];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[22];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[23];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[24];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[25];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[26];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[27];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[28];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[29];
+        // console.log(x);
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[30];
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[31];
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+
+            });
+        x = use[32];
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+
+            });
+        x = use[33];
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+
+            });
+        x = use[34];
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+
+            });
+        x = use[35];
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+
+            });
+        x = use[36];
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+
+            });
+        x = use[37];
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+
+            });
+        x = use[38];
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+
+            });
+        x = use[39];
+        chai.request(server)
+            .post('/user/register')
+            .send(x)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+            });
+        x = use[40];
         chai.request(server)
             .post('/user/register')
             .send(x)
@@ -76,424 +426,586 @@ describe('SwoleMate API endpoint testing', () => {
                 res.body.success.should.be.true;
                 done();
             });
-        // console.log(use);
     });
 
-    it('Delete User for re-testing', (done) => {
+
+
+    it('As a user i wanna delete my account', (done) => {
+        let x = use[40].email;
+        // console.log(use[40].email);
+        // console.log("EWAFAEWFEAW");
         chai.request(server)
             .post('/user/delete')
-            .send(newUser)
+            .send({email: x})
             .end((err, res) => {
-                res.body.should.be.an('object');
-                // res.body.success.should.be.true;
-                done();
-            });
-
-    });
-    /*
-    This test sends a get request to the server
-    */
-    it('Should handle a get request', (done) => {
-        chai.request(server)
-            .get('/hello')
-            .end((err, res) => {
-                res.should.have.status(200);
-                res.body.should.be.an('object');
-                res.body.should.deep.equal({
-                    message: "hello world!",
-                    arbitraryData: "123456",
-                    whatever: "blah"
-                });
+                res.body.success.should.be.true;
                 done();
             });
     });
-    /*
-    This test creates a user and then deletes the user.
-    */
-    it('Should be able to delete a user', (done) => {
-        const newUser = {
-            name: 'mocha-test',
-            password: 'test',
-            email: 'test@test.com',
-            birthday: '01/01/01',
-            phone: '1234567890',
-            bio: 'test bio!'
-        };
 
-        // Create a new test user to delete
+    it('Should be able to recreate a delete Users', (done) => {
         chai.request(server)
             .post('/user/register')
-            .send(newUser)
+            .send(use[40])
             .end((err, res) => {
-                res.should.have.status(200);
                 res.body.success.should.be.true;
-                // done();
-                // Delete the user
-                chai.request(server)
-                    .post('/user/delete')
-                    .send({email: newUser.email})
-                    .end((err, res) => {
-                        res.body.should.be.an('object');
-                        res.body.success.should.be.true;
-
-                        done();
-                    });
+                done();
             });
     });
 
-    /*
-    This test checks the login to with
-    bad email + good pass. -> false
-    good email + bad pass  -> false
-    bad email + bad pass. -> false
-    */
-    it('Should be able to block wrong login creds', (done) => {
-        const badPass = {
-            name: 'mocha-test',
-            password: 'test1',
-            email: 'test@test.com',
-            sex: 'Male',
-            birthday: '01/01/01',
-            phone: '1234567890',
-            bio: 'test bio!'
-        };
-        const badEmail = {
-            name: 'mocha-test1',
-            password: 'test',
-            email: 'test@test.com',
-            sex: 'Male',
-            birthday: '01/01/01',
-            phone: '1234567890',
-            bio: 'test bio!'
-        };
-        const badBoth = {
-            name: 'mocha-test1',
-            password: 'test1',
-            email: 'test@test.com',
-            sex: 'Male',
-            birthday: '01/01/01',
-            phone: '1234567890',
-            bio: 'test bio!'
-        };
-
-        // Create a new test user to delete
+    it('Should not be able to delete an account that is not in the DB', (done) => {
         chai.request(server)
-            .post('/user/register')
-            .send(newUser)
+            .post('/user/delete')
+            .send({email: "steven@steve.com"})
             .end((err, res) => {
-                res.should.have.status(200);
-                res.body.success.should.be.true;
-                // Delete the user
-
-                chai.request(server)
-                    .post('/user/login')
-                    .send({email: badPass.email})
-                    .end((err, res) => {
-                        res.body.should.be.an('object');
-                        res.body.success.should.be.false;
-                    });
-                chai.request(server)
-                    .post('/user/login')
-                    .send({email: badEmail.email})
-                    .end((err, res) => {
-                        res.body.should.be.an('object');
-                        res.body.success.should.be.false;
-                    });
-                chai.request(server)
-                    .post('/user/login')
-                    .send({email: badBoth.email})
-                    .end((err, res) => {
-                        res.body.should.be.an('object');
-                        res.body.success.should.be.false;
-                    });
-                    done();
+                res.body.success.should.be.false;
+                done();
             });
     });
-    /*
-    This test logs the user in with the correct email + password
-    */
-    it('Should be able to Login with valid email + password', (done) => {
+
+
+    it('Should not be able to log in with wrong pass', (done) => {
+        let x = use[40];
         chai.request(server)
             .post('/user/login')
-            .send(newUser)
+            .send({email: x.email, password:"te"})
             .end((err, res) => {
-                res.body.should.be.an('object');
-                res.body.success.should.be.true;
+                res.body.success.should.be.false;
                 done();
             });
     });
-
-    /*
-    This test updating location (does not actaully check if its right though :( )
-    */
-    it('Should be able update Location', (done) => {
+    it('Should not be able to log in with wrong email', (done) => {
+        let x = use[40];
         chai.request(server)
-            .post('/user/updateLocation')
-            .send({email: newUser.email})
+            .post('/user/login')
+            .send({email: "boywonder@boy", password:x.password})
             .end((err, res) => {
-                res.should.have.status(200);
-                res.body.should.be.an('object');
+                res.body.success.should.be.false;
+                done();
+            });
+    });
+    it('should be able to log into a account with correct creds', (done) => {
+        let x = use[40];
+        chai.request(server)
+            .post('/user/login')
+            .send({email: x.email, password:x.password})
+            .end((err, res) => {
                 res.body.success.should.be.true;
                 done();
             });
     });
-
-    /*
-    This deletes the user -> registers a user 
-    -> trys to log in with wrong email and pass
-    -> logs in with correct email and pass
-    */
-
-    it('ROBUSTNESS', (done) => {
+    it('should be able to delete an account at this point', (done) => {
+        let x = use[40];
         chai.request(server)
             .post('/user/delete')
-            .send({email: newUser.email})
+            .send({email: x.email})
             .end((err, res) => {
-                res.should.have.status(200);
-                res.body.should.be.an('object');
                 res.body.success.should.be.true;
-                chai.request(server)
-                    .post('/user/register')
-                    .send(newUser)
-                    .end((err, res) => {
-                        res.should.have.status(200);
-                        res.body.should.be.an('object');
-                        res.body.success.should.be.true;
-
-                        chai.request(server)
-                            .post('/user/login')
-                            .send(badUser)
-                            .end((err, res) => {
-                                res.should.have.status(200);
-                                res.body.should.be.an('object');
-                                res.body.success.should.be.false;
-                                chai.request(server)
-                                    .post('/user/login')
-                                    .send(newUser)
-                                    .end((err,res) => {
-                                        res.should.have.status(200);
-                                        res.body.should.be.an('object');
-                                        res.body.success.should.be.true;
-                                        done();
-                                    })
-                            });
-                    
-                    });
+                done();
             });
     });
-    s1 = {
-        name: 's@s1',
-        password: 'test',
-        email: 's@s1',
-        birthday: '01/01/01',
-        phone: '1234567890',
-        bio: 'test bio!'
-    };
-    s2 = {
-        name: 's@s2',
-        password: 'test',
-        email: 's@s2',
-        birthday: '01/01/01',
-        phone: '1234567890',
-        bio: 'test bio!'
-    };
-    s3 = {
-        name: 's@s3',
-        password: 'test',
-        email: 's@s3',
-        birthday: '01/01/01',
-        phone: '1234567890',
-        bio: 'test bio!'
-    };
-    s4 = {
-        name: 's@s4',
-        password: 'test',
-        email: 's@s4',
-        birthday: '01/01/01',
-        phone: '1234567890',
-        bio: 'test bio!'
-    };
-    s5 = {
-        name: 's@s5',
-        password: 'test',
-        email: 's@s5',
-        birthday: '01/01/01',
-        phone: '1234567890',
-        bio: 'test bio!'
-    };
-    s6 = {
-        name: 's@s6',
-        password: 'test',
-        email: 's@s6',
-        birthday: '01/01/01',
-        phone: '1234567890',
-        bio: 'test bio!'
-    };
-
-    it('Create a bunch of users', (done) => {
-
-        //Creates 6 useres to test matching
+    it('should not be able to log into a deleted account', (done) => {
+        let x = use[40];
         chai.request(server)
-            .post('/user/register')
-            .send(s1)
+            .post('/user/login')
+            .send({email: x.email, password:x.password})
             .end((err, res) => {
-                res.should.have.status(200);
-                res.body.should.be.an('object');
-                chai.request(server)
-                    .post('/user/register')
-                    .send(s2)
-                    .end((err, res) => {
-                        res.should.have.status(200);
-                        res.body.should.be.an('object');
-                        // res.body.success.should.be.true;
-                        chai.request(server)
-                            .post('/user/register')
-                            .send(s3)
-                            .end((err, res) => {
-                                // res.should.have.status(200);
-                                // res.body.should.be.an('object');
-                                // res.body.success.should.be.true;
-                                 chai.request(server)
-                                    .post('/user/register')
-                                    .send(s4)
-                                    .end((err, res) => {
-                                        // res.should.have.status(200);
-                                        // res.body.should.be.an('object');
-                                        // res.body.success.should.be.true;
-                                        chai.request(server)
-                                            .post('/user/register')
-                                            .send(s5)
-                                            .end((err, res) => {
-                                                // res.should.have.status(200);
-                                                // res.body.should.be.an('object');
-                                                // res.body.success.should.be.true;
-                                                chai.request(server)
-                                                    .post('/user/register')
-                                                    .send(s6)
-                                                    .end((err, res) => {
-                                                        done();
-                                                    });
-                                            });
-                                    });
-                            });
-                    });
-            });
-    });
-    /*
-        Frontend testing??
-    */
-    it('Users Swipe!', (done) => {
-        chai.request(server)
-            .post('/user/matches')
-            .send({email1: s1.email, email2: s2.email, swipe:"true"})
-            .end((err, res) => {
-                res.should.have.status(200);
-                res.body.should.be.an('object');
                 res.body.success.should.be.false;
-
-                chai.request(server)
-                    .post('/user/matches')
-                    .send({email1: s1.email, email2: s4.email, swipe:"false"})
-                    .end((err, res) => {
-                        res.should.have.status(200);
-                        res.body.should.be.an('object');
-                        res.body.success.should.be.false;
-
-                        chai.request(server)
-                            .post('/user/matches')
-                            .send({email1: s1.email, email2: s3.email, swipe:"true"})
-                            .end((err, res) => {
-                                res.should.have.status(200);
-                                res.body.should.be.an('object');
-                                res.body.success.should.be.false;
-
-                                chai.request(server)
-                                    .post('/user/matches')
-                                    .send({email1: s3.email, email2: s2.email, swipe:"true"})
-                                    .end((err, res) => {
-                                        res.should.have.status(200);
-                                        res.body.should.be.an('object');
-                                        res.body.success.should.be.false;
-
-                                        chai.request(server)
-                                            .post('/user/matches')
-                                            .send({email1: s2.email, email2: s1.email, swipe:"true"})
-                                            .end((err, res) => {
-                                                res.should.have.status(200);
-                                                res.body.should.be.an('object');
-                                                res.body.success.should.be.true;
-
-                                                chai.request(server)
-                                                    .post('/user/matches')
-                                                    .send({email1: s4.email, email2: s1.email, swipe:"false"})
-                                                    .end((err, res) => {
-                                                        res.should.have.status(200);
-                                                        res.body.should.be.an('object');
-                                                        res.body.success.should.be.false;
-
-                                                        chai.request(server)
-                                                            .post('/user/matches')
-                                                            .send({email1: s3.email, email2: s1.email, swipe:"true"})
-                                                            .end((err, res) => {
-                                                                res.should.have.status(200);
-                                                                res.body.should.be.an('object');
-                                                                res.body.success.should.be.true;
-                                                                //////
-                                                                chai.request(server)
-                                                                    .post('/user/matches')
-                                                                    .send({email1: s6.email, email2: s5.email, swipe:"true"})
-                                                                    .end((err, res) => {
-                                                                        res.should.have.status(200);
-                                                                        res.body.should.be.an('object');
-                                                                        res.body.success.should.be.false;
-                                                                        chai.request(server)
-                                                                            .post('/user/matches')
-                                                                            .send({email1: s5.email, email2: s4.email, swipe:"true"})
-                                                                            .end((err, res) => {
-                                                                                res.should.have.status(200);
-                                                                                res.body.should.be.an('object');
-                                                                                res.body.success.should.be.false;
-                                                                                chai.request(server)
-                                                                                    .post('/user/matches')
-                                                                                    .send({email1: s5.email, email2: s6.email, swipe:"true"})
-                                                                                    .end((err, res) => {
-                                                                                        res.should.have.status(200);
-                                                                                        res.body.should.be.an('object');
-                                                                                        res.body.success.should.be.true;
-                                                                                        chai.request(server)
-                                                                                            .post('/user/matches')
-                                                                                            .send({email1: s4.email, email2: s5.email, swipe:"true"})
-                                                                                            .end((err, res) => {
-                                                                                                res.should.have.status(200);
-                                                                                                res.body.should.be.an('object');
-                                                                                                res.body.success.should.be.true;
-                                                                                                done();
-                                                                                            });
-                                                                                    });
-                                                                            });
-                                                                    });
-                                                            });
-                                                    });
-                                            });
-                                    });
-                            });
-                    });
+                done();
             });
     });
-
-
-    it('Should check conversations', (done) => {
+    it('should be able to update my location', (done) => {
+        use[39] = {
+            name: "s@s39",
+            password: "test",
+            email: "s@s39",
+            birthday: "01/01/01",
+            phone: "1234567890",
+            bio: "test bio!",
+            searchDistance: 100,
+            location: {
+                type: "Point",
+                coordinates: [
+                    69,
+                    57
+                ]
+            },
+            interests: ["swimming"],
+            isGhost: false
+        };
+        let x = use[39];
         chai.request(server)
-            .get('/user/conversation')
-            .set("email", "s@s1")
+            .post('/user/updateLocation')
+            .set("email", "s@s39")
+            .send({latitude: 69, longitude:57})
+            .end((err, res) => {
+                res.body.success.should.be.true;
+                done();
+            });
+    });
+    it('should check to make sure location is updated', (done) => {
+        let x = use[39];
+        chai.request(server)
+            .post('/user')
+            .send(x.email)
             .end((err, res) => {
                 console.log(res.body);
-                // res.should.have.status(200);
-                // res.body.should.be.an('object');
                 // res.body.success.should.be.true;
                 done();
             });
     });
+
+//     /*
+//     This test checks the login to with
+//     bad email + good pass. -> false
+//     good email + bad pass  -> false
+//     bad email + bad pass. -> false
+//     */
+//     it('Should be able to block wrong login creds', (done) => {
+//         const badPass = {
+//             name: 'mocha-test',
+//             password: 'test1',
+//             email: 'test@test.com',
+//             sex: 'Male',
+//             birthday: '01/01/01',
+//             phone: '1234567890',
+//             bio: 'test bio!'
+//         };
+//         const badEmail = {
+//             name: 'mocha-test1',
+//             password: 'test',
+//             email: 'test@test.com',
+//             sex: 'Male',
+//             birthday: '01/01/01',
+//             phone: '1234567890',
+//             bio: 'test bio!'
+//         };
+//         const badBoth = {
+//             name: 'mocha-test1',
+//             password: 'test1',
+//             email: 'test@test.com',
+//             sex: 'Male',
+//             birthday: '01/01/01',
+//             phone: '1234567890',
+//             bio: 'test bio!'
+//         };
+
+//         // Create a new test user to delete
+//         chai.request(server)
+//             .post('/user/register')
+//             .send(newUser)
+//             .end((err, res) => {
+//                 res.should.have.status(200);
+//                 res.body.success.should.be.true;
+//                 // Delete the user
+
+//                 chai.request(server)
+//                     .post('/user/login')
+//                     .send({email: badPass.email})
+//                     .end((err, res) => {
+//                         res.body.should.be.an('object');
+//                         res.body.success.should.be.false;
+//                     });
+//                 chai.request(server)
+//                     .post('/user/login')
+//                     .send({email: badEmail.email})
+//                     .end((err, res) => {
+//                         res.body.should.be.an('object');
+//                         res.body.success.should.be.false;
+//                     });
+//                 chai.request(server)
+//                     .post('/user/login')
+//                     .send({email: badBoth.email})
+//                     .end((err, res) => {
+//                         res.body.should.be.an('object');
+//                         res.body.success.should.be.false;
+//                     });
+//                     done();
+//             });
+//     });
+//     /*
+//     This test logs the user in with the correct email + password
+//     */
+//     it('Should be able to Login with valid email + password', (done) => {
+//         chai.request(server)
+//             .post('/user/login')
+//             .send(newUser)
+//             .end((err, res) => {
+//                 res.body.should.be.an('object');
+//                 res.body.success.should.be.true;
+//                 done();
+//             });
+//     });
+
+//     /*
+//     This test updating location (does not actaully check if its right though :( )
+//     */
+//     it('Should be able update Location', (done) => {
+//         chai.request(server)
+//             .post('/user/updateLocation')
+//             .send({email: newUser.email})
+//             .end((err, res) => {
+//                 res.should.have.status(200);
+//                 res.body.should.be.an('object');
+//                 res.body.success.should.be.true;
+//                 done();
+//             });
+//     });
+
+//     /*
+//     This deletes the user -> registers a user 
+//     -> trys to log in with wrong email and pass
+//     -> logs in with correct email and pass
+//     */
+
+//     it('ROBUSTNESS', (done) => {
+//         chai.request(server)
+//             .post('/user/delete')
+//             .send({email: newUser.email})
+//             .end((err, res) => {
+//                 res.should.have.status(200);
+//                 res.body.should.be.an('object');
+//                 res.body.success.should.be.true;
+//                 chai.request(server)
+//                     .post('/user/register')
+//                     .send(newUser)
+//                     .end((err, res) => {
+//                         res.should.have.status(200);
+//                         res.body.should.be.an('object');
+//                         res.body.success.should.be.true;
+
+//                         chai.request(server)
+//                             .post('/user/login')
+//                             .send(badUser)
+//                             .end((err, res) => {
+//                                 res.should.have.status(200);
+//                                 res.body.should.be.an('object');
+//                                 res.body.success.should.be.false;
+//                                 chai.request(server)
+//                                     .post('/user/login')
+//                                     .send(newUser)
+//                                     .end((err,res) => {
+//                                         res.should.have.status(200);
+//                                         res.body.should.be.an('object');
+//                                         res.body.success.should.be.true;
+//                                         done();
+//                                     })
+//                             });
+                    
+//                     });
+//             });
+//     });
+//     s1 = {
+//         name: 's@s1',
+//         password: 'test',
+//         email: 's@s1',
+//         birthday: '01/01/01',
+//         phone: '1234567890',
+//         bio: 'test bio!'
+//     };
+//     s2 = {
+//         name: 's@s2',
+//         password: 'test',
+//         email: 's@s2',
+//         birthday: '01/01/01',
+//         phone: '1234567890',
+//         bio: 'test bio!'
+//     };
+//     s3 = {
+//         name: 's@s3',
+//         password: 'test',
+//         email: 's@s3',
+//         birthday: '01/01/01',
+//         phone: '1234567890',
+//         bio: 'test bio!'
+//     };
+//     s4 = {
+//         name: 's@s4',
+//         password: 'test',
+//         email: 's@s4',
+//         birthday: '01/01/01',
+//         phone: '1234567890',
+//         bio: 'test bio!'
+//     };
+//     s5 = {
+//         name: 's@s5',
+//         password: 'test',
+//         email: 's@s5',
+//         birthday: '01/01/01',
+//         phone: '1234567890',
+//         bio: 'test bio!'
+//     };
+//     s6 = {
+//         name: 's@s6',
+//         password: 'test',
+//         email: 's@s6',
+//         birthday: '01/01/01',
+//         phone: '1234567890',
+//         bio: 'test bio!'
+//     };
+
+//     it('Create a bunch of users', (done) => {
+
+//         //Creates 6 useres to test matching
+//         chai.request(server)
+//             .post('/user/register')
+//             .send(s1)
+//             .end((err, res) => {
+//                 res.should.have.status(200);
+//                 res.body.should.be.an('object');
+//                 chai.request(server)
+//                     .post('/user/register')
+//                     .send(s2)
+//                     .end((err, res) => {
+//                         res.should.have.status(200);
+//                         res.body.should.be.an('object');
+//                         // res.body.success.should.be.true;
+//                         chai.request(server)
+//                             .post('/user/register')
+//                             .send(s3)
+//                             .end((err, res) => {
+//                                 // res.should.have.status(200);
+//                                 // res.body.should.be.an('object');
+//                                 // res.body.success.should.be.true;
+//                                  chai.request(server)
+//                                     .post('/user/register')
+//                                     .send(s4)
+//                                     .end((err, res) => {
+//                                         // res.should.have.status(200);
+//                                         // res.body.should.be.an('object');
+//                                         // res.body.success.should.be.true;
+//                                         chai.request(server)
+//                                             .post('/user/register')
+//                                             .send(s5)
+//                                             .end((err, res) => {
+//                                                 // res.should.have.status(200);
+//                                                 // res.body.should.be.an('object');
+//                                                 // res.body.success.should.be.true;
+//                                                 chai.request(server)
+//                                                     .post('/user/register')
+//                                                     .send(s6)
+//                                                     .end((err, res) => {
+//                                                         done();
+//                                                     });
+//                                             });
+//                                     });
+//                             });
+//                     });
+//             });
+//     });
+//     /*
+//         Frontend testing??
+//     // */
+//     it('Users Swipe!', (done) => {
+//         chai.request(server)
+//             .post('/user/matches')
+//             .send({email1: s1.email, email2: s2.email, swipe:"true"})
+//             .end((err, res) => {
+//                 res.should.have.status(200);
+//                 res.body.should.be.an('object');
+//                 // res.body.success.should.be.false;
+
+//                 chai.request(server)
+//                     .post('/user/matches')
+//                     .send({email1: s1.email, email2: s4.email, swipe:"false"})
+//                     .end((err, res) => {
+//                         res.should.have.status(200);
+//                         res.body.should.be.an('object');
+//                         // res.body.success.should.be.false;
+
+//                         chai.request(server)
+//                             .post('/user/matches')
+//                             .send({email1: s1.email, email2: s3.email, swipe:"true"})
+//                             .end((err, res) => {
+//                                 res.should.have.status(200);
+//                                 res.body.should.be.an('object');
+//                                 // res.body.success.should.be.false;
+
+//                                 chai.request(server)
+//                                     .post('/user/matches')
+//                                     .send({email1: s3.email, email2: s2.email, swipe:"true"})
+//                                     .end((err, res) => {
+//                                         res.should.have.status(200);
+//                                         res.body.should.be.an('object');
+//                                         // res.body.success.should.be.false;
+
+//                                         chai.request(server)
+//                                             .post('/user/matches')
+//                                             .send({email1: s2.email, email2: s1.email, swipe:"true"})
+//                                             .end((err, res) => {
+//                                                 res.should.have.status(200);
+//                                                 res.body.should.be.an('object');
+//                                                 // res.body.success.should.be.true;
+
+//                                                 chai.request(server)
+//                                                     .post('/user/matches')
+//                                                     .send({email1: s4.email, email2: s1.email, swipe:"false"})
+//                                                     .end((err, res) => {
+//                                                         res.should.have.status(200);
+//                                                         res.body.should.be.an('object');
+//                                                         // res.body.success.should.be.false;
+
+//                                                         chai.request(server)
+//                                                             .post('/user/matches')
+//                                                             .send({email1: s3.email, email2: s1.email, swipe:"true"})
+//                                                             .end((err, res) => {
+//                                                                 res.should.have.status(200);
+//                                                                 res.body.should.be.an('object');
+//                                                                 // res.body.success.should.be.true;
+//                                                                 //////
+//                                                                 chai.request(server)
+//                                                                     .post('/user/matches')
+//                                                                     .send({email1: s6.email, email2: s5.email, swipe:"true"})
+//                                                                     .end((err, res) => {
+//                                                                         res.should.have.status(200);
+//                                                                         res.body.should.be.an('object');
+//                                                                         // res.body.success.should.be.false;
+//                                                                         chai.request(server)
+//                                                                             .post('/user/matches')
+//                                                                             .send({email1: s5.email, email2: s4.email, swipe:"true"})
+//                                                                             .end((err, res) => {
+//                                                                                 res.should.have.status(200);
+//                                                                                 res.body.should.be.an('object');
+//                                                                                 // res.body.success.should.be.false;
+//                                                                                 chai.request(server)
+//                                                                                     .post('/user/matches')
+//                                                                                     .send({email1: s5.email, email2: s6.email, swipe:"true"})
+//                                                                                     .end((err, res) => {
+//                                                                                         res.should.have.status(200);
+//                                                                                         res.body.should.be.an('object');
+//                                                                                         // res.body.success.should.be.true;
+//                                                                                         chai.request(server)
+//                                                                                             .post('/user/matches')
+//                                                                                             .send({email1: s4.email, email2: s5.email, swipe:"true"})
+//                                                                                             .end((err, res) => {
+//                                                                                                 res.should.have.status(200);
+//                                                                                                 res.body.should.be.an('object');
+//                                                                                                 // res.body.success.should.be.true;
+//                                                                                                 done();
+//                                                                                             });
+//                                                                                     });
+//                                                                             });
+//                                                                     });
+//                                                             });
+//                                                     });
+//                                             });
+//                                     });
+//                             });
+//                     });
+//             });
+//     });
+
+//     // it('getConvos!', (done) => {
+//     //     chai.request(server)
+//     //         .post('/user/conversation')
+//     //         .send({email1: s1.email, email2: s2.email})
+//     //         .end((err, res) => {
+//     //             res.should.have.status(200);
+//     //             res.body.should.be.an('object');
+//     //             // res.body.success.should.be.false;
+
+//     //             chai.request(server)
+//     //                 .post('/user/conversation')
+//     //                 .send({email1: s1.email, email2: s4.email})
+//     //                 .end((err, res) => {
+//     //                     res.should.have.status(200);
+//     //                     res.body.should.be.an('object');
+//     //                     // res.body.success.should.be.false;
+
+//     //                     chai.request(server)
+//     //                         .post('/user/conversation')
+//     //                         .send({email1: s1.email, email2: s3.email})
+//     //                         .end((err, res) => {
+//     //                             res.should.have.status(200);
+//     //                             res.body.should.be.an('object');
+//     //                             // res.body.success.should.be.false;
+
+//     //                             chai.request(server)
+//     //                                 .post('/user/conversation')
+//     //                                 .send({email1: s3.email, email2: s2.email})
+//     //                                 .end((err, res) => {
+//     //                                     res.should.have.status(200);
+//     //                                     res.body.should.be.an('object');
+//     //                                     // res.body.success.should.be.false;
+
+//     //                                     chai.request(server)
+//     //                                         .post('/user/conversation')
+//     //                                         .send({email1: s2.email, email2: s1.email})
+//     //                                         .end((err, res) => {
+//     //                                             res.should.have.status(200);
+//     //                                             res.body.should.be.an('object');
+//     //                                             // res.body.success.should.be.true;
+
+//     //                                             chai.request(server)
+//     //                                                 .post('/user/conversation')
+//     //                                                 .send({email1: s4.email, email2: s1.email})
+//     //                                                 .end((err, res) => {
+//     //                                                     res.should.have.status(200);
+//     //                                                     res.body.should.be.an('object');
+//     //                                                     // res.body.success.should.be.false;
+
+//     //                                                     chai.request(server)
+//     //                                                         .post('/user/conversation')
+//     //                                                         .send({email1: s3.email, email2: s1.email})
+//     //                                                         .end((err, res) => {
+//     //                                                             res.should.have.status(200);
+//     //                                                             res.body.should.be.an('object');
+//     //                                                             // res.body.success.should.be.true;
+//     //                                                             //////
+//     //                                                             chai.request(server)
+//     //                                                                 .post('/user/conversation')
+//     //                                                                 .send({email1: s6.email, email2: s5.email})
+//     //                                                                 .end((err, res) => {
+//     //                                                                     res.should.have.status(200);
+//     //                                                                     res.body.should.be.an('object');
+//     //                                                                     // res.body.success.should.be.false;
+//     //                                                                     chai.request(server)
+//     //                                                                         .post('/user/conversation')
+//     //                                                                         .send({email1: s5.email, email2: s4.email})
+//     //                                                                         .end((err, res) => {
+//     //                                                                             res.should.have.status(200);
+//     //                                                                             res.body.should.be.an('object');
+//     //                                                                             // res.body.success.should.be.false;
+//     //                                                                             chai.request(server)
+//     //                                                                                 .post('/user/conversation')
+//     //                                                                                 .send({email1: s5.email, email2: s6.email})
+//     //                                                                                 .end((err, res) => {
+//     //                                                                                     res.should.have.status(200);
+//     //                                                                                     res.body.should.be.an('object');
+//     //                                                                                     // res.body.success.should.be.true;
+//     //                                                                                     chai.request(server)
+//     //                                                                                         .post('/user/conversation')
+//     //                                                                                         .send({email1: s4.email, email2: s5.email})
+//     //                                                                                         .end((err, res) => {
+//     //                                                                                             res.should.have.status(200);
+//     //                                                                                             res.body.should.be.an('object');
+//     //                                                                                             // res.body.success.should.be.true;
+//     //                                                                                             done();
+//     //                                                                                         });
+//     //                                                                                 });
+//     //                                                                         });
+//     //                                                                 });
+//     //                                                         });
+//     //                                                 });
+//     //                                         });
+//     //                                 });
+//     //                         });
+//     //                 });
+//     //         });
+
+
+// //     it('Should check conversations', (done) => {
+// //         chai.request(server)
+// //             .get('/user/conversation')
+// //             .set("email", "s@s1")
+// //             .end((err, res) => {
+// //                 console.log(res.body);
+// //                 // res.should.have.status(200);
+// //                 // res.body.should.be.an('object');
+// //                 // res.body.success.should.be.true;
+// //                 done();
+// //             });
+// //     });
 
 });
 

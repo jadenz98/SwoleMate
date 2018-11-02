@@ -7,23 +7,41 @@ import Mongo from '../../utils/Mongo';
 router.post('/', function(req, res, next) {
     // console.log(req.body.email + " + \n\n\n\n");
     const userQuery = { email: req.body.email };
-    
+    console.log(userQuery);
 
-    Mongo.find("Users", userQuery, undefined, (result) => {
-    	if(result.length == 0){
-            const resp = {
-                success: false
-            };
-            res.json(resp);
+    const resp = {
+        success: true
+    };
+    const yikes = {
+        success: false
+    };
+
+
+
+    Mongo.findReal("Users", userQuery, undefined, (result) => {
+        if(result.length === 0){
+            res.json(yikes);
+            return;
         }else{
-            const resp = {
-                success: true
-            };
-        	Mongo.delete("Users", userQuery, () => {
-        		res.json(resp);
-    		});
-            // Mongo.delete("Matches", userQuery, () => {});
-    	}
+            for (var i = 0; i < result.length; i++) {
+                    Mongo.delete("Users", {_id:result[i]._id}, () => {});
+            }
+            Mongo.findReal("Matches", userQuery, undefined, (result) => {
+                console.log(result);
+                for (var i = 0; i < result.length; i++) {
+                    Mongo.delete("Matches", {_id:result[i]._id}, () => {});
+                }
+                Mongo.findReal("Conversations", userQuery, undefined, (result) => {
+                    for (var i = 0; i < result.length; i++) {
+                        Mongo.delete("Conversations", {_id:result[i]._id}, () => {
+                        });
+                    }
+                    res.json(resp);
+
+                        // Mongo.delete("Matches", userQuery, () => {});
+                });
+            });
+        }
     });
     // Mongo.delete("Users", userQuery, (result) => {
     //     const resp = {

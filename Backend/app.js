@@ -25,6 +25,7 @@ var unmatchRouter = require('./routes/user/unmatch');
 var conversationRouter = require('./routes/user/conversation');
 var userRouter = require('./routes/user/index');
 var nearbyUsersRouter = require('./routes/user/nearbyUsers');
+var deleteEverythingRouter = require('./routes/user/deleteEverything');
 
 var app = express();
 app.set('port', 8000);
@@ -53,7 +54,8 @@ app.use('/user/delete', deleteRouter);
 app.use('/user/matches', matchesRouter);
 app.use('/user/unmatch', unmatchRouter);
 app.use('/user/conversation', conversationRouter);
-app.use('/user/nearbyUsers', nearbyUsersRouter);
+app.use('/user/nearbyUsers', nearbyUsersRouter);deleteEverythingRouter
+app.use('/user/deleteEverything', deleteEverythingRouter);
 app.use('/user', userRouter);
 
 app.disable('etag');
