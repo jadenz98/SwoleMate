@@ -259,9 +259,13 @@ export default class Mongo {
                  for(var i = 0; i < userList.length; i++) {
                    filteredList.push(userList[i]);
                  }
-
-                 filteredList = filteredList.slice(0, 10);
-                 callback(filteredList);
+                 if(filteredList.length == 0) {
+                   callback(filteredList);
+                 }
+                 else {
+                   filteredList = filteredList.slice(0, 10);
+                   callback(filteredList);
+                 }           
                });
              });
            });
@@ -281,7 +285,7 @@ export default class Mongo {
             // console.log(matches1.length);
             var matchList = [];
             var test;
-            
+
             for (var i = 0; i < matches1.length; i++) {
                 // console.log("FF");
                 query.push({email: matches1[i].email2});
