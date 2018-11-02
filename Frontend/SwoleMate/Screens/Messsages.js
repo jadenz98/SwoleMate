@@ -23,6 +23,21 @@ export default class Messages extends React.Component{
     setParams({ title: this.state.reEmail })
   }
 
+ /* static navigationOptions = ({ navigation }) => ({
+    title: 'SwoleMate',
+    headerRight: (
+        <TouchableOpacity onPress = {this.unmatch(navigation.dangerouslyGetParent().getParams('email'),navigation.dangerouslyGetParent().getParams('email2'))}>
+            <Text>
+              Unmatch
+            </Text>
+        </TouchableOpacity>
+    )
+});*/
+
+unmatch = (email1,email2) => {
+
+}
+
   componentWillMount() {
     Connector.get('/user/conversation', {email1: this.state.email, email2: this.state.reEmail}, (conversation) => {
       console.log(conversation);
