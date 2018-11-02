@@ -81,24 +81,24 @@ export default class Matches extends React.Component{
         if(matches==null||matches==undefined){
             return <Loader/>;
         }
-        for(i=0;i<matches.length;i++){
-            matches[i].key=matches[i].email;
+
+        for(i = 0; i < matches.length; i++){
+            matches[i].key = matches[i].email;
             //console.log(matches[i]);
             if(matches[i].photoData === undefined){
                 matches[i].imgSrc = require('./images/generic-profile-picture.png');
-            }
-            else{
+            } else {
                 const encodedData=matches[i].photoData;
                 matches[i].imgSrc = {uri: `data:image/jpeg;base64,${encodedData}`};
             }
         }
+
         const { fontsAreLoaded } = this.state.fontsAreLoaded;
         //const encodedData=this.state.picture;
         return(
             <View>
                 <List>
                     <FlatList
-
                         data={matches}
                         renderItem={({item}) =>
                             /*<TouchableOpacity>
@@ -111,13 +111,11 @@ export default class Matches extends React.Component{
                            <ListItem
                                 roundAvatar
                                 avatar = {item.imgSrc}
-
                                 onPress={()=> {
                                         var userinfo={
                                             email: this.props.navigation.dangerouslyGetParent().getParam('email'),
                                             email2: item.email,
                                         };
-                                        //console.log(userinfo.email + "\n" + userinfo.email2);
                                         this.props.navigation.dangerouslyGetParent().navigate('Messages', userinfo);
                                     }
                                 }
@@ -130,5 +128,4 @@ export default class Matches extends React.Component{
             </View>
         );
     }
-
 }

@@ -309,7 +309,7 @@ export default class Mongo {
                     return;
                 }
 
-                this.find("Users", {$or: query}, undefined, (u) => {
+                this.findReal("Users", {$or: query}, undefined, (u) => {
                     callback(u)
                 });
             });
