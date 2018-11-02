@@ -4,13 +4,14 @@ import globalStyles from './Styles/Global';
 import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList, Image } from 'react-native';
 
 import {Font, AppLoading } from 'expo';
-import {MaterialIcons} from '@expo/vector-icons';
 import { List, ListItem } from 'react-native-elements'
 
 import SelectMultiple from 'react-native-select-multiple';
 
 import Connector from '../Utils/Connector';
 import {DrawerActions} from "react-navigation";
+
+import MaterialIcons from '../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
 
 export default class Matches extends React.Component{
 
@@ -33,7 +34,7 @@ export default class Matches extends React.Component{
 
     async componentDidMount(){
         await Font.loadAsync({
-            'Material Icons' : require('../fonts/MaterialIcons.ttf')
+            MaterialIcons
         });
         this.setState({
             fontsAreLoaded: true
