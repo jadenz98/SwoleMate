@@ -228,6 +228,7 @@ export default class Mongo {
              };
 
              Mongo.find("Users", query, undefined, (result) => {
+              console.log(result);
                var userList = [];
                var swiped = false;
                var likes = [];
@@ -291,18 +292,19 @@ export default class Mongo {
                 query.push({email: matches1[i].email2});
 
             }
+            // console.log(query);
             this.findReal("Conversations", {email2: email}, undefined, (matches2) => {
-                // console.log(matches2);
-                if (matches2.length === 0){
-                    callback([]);
-                    return;
-                }
+                // console.log(matches2.length);
+                // if (matches2.length === 0){
+                //     callback([]) ;
+                //     return;
+                // }
 
                 for (var i = 0; i < matches2.length; i++) {
                     // console.log("FF");
                     query.push({email: matches2[i].email1});
                 }
-                // console.log(query);
+                console.log(query);
                 this.find("Users", {$or: query}, undefined, (u) => {
                     callback(u)
                 });
