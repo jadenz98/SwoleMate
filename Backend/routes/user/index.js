@@ -15,5 +15,16 @@ router.get('/', function(req, res, next) {
         res.json(user);
     });
 });
+router.post('/', function(req, res, next) {
+    const email = req.header("email");
+
+    Mongo.find("Users", {email: email}, undefined, (user) => {
+        user.password = undefined;
+        // user.location = undefined;
+        user._id = undefined;
+
+        res.json(user);
+    });
+});
 
 module.exports = router;

@@ -228,7 +228,7 @@ export default class Mongo {
              };
 
              Mongo.find("Users", query, undefined, (result) => {
-              console.log(result);
+              // console.log(result);
                var userList = [];
                var swiped = false;
                var likes = [];

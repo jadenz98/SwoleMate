@@ -59,7 +59,7 @@ describe('SwoleMate API endpoint testing', () => {
         }
         
         var x = use[0];
-        console.log(x);
+        // console.log(x);
         chai.request(server)
             .post('/user/register')
             .send(x)
@@ -494,6 +494,60 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
+
+    it('should be able to edit my account', (done) => {
+        let x = use[40];
+        chai.request(server)
+            .post('/user/update')
+            .set("email", x.email)
+            .send({name: "Pizzaman", phone:"800"})
+            .end((err, res) => {
+                res.body.success.should.be.true;
+                done();
+            });
+    });
+    it('should be able to edit my account', (done) => {
+        let x = use[40];
+        chai.request(server)
+            .post('/user/update')
+            .set("email", x.email)
+            .send({bio: "Come get me", birthday:"0/0/0"})
+            .end((err, res) => {
+                res.body.success.should.be.true;
+                done();
+            });
+    });
+    it('should be able to edit my account', (done) => {
+        let x = use[40];
+        chai.request(server)
+            .post('/user/update')
+            .set("email", x.email)
+            .send({searchDistance: 69})
+            .end((err, res) => {
+                res.body.success.should.be.true;
+                done();
+            });
+    });
+    it('check to see if everything is updated', (done) => {
+        let x = use[40];
+        // console.log(x);
+        chai.request(server)
+            .post('/user')
+            .set("email", x.email)
+            .send()
+            .end((err, res) => {
+                // console.log(res.body);
+                res.body.name.should.equal("Pizzaman");
+                res.body.bio.should.equal("Come get me");
+                res.body.birthday.should.equal("0/0/0");
+                res.body.phone.should.equal("800");
+                res.body.searchDistance.should.equal(69);
+                done();
+            });
+    });
+
+
     it('should be able to delete an account at this point', (done) => {
         let x = use[40];
         chai.request(server)
@@ -514,6 +568,12 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
+
+
+
+
+
     it('should be able to update my location', (done) => {
         use[39] = {
             name: "s@s39",
@@ -536,7 +596,7 @@ describe('SwoleMate API endpoint testing', () => {
         let x = use[39];
         chai.request(server)
             .post('/user/updateLocation')
-            .set("email", "s@s39")
+            .set("email", x.email)
             .send({latitude: 69, longitude:57})
             .end((err, res) => {
                 res.body.success.should.be.true;
@@ -547,14 +607,132 @@ describe('SwoleMate API endpoint testing', () => {
         let x = use[39];
         chai.request(server)
             .post('/user')
-            .send(x.email)
+            .set({email:x.email})
             .end((err, res) => {
-                console.log(res.body);
-                // res.body.success.should.be.true;
+                res.body.location.coordinates[0].should.equal(57);
+                res.body.location.coordinates[1].should.equal(69);
                 done();
             });
     });
 
+    it('should not be able to update my location outside the world', (done) => {
+        use[39] = {
+            name: "s@s39",
+            password: "test",
+            email: "s@s39",
+            birthday: "01/01/01",
+            phone: "1234567890",
+            bio: "test bio!",
+            searchDistance: 100,
+            location: {
+                type: "Point",
+                coordinates: [
+                    180,
+                    180
+                ]
+            },
+            interests: ["swimming"],
+            isGhost: false
+        };
+        let x = use[39];
+        chai.request(server)
+            .post('/user/updateLocation')
+            .set("email", x.email)
+            .send({latitude: 180, longitude:180})
+            .end((err, res) => {
+                res.body.success.should.be.false;
+                done();
+            });
+    });
+    it('should check to make sure location is updated', (done) => {
+        let x = use[39];
+        chai.request(server)
+            .post('/user')
+            .set({email:x.email})
+            .end((err, res) => {
+                res.body.location.coordinates[0].should.equal(57);
+                res.body.location.coordinates[1].should.equal(69);
+                done();
+            });
+    });
+    it('should be able to get 10 users from nearbyUsers', (done) => {
+        let x = use[14];
+        chai.request(server)
+            .get('/user/nearbyUsers')
+            .set({email:x.email})
+            .end((err, res) => {
+                res.body.length.should.equal(10);
+                done();
+            });
+    });
+    it('should be able to get 10 users from nearbyUsers on a differnt user', (done) => {
+        let x = use[0];
+        chai.request(server)
+            .get('/user/nearbyUsers')
+            .set({email:x.email})
+            .end((err, res) => {
+                res.body.length.should.equal(10);
+                done();
+            });
+    });
+
+    it('a user should have no users if he has not swiped', (done) => {
+        let x = use[0];
+        chai.request(server)
+            .get('/user/matches')
+            .set({email:x.email})
+            .end((err, res) => {
+                res.body.length.should.equal(0);
+                done();
+            });
+    });
+
+
+    it('a user be able to swipe on someone that the person hasnt swiped on them', (done) => {
+        let x = use[0];
+        let y = use[1];
+        let s = "true";
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:x.email, email2: y.email, swipe:s})
+            .end((err, res) => {
+                res.body.success.should.be.false
+                done();
+            });
+    });
+
+    it('a user be able to swipe on someone that the other person has swiped on', (done) => {
+        let y = use[0];
+        let x = use[1];
+        let s = "true";
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:x.email, email2: y.email, swipe:s})
+            .end((err, res) => {
+                res.body.success.should.be.true
+                done();
+            });
+    });
+    it('If both people swiped on eachother, start a conversation', (done) => {
+        let x = use[0];
+        chai.request(server)
+            .get('/user/matches')
+            .set({email:x.email})
+            .end((err, res) => {
+                res.body.length.should.equal(1);
+                done();
+            });
+    });
+    it('If both people swiped on eachother, start a conversation', (done) => {
+        let x = use[1];
+        chai.request(server)
+            .get('/user/matches')
+            .set({email:x.email})
+            .end((err, res) => {
+                res.body.length.should.equal(1);
+                done();
+            });
+    });
 //     /*
 //     This test checks the login to with
 //     bad email + good pass. -> false
