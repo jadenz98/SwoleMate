@@ -13,16 +13,16 @@ export default class FAQ extends React.Component {
 
     questions = [
         {
-            q: "How now brown cow?",
-            a: "Because"
+            q: "How do I match with a user?",
+            a: "On the profile screen, swipe right on their profile. If you do not want to match with them, swipe left."
         },
         {
-            q: "Hello World",
-            a: "Goodbye World"
+            q: "How do I edit my profile?",
+            a: "If you switch to the profile screen, you should be able to click an Edit button to change your profile."
         },
         {
-            q: "Why?",
-            a: "Who knows"
+            q: "What if I don't want people to match with me?",
+            a: "There is an option on the Edit Profile screen where you can \"Go Ghost,\" meaning that users will not see your profile in their feed"
         }
     ];
 
