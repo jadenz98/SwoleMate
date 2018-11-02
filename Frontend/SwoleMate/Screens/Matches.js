@@ -1,12 +1,8 @@
 import React from 'react';
-import styles from "./Styles/LoginScreenStyles";
 
 import {Font, AppLoading } from 'expo';
-//import {MaterialIcons} from '@expo/vector-icons';
 import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList, Image } from 'react-native';
 import { List, ListItem } from 'react-native-elements'
-
-import SelectMultiple from 'react-native-select-multiple';
 
 import Connector from '../Utils/Connector';
 
@@ -14,6 +10,7 @@ import Connector from '../Utils/Connector';
 import MaterialIcons from '../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
 import globalStyles from "./Styles/Global";
 import {DrawerActions} from "react-navigation";
+import Loader from "./Components/Loader";
 
 export default class Matches extends React.Component{
 
@@ -25,7 +22,7 @@ export default class Matches extends React.Component{
             user: null,
             picture: null,
             matches: [],
-        }
+        };
         Connector.get('/user', {email: this.props.navigation.dangerouslyGetParent().getParam('email')}, (res) => {
             this.setState({
                 user: res,
@@ -70,9 +67,9 @@ export default class Matches extends React.Component{
     });
 
     render(){
-        matches = this.state.matches;
+        const matches = this.state.matches;
         if(matches==null||matches==undefined){
-            return null;
+            return <Loader/>;
         }
         for(i=0;i<matches.length;i++){
             matches[i].key=matches[i].email;
