@@ -15,7 +15,6 @@ export default StyleSheet.create({
         backgroundColor: '#F9F9F9',
     },
     card: {
-        flex: 1,
         borderRadius: 10,
         borderWidth: 20,
         borderColor: "white",

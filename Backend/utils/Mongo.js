@@ -145,7 +145,7 @@ export default class Mongo {
 
                 if (callback)
                     callback(obj);
-                
+
             });
         });
     }
@@ -207,16 +207,11 @@ export default class Mongo {
      *
      */
     static getNearbyUsers (email, callback) {
-        //MongoClient.connect(url, function(error, db){
-        //const dbo = db.db(DBName);
-        const distance = 1000000000;      // Range of distance to search in meters
-
         // Get the coordinates of the user
         this.find("Users", {email: email}, undefined, (user) => {
-            console.log(user);
-             const coordinates = user.location.coordinates;
-             //console.log(coordinates);
-            MongoClient.connect(url, function(error, db){
+          const distance = user.searchDistance * 1000;      // Range of distance to search in meters
+          const coordinates = user.location.coordinates;
+          MongoClient.connect(url, function(error, db){
              const dbo = db.db(DBName);
              dbo.collection("Users").createIndex({location:"2dsphere"});
              const query = {
@@ -231,26 +226,46 @@ export default class Mongo {
                      }
                  }
              };
-/*
-             dbo.collection("Users").find(query).toArray(function(err, result) {
-               if(err) throw err;
-               console.log(result);
-               callback(result);
-             });
-*/
+
              Mongo.find("Users", query, undefined, (result) => {
-               console.log(result);
-               callback(result);
+               var userList = [];
+               var swiped = false;
+               var likes = [];
+               Mongo.find("Matches", {email: email}, undefined, (matches) => {
+               	 likes = matches.likes;
+                 for(var i = 0; i < result.length; i++) {
+                   for(var j = 0; j < likes.length; j++) {
+                     if(result[i].email == likes[j].email) {
+                       swiped = true;
+                     }
+                   }
+                   if(!swiped) {
+                     userList.push(result[i]);
+                   }
+                   swiped = false;
+                 }
+
+                 if(user.interests.length != 0) {
+                   var filteredList = []
+                   for(var i = 0; i < user.interests.length; i++) {
+                     for(var j = 0; j < userList.length; j++) {
+                       if(userList[j].interests.includes(user.interests[i])) {
+                         filteredList.push(userList[j]);
+                         userList.splice(j, 1);
+                       }
+                     }
+                   }
+                 }
+                 for(var i = 0; i < userList.length; i++) {
+                   filteredList.push(userList[i]);
+                 }
+
+                 filteredList = filteredList.slice(0, 10);
+                 callback(filteredList);
+               });
              });
            });
-
-
-            // Find the users in the proximity of the matching user's location
-            // this.find("Users", query, undefined, callback);
-            //callback(user)
         });
-      //});
-
     }
 
     /**
