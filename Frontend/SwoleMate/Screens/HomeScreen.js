@@ -90,8 +90,8 @@ export default class HomeScreen extends React.Component{
                     console.log("EMAIL 1: " + this.props.navigation.dangerouslyGetParent().getParam('email') + "\nEMAIL 2: " + this.state.potentialMatches[cardIndex].email);
                     Connector.post('/user/matches',{"email1": this.props.navigation.dangerouslyGetParent().getParam('email'), "email2": this.state.potentialMatches[cardIndex].email, "swipe": "true" },undefined,(res) => {
                         console.log("Match Status: " + res.success);
-                        if(res.success){
-                          alert('You have a match')
+                        if (res.success) {
+                          alert('You have a match');
                         }
                     });
                 }}

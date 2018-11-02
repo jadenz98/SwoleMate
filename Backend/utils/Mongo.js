@@ -293,6 +293,11 @@ export default class Mongo {
             }
             this.findReal("Conversations", {email2: email}, undefined, (matches2) => {
                 // console.log(matches2);
+                if (matches2.length === 0){
+                    callback([]);
+                    return;
+                }
+
                 for (var i = 0; i < matches2.length; i++) {
                     // console.log("FF");
                     query.push({email: matches2[i].email1});

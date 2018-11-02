@@ -82,156 +82,156 @@ export default class EditProfile extends React.Component {
             return <Loader/>;
 
         return (
-          <ScrollView>
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 20}}>
-                <TextInput
-                    value={this.state.user.name}
-                    placeholder='Name'
-                    style={styles.textbox}
-                    onChangeText={(name) => this.setState({user: {...this.state.user, name: name}})}
-                    autoCapitalize='none'
-                    autoCorrect={false}
-                />
-
-                <View style={globalStyles.spacerSmall}/>
-
-                <TextInput
-                    value={this.state.user.email}
-                    placeholder='Email'
-                    style={styles.textbox}
-                    onChangeText={(email) => this.setState({user: {...this.state.user, email: email}})}
-                    autoCapitalize='none'
-                    autoCorrect={false}
-                />
-
-                <View style={globalStyles.spacerSmall}/>
-
-                <TextInput
-                    value={this.state.user.birthday}
-                    placeholder='Birthday (mm/dd/yyyy)'
-                    style={styles.textbox}
-                    onChangeText={(birthday) => this.setState({user: {...this.state.user, birthday}})}
-                    keyboardType='decimal-pad'
-                    maxLength={10}
-                />
-
-                <View style={globalStyles.spacerSmall}/>
-
-                <TextInput
-                    value={this.state.user.phone}
-                    placeholder='Phone Number'
-                    style={styles.textbox}
-                    onChangeText={(phone) => this.setState({user: {...this.state.user, phone}})}
-                    keyboardType='phone-pad'
-                />
-
-                <Picker
-                    selectedValue={this.state.user.sex}
-                    style={{height: 50, width: 150}}
-                    onValueChange={(itemValue, itemIndex) => this.setState({user: {...this.state.user, sex: itemValue}})}>
-                    <Picker.Item label="Male" value="male"/>
-                    <Picker.Item label="Female" value="female"/>
-                    <Picker.Item label="Prefer not to specify" value="not_specified"/>
-                </Picker>
-
-                <TextInput
-                    value={this.state.user.bio}
-                    placeholder='Describe what you are looking for'
-                    onChangeText={ (bio) => this.setState({user: {...this.state.user, bio}})}
-                    style={{height: 200, width: 200, borderColor: 'black', borderWidth: 1}}
-                    multiline={true}
-                />
-
-                <View style={globalStyles.spacer}/>
-
-                <Modal
-                    transparent={false}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {}}
-                >
-                    <View style={{marginTop: 22}}>
-                        <SelectMultiple
-                            items={this.interests}
-                            selectedItems={this.state.selectedInterests}
-                            onSelectionsChange={this.onSelectionsChange}
-                        />
-                        <TouchableOpacity
-                            style={globalStyles.btn}
-                            onPress={() => {
-                                this.setModalVisibility(!this.state.modalVisible);
-                            }}
-                        >
-                            <Text style={globalStyles.btnTextBlack}>
-                                Close
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </Modal>
-
-                <TouchableHighlight
-                    onPress={() => {
-                        this.setModalVisibility(true);
-                    }}
-                    style={globalStyles.btnSecondary}
-                >
-                    <Text style={globalStyles.btnText}>Edit Interests</Text>
-                </TouchableHighlight>
-
-                <TouchableOpacity
-                    style={globalStyles.btnSecondary}
-                    onPress={()=> { this.props.navigation.navigate('PickPhoto',{email: this.props.navigation.getParam('email')})}}
-                >
-                    <Text style={globalStyles.btnText}>
-                        Add Profile Picture
-                    </Text>
-                </TouchableOpacity>
-
-                <View style={globalStyles.spacer}/>
-
-                <Text style={globalStyles.header}>
-                    Go ghost
-                </Text>
-                <View style={globalStyles.btn}>
-                    <Switch
-                        value={this.state.user.isGhost}
-                        onValueChange={(switchState) => this.setState({user: {...this.state.user, isGhost: switchState}})}
+            <ScrollView>
+                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 20}}>
+                    <TextInput
+                        value={this.state.user.name}
+                        placeholder='Name'
+                        style={styles.textbox}
+                        onChangeText={(name) => this.setState({user: {...this.state.user, name: name}})}
+                        autoCapitalize='none'
+                        autoCorrect={false}
                     />
-                </View>
 
-                <View style={globalStyles.spacer}/>
+                    <View style={globalStyles.spacerSmall}/>
 
-                <Text style={globalStyles.header}>
-                  Set search distance
-                </Text>
+                    <TextInput
+                        value={this.state.user.email}
+                        placeholder='Email'
+                        style={styles.textbox}
+                        onChangeText={(email) => this.setState({user: {...this.state.user, email: email}})}
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                    />
 
-                <View style={styles.container}>
-                  <Text>{this.state.user.searchDistance}</Text>
-                  <Slider
-                    value={this.state.user.searchDistance}
-                    style={{ width: 300 }}
-                    minimumValue={1}
-                    maximumValue={100}
-                    step={1}
-                    onValueChange={(val) => this.setState({user: {...this.state.user, searchDistance: val}})}
-                  />
-                </View>
+                    <View style={globalStyles.spacerSmall}/>
 
-                <View style={globalStyles.spacer}/>
-                <View style={globalStyles.spacer}/>
+                    <TextInput
+                        value={this.state.user.birthday}
+                        placeholder='Birthday (mm/dd/yyyy)'
+                        style={styles.textbox}
+                        onChangeText={(birthday) => this.setState({user: {...this.state.user, birthday}})}
+                        keyboardType='decimal-pad'
+                        maxLength={10}
+                    />
 
-                <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.save}>
-                    <Text style={globalStyles.btnText}>
-                        Save
+                    <View style={globalStyles.spacerSmall}/>
+
+                    <TextInput
+                        value={this.state.user.phone}
+                        placeholder='Phone Number'
+                        style={styles.textbox}
+                        onChangeText={(phone) => this.setState({user: {...this.state.user, phone}})}
+                        keyboardType='phone-pad'
+                    />
+
+                    <Picker
+                        selectedValue={this.state.user.sex}
+                        style={{height: 50, width: 150}}
+                        onValueChange={(itemValue, itemIndex) => this.setState({user: {...this.state.user, sex: itemValue}})}>
+                        <Picker.Item label="Male" value="male"/>
+                        <Picker.Item label="Female" value="female"/>
+                        <Picker.Item label="Prefer not to specify" value="not_specified"/>
+                    </Picker>
+
+                    <TextInput
+                        value={this.state.user.bio}
+                        placeholder='Describe what you are looking for'
+                        onChangeText={ (bio) => this.setState({user: {...this.state.user, bio}})}
+                        style={{height: 200, width: 200, borderColor: 'black', borderWidth: 1}}
+                        multiline={true}
+                    />
+
+                    <View style={globalStyles.spacer}/>
+
+                    <Modal
+                        transparent={false}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {}}
+                    >
+                        <View style={{marginTop: 22}}>
+                            <SelectMultiple
+                                items={this.interests}
+                                selectedItems={this.state.selectedInterests}
+                                onSelectionsChange={this.onSelectionsChange}
+                            />
+                            <TouchableOpacity
+                                style={globalStyles.btn}
+                                onPress={() => {
+                                    this.setModalVisibility(!this.state.modalVisible);
+                                }}
+                            >
+                                <Text style={globalStyles.btnTextBlack}>
+                                    Close
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Modal>
+
+                    <TouchableHighlight
+                        onPress={() => {
+                            this.setModalVisibility(true);
+                        }}
+                        style={globalStyles.btnSecondary}
+                    >
+                        <Text style={globalStyles.btnText}>Edit Interests</Text>
+                    </TouchableHighlight>
+
+                    <TouchableOpacity
+                        style={globalStyles.btnSecondary}
+                        onPress={()=> { this.props.navigation.navigate('PickPhoto',{email: this.props.navigation.getParam('email')})}}
+                    >
+                        <Text style={globalStyles.btnText}>
+                            Add Profile Picture
+                        </Text>
+                    </TouchableOpacity>
+
+                    <View style={globalStyles.spacer}/>
+
+                    <Text style={globalStyles.header}>
+                        Go ghost
                     </Text>
-                </TouchableOpacity>
+                    <View style={globalStyles.btn}>
+                        <Switch
+                            value={this.state.user.isGhost}
+                            onValueChange={(switchState) => this.setState({user: {...this.state.user, isGhost: switchState}})}
+                        />
+                    </View>
 
-                <TouchableOpacity style={globalStyles.btn} onPress={this.cancel}>
-                    <Text style={globalStyles.btnTextBlack}>
-                        Cancel
+                    <View style={globalStyles.spacer}/>
+
+                    <Text style={globalStyles.header}>
+                      Set search distance
                     </Text>
-                </TouchableOpacity>
-            </View>
-          </ScrollView>
+
+                    <View style={styles.container}>
+                      <Text>{this.state.user.searchDistance}</Text>
+                      <Slider
+                        value={this.state.user.searchDistance}
+                        style={{ width: 300 }}
+                        minimumValue={1}
+                        maximumValue={100}
+                        step={1}
+                        onValueChange={(val) => this.setState({user: {...this.state.user, searchDistance: val}})}
+                      />
+                    </View>
+
+                    <View style={globalStyles.spacer}/>
+                    <View style={globalStyles.spacer}/>
+
+                    <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.save}>
+                        <Text style={globalStyles.btnText}>
+                            Save
+                        </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={globalStyles.btn} onPress={this.cancel}>
+                        <Text style={globalStyles.btnTextBlack}>
+                            Cancel
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
         );
     }
 }
