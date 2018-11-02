@@ -1,12 +1,7 @@
 import React from 'react';
 
 import {Font, AppLoading } from 'expo';
-<<<<<<< HEAD
-//import {MaterialIcons} from '@expo/vector-icons';
 import { Platform, Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList, Image } from 'react-native';
-=======
-import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList, Image } from 'react-native';
->>>>>>> b8a97aeecaf0223409e750de2e3f2648d8ee12dc
 import { List, ListItem } from 'react-native-elements'
 
 import Loader from './Components/Loader';
