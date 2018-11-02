@@ -48,7 +48,7 @@ export default class Messages extends React.Component{
 componentWillMount() {
   this._interval = setInterval(() => {
     Connector.get('/user/conversation', {email1: this.state.email, email2: this.state.reEmail}, (conversation) => {
-      console.log(conversation);
+      //console.log(conversation);
       for(var i = 0; i < conversation.length; i++){
         if(conversation[i]._id > this.state.latestID){
           var msg =
