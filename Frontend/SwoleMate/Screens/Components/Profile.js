@@ -1,9 +1,14 @@
 import React from 'react';
 import {Text, View, Image, ScrollView} from 'react-native';
+import { List, ListItem } from 'react-native-elements'
 import style from './Styles/ProfileStyles';
 import Connector from "../../Utils/Connector";
+import { StyleSheet } from 'react-native';
 
 import Loader from './Loader';
+import {Font} from "expo";
+
+import MaterialIcons from '../../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
 
 export default class Profile extends React.Component {
     constructor (props) {
@@ -17,7 +22,8 @@ export default class Profile extends React.Component {
         };
 
         this.state = {
-            user: null
+            user: null,
+            fontsAreLoaded: false
         };
 
         Connector.get('/user', {email: props.email}, (res) => {
@@ -29,12 +35,29 @@ export default class Profile extends React.Component {
                 }
             }
 
+            res.milestones = [
+                "Ran a race",
+                "Got up from the couch",
+                "Got out of bed today",
+                "Ran a Triathlon",
+                "I went and walked in the rain to get a pizza because my team was dying of hunger"
+            ];
+
             this.setState({user: res});
         });
     }
 
+    async componentDidMount(){
+        await Font.loadAsync({
+            MaterialIcons
+        });
+        this.setState({
+            fontsAreLoaded: true
+        });
+    }
+
     render () {
-        if (this.state.user == null)
+        if (this.state.user == null || !this.state.fontsAreLoaded)
             return <Loader/>;
 
         const user = this.state.user;
@@ -68,6 +91,28 @@ export default class Profile extends React.Component {
             </View>
         );
 
+        let bioText;
+        if (!user.bio || user.bio === "") {
+            bioText = (
+                <Text style={style.italics}>
+                    This user has not written a bio yet!
+                </Text>
+            );
+        } else {
+            bioText = (
+                <Text>
+                    {user.bio}
+                </Text>
+            );
+        }
+
+        let milestones = user.milestones;
+        let milestonesStyle = style.listText;
+        if (!user.milestones || user.milestones.length === 0) {
+            milestones = ["This user does not have any milestones yet!"];
+            milestonesStyle = StyleSheet.flatten([milestonesStyle, style.italics]);
+        }
+
         return(
             <ScrollView>
                 <View style={{flex:1, alignItems: 'stretch', flexDirection: 'column'}}>
@@ -90,9 +135,7 @@ export default class Profile extends React.Component {
                             </Text>
                             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                                 <View style={style.textBox}>
-                                    <Text>
-                                        {user.bio}
-                                    </Text>
+                                    {bioText}
                                 </View>
                             </View>
 
@@ -117,10 +160,20 @@ export default class Profile extends React.Component {
                                 Milestones
                             </Text>
                             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                                <View style={style.textLine}>
-                                    <Text>
-                                        ~~Put Milestones here~~
-                                    </Text>
+                                <View style={style.listContainer}>
+                                    <List containerStyle={{marginTop: 0}}>
+                                        {
+                                            milestones.map((l) => (
+                                                this.state.fontsAreLoaded ? (<ListItem
+                                                    titleStyle={milestonesStyle}
+                                                    key={l}
+                                                    title={l}
+                                                    hideChevron
+                                                    titleNumberOfLines={null}
+                                                />): null
+                                            ))
+                                        }
+                                    </List>
                                 </View>
                             </View>
                         </View>

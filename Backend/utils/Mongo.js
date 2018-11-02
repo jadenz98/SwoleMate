@@ -259,9 +259,13 @@ export default class Mongo {
                  for(var i = 0; i < userList.length; i++) {
                    filteredList.push(userList[i]);
                  }
-
-                 filteredList = filteredList.slice(0, 10);
-                 callback(filteredList);
+                 if(filteredList.length == 0) {
+                   callback(filteredList);
+                 }
+                 else {
+                   filteredList = filteredList.slice(0, 10);
+                   callback(filteredList);
+                 }           
                });
              });
            });
@@ -281,7 +285,7 @@ export default class Mongo {
             // console.log(matches1.length);
             var matchList = [];
             var test;
-            
+
             for (var i = 0; i < matches1.length; i++) {
                 // console.log("FF");
                 query.push({email: matches1[i].email2});
@@ -392,16 +396,17 @@ export default class Mongo {
 
     static setConversation (email1, email2, msg, callback) {
       // const query = { "email2": { $all: [email1, email2]}}
-      const newMessage = {
-        email: email1,
-        msg: msg
-      }
         // console.log(query);
         var convo = [];
         this.findReal("Conversations", {email1 : email1}, undefined, (tryone) => {
           for (var i = 0; i < tryone.length; i++) {
             if(tryone[i].email2 == email2){
               convo = tryone[i].conversation;
+              const newMessage = {
+                email: email1,
+                msg: msg,
+                _id: convo.length
+              }
               convo.push(newMessage);
               const insertNewConvo = {
                 email1: email1,
@@ -421,6 +426,11 @@ export default class Mongo {
           for (var i = 0; i < tryone.length; i++) {
             if(tryone[i].email1 == email2){
              convo = tryone[i].conversation;
+              const newMessage = {
+                email: email1,
+                msg: msg,
+                _id: convo.length
+              }
               convo.push(newMessage);
               const insertNewConvo = {
                 email1: email1,

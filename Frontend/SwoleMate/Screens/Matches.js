@@ -3,7 +3,7 @@ import styles from "./Styles/LoginScreenStyles";
 
 import {Font, AppLoading } from 'expo';
 //import {MaterialIcons} from '@expo/vector-icons';
-import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList, Image } from 'react-native';
 import { List, ListItem } from 'react-native-elements'
 
 import SelectMultiple from 'react-native-select-multiple';
@@ -11,6 +11,10 @@ import Loader from './Components/Loader';
 
 import Connector from '../Utils/Connector';
 
+
+import MaterialIcons from '../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
+import globalStyles from "./Styles/Global";
+import {DrawerActions} from "react-navigation";
 
 export default class Matches extends React.Component{
 
@@ -38,9 +42,9 @@ export default class Matches extends React.Component{
     }
     
 
-   async componentDidMount(){
+    async componentDidMount(){
         await Font.loadAsync({
-            'Material Icons' : require('../fonts/MaterialIcons.ttf')
+            MaterialIcons
         });
         this.setState({
             fontsAreLoaded: true
@@ -48,16 +52,24 @@ export default class Matches extends React.Component{
         //console.log("\n\n\n\n\n\n\n\n\n\n\nFonts Loaded");
     }
 
-  getMatches = () => {
-    Connector.get('/user/matches', {email: 'sam@samingram.me'}, (matches) => {
-        console.log(matches);
-    });
-  }
+    getMatches = () => {
+        Connector.get('/user/matches', {email: 'sam@samingram.me'}, (matches) => {
+            console.log(matches);
+        });
+    };
 
-        //This sets the title on the top header
-        static navigationOptions = {
-            title: 'Matches',
-        };
+    //This sets the title on the top header
+    static navigationOptions = ({ navigation }) => ({
+        title: 'Matches',
+        headerLeft: (
+            <TouchableOpacity style={globalStyles.hamburger} onPress={() => {navigation.dispatch(DrawerActions.openDrawer());}}>
+                <Image
+                    style={globalStyles.icon}
+                    source={require('./images/hamburger.png')}
+                />
+            </TouchableOpacity>
+        )
+    });
 
     render(){
         matches = this.state.matches;

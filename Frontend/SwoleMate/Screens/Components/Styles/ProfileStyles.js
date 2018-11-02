@@ -2,6 +2,9 @@ import { StyleSheet} from 'react-native';
 
 //exports stylesheet to be used in other classes
 export default StyleSheet.create({
+    italics:{
+        fontStyle: 'italic'
+    },
     header: {
         fontSize: 20,
         fontWeight: 'bold'
@@ -22,7 +25,7 @@ export default StyleSheet.create({
     },
     textBox: {
         flex: 0.9,
-        borderWidth: 1,
+        borderWidth: 2,
         margin: 5,
         padding: 5,
         backgroundColor: 'white'
@@ -34,5 +37,13 @@ export default StyleSheet.create({
     },
     spacer: {
         height: 15
+    },
+    listContainer: {
+        flex: 0.9,
+        margin: 5,
+        borderWidth: 2
+    },
+    listText: {
+        fontSize: 14
     }
 });
