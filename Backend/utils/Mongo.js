@@ -228,6 +228,7 @@ export default class Mongo {
              };
 
              Mongo.find("Users", query, undefined, (result) => {
+              console.log(result);
                var userList = [];
                var swiped = false;
                var likes = [];
@@ -290,6 +291,7 @@ export default class Mongo {
                 // console.log("FF");
                 query.push({email: matches1[i].email2});
             }
+            // console.log(query);
             this.findReal("Conversations", {email2: email}, undefined, (matches2) => {
                 for (var i = 0; i < matches2.length; i++) {
                     // console.log("FF");

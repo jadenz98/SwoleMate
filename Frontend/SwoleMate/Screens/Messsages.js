@@ -5,8 +5,11 @@ import { Text, View, AsyncStorage, TextInput, TouchableOpacity, Picker, Modal, T
 //import SocketIOClient from 'socket.io-client';
 import SelectMultiple from 'react-native-select-multiple';
 import { GiftedChat } from 'react-native-gifted-chat';
-
+import { DrawerActions, StackActions } from 'react-navigation';
 import Connector from '../Utils/Connector';
+
+
+
 
 export default class Messages extends React.Component{
 
@@ -23,21 +26,24 @@ export default class Messages extends React.Component{
     this.props.navigation.setParams({ title: this.state.reEmail })
   }
 
-  static navigationOptions = ({ navigation }) => ({
-    title: typeof(navigation.state.params)==='undefined' || typeof(navigation.state.params.title) === 'undefined' ? 'find': navigation.state.params.title,
-  });
-    /*headerRight: (
-        <TouchableOpacity onPress = {this.unmatch(navigation.dangerouslyGetParent().getParams('email'),navigation.dangerouslyGetParent().getParams('email2'))}>
+
+ static navigationOptions = ({ navigation }) => ({
+    title: navigation.getParam('email2'),
+    headerRight: (
+        <TouchableOpacity 
+          onPress = {()=>{
+            Connector.post('/user/unmatch',{email1: navigation.getParam('email'),email2: navigation.getParam('email2')},{email: navigation.getParam('email')},(res)=>{
+              console.log(res);
+            });            
+          }}>
+
             <Text>
               Unmatch
             </Text>
         </TouchableOpacity>
     )
-});*/
+  });
 
-unmatch = (email1,email2) => {
-
-}
 
 componentWillMount() {
   this._interval = setInterval(() => {
