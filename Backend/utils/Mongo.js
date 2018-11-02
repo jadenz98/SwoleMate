@@ -392,16 +392,17 @@ export default class Mongo {
 
     static setConversation (email1, email2, msg, callback) {
       // const query = { "email2": { $all: [email1, email2]}}
-      const newMessage = {
-        email: email1,
-        msg: msg
-      }
         // console.log(query);
         var convo = [];
         this.findReal("Conversations", {email1 : email1}, undefined, (tryone) => {
           for (var i = 0; i < tryone.length; i++) {
             if(tryone[i].email2 == email2){
               convo = tryone[i].conversation;
+              const newMessage = {
+                email: email1,
+                msg: msg,
+                _id: convo.length
+              }
               convo.push(newMessage);
               const insertNewConvo = {
                 email1: email1,
@@ -421,6 +422,11 @@ export default class Mongo {
           for (var i = 0; i < tryone.length; i++) {
             if(tryone[i].email1 == email2){
              convo = tryone[i].conversation;
+              const newMessage = {
+                email: email1,
+                msg: msg,
+                _id: convo.length
+              }
               convo.push(newMessage);
               const insertNewConvo = {
                 email1: email1,
