@@ -17,7 +17,7 @@ router.post('/', function(req, res, next) {
                 Mongo.delete("Users", {_id:result[i]._id}, () => {});
         }
         Mongo.findReal("Matches", "", undefined, (result) => {
-            console.log(result);
+            // console.log(result);
             for (var i = 0; i < result.length; i++) {
                 Mongo.delete("Matches", {_id:result[i]._id}, () => {});
             }

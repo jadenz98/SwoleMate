@@ -16,6 +16,7 @@ describe('SwoleMate API endpoint testing', () => {
     */
 
     it('DROP IT', (done) => {
+        // git delete.
         // const x = use[0];
         // console.log(x);
         chai.request(server)
@@ -733,6 +734,207 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+    it('should be able to unmatch with someone', (done) => {
+        let x = use[1];
+        let y = use[0];
+        chai.request(server)
+            .post('/user/unmatch')
+            .send({email1:x.email, email2:y.email})
+            .end((err, res) => {
+                // console.log(res.body);
+                res.body.success.should.be.true
+                done();
+            });
+    });
+    it('If both people swiped on eachother, then one of the umatched, should reflect in DB', (done) => {
+        let x = use[1];
+        chai.request(server)
+            .get('/user/matches')
+            .set({email:x.email})
+            .end((err, res) => {
+                res.body.length.should.equal(0);
+                done();
+            });
+    });
+
+    it('multiple people swiping on eachother', (done) => {
+        let s0 = use[0];
+        let s1 = use[1];
+        let s2 = use[2];
+        let s3 = use[3];
+        let s4 = use[4];
+        let s5 = use[5];
+        let s6 = use[6];
+        let s7 = use[7];
+        let s8 = use[8];
+        let s9 = use[9];
+        let s10 = use[10];
+        let s11 = use[11];
+        let s12 = use[12];
+        let s13 = use[13];
+        let s14 = use[14];
+        let s15 = use[15];
+        let s16 = use[16];
+        let s17 = use[17];
+        let s18 = use[18];
+        let s19 = use[19];
+        let s20 = use[20];
+        let s21 = use[21];
+        let s22 = use[22];
+        let s23 = use[23];
+        let s24 = use[24];
+        let s25 = use[25];
+        let s26 = use[26];
+        let s27 = use[27];
+        let s28 = use[28];
+        let s29 = use[29];
+        let s31 = use[31];
+        let s32 = use[32];
+        let s33 = use[33];
+        let s34 = use[34];
+        let s35 = use[35];
+        let s36 = use[36];
+        let s37 = use[37];
+        let s38 = use[38];
+        let s39 = use[39];
+
+        let t = "true";
+        let f = "false";
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s0.email, email2: s2.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.false
+                // done();
+
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s0.email, email2: s3.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.false
+                // done();
+
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s0.email, email2: s4.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.false
+                // done();
+
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s0.email, email2: s5.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.false
+                // done();
+
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s1.email, email2: s2.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.false
+                // done();
+            });
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s1.email, email2: s3.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.false
+                // done();
+
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s1.email, email2: s4.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.false
+                // done();
+
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s1.email, email2: s5.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.false
+                // done();
+
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s2.email, email2: s0.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.true
+                // done();
+
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s2.email, email2: s1.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.true
+                // done();
+ 
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s2.email, email2: s3.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.false
+                // done();
+
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s2.email, email2: s4.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.false
+                // done();
+
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s3.email, email2: s0.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.true
+                // done();
+
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s3.email, email2: s1.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.true
+                // done();
+
+        chai.request(server)
+            .post('/user/matches')
+            .send({email1:s3.email, email2: s2.email, swipe:t})
+            .end((err, res) => {
+                console.log(res.body);
+                res.body.success.should.be.true
+                done();
+            });
+            });});});});});});});});});});});});});
+    });
+    // it('multiple peoele swiping', (done) => {
+    //     let y = use[0];
+    //     let x = use[1];
+    //     let s = "true";
+    //     chai.request(server)
+    //         .post('/user/matches')
+    //         .send({email1:x.email, email2: y.email, swipe:s})
+    //         .end((err, res) => {
+    //             res.body.success.should.be.true
+    //             done();
+    //         });
+    // });
+
 //     /*
 //     This test checks the login to with
 //     bad email + good pass. -> false
