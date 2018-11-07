@@ -1,6 +1,6 @@
 // Transpile all code following this line with babel and use 'env' (aka ES6) preset.
 require('babel-register')({
-    presets: [ 'env' ]
+    presets: ['env']
 });
 
 var createError = require('http-errors');
@@ -12,6 +12,8 @@ var logger = require('morgan');
 var config = require('config');
 
 var bodyParser = require('body-parser');
+
+
 
 var indexRouter = require('./routes/index');
 var helloRouter = require('./routes/hello');
@@ -26,25 +28,38 @@ var conversationRouter = require('./routes/user/conversation');
 var userRouter = require('./routes/user/index');
 var nearbyUsersRouter = require('./routes/user/nearbyUsers');
 var deleteEverythingRouter = require('./routes/user/deleteEverything');
+var recoverPasswordRouter = require('./routes/user/recoverPassword');
+// var htmlAccountRecovery = require('./html/accountRecover')
+// var AccountRecoverRouter = require('./routes/index.js');
 
 var app = express();
-app.set('port', 8000);
+app.get('/accountRecovery/*', function(req, res) {
+    res.sendFile(path.join(__dirname + '/html/accountRecover.html'));
+    // console.log(res.body);
+});
+app.get('/success/', function(req, res) {});
+app.set('port', 3000);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 if (config.util.getEnv('NODE_ENV') !== 'test')
-  app.use(logger('dev'));
+    app.use(logger('dev'));
 
+// app.post('/accountRecover',function(req,res){
+//   console.log("EWAFWFAWEF");
+//   res.sendFile(path.join(__dirname+'/html/accountRecover.html'));
+//   //__dirname : It will resolve to your project folder.
+// });
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.json({limit: '10gb'}));
-app.use(bodyParser.urlencoded({limit: "10gb", extended: true}))
+app.use(bodyParser.json({ limit: '10gb' }));
+app.use(bodyParser.urlencoded({ limit: "10gb", extended: true }))
 
-app.use('/', indexRouter);
+
 app.use('/hello', helloRouter);
 app.use('/user/login', loginRouter);
 app.use('/user/register', registerRouter);
@@ -54,32 +69,34 @@ app.use('/user/delete', deleteRouter);
 app.use('/user/matches', matchesRouter);
 app.use('/user/unmatch', unmatchRouter);
 app.use('/user/conversation', conversationRouter);
-app.use('/user/nearbyUsers', nearbyUsersRouter);deleteEverythingRouter
+app.use('/user/nearbyUsers', nearbyUsersRouter);
 app.use('/user/deleteEverything', deleteEverythingRouter);
 app.use('/user', userRouter);
+app.use('/user/recoverPassword', recoverPasswordRouter);
+app.use('/index?*', indexRouter);
 
 app.disable('etag');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+    next(createError(404));
 });
 
 var httpServer = http.createServer(app);
 
-httpServer.listen(app.get('port'), function(){
-	console.log('Server listing on port ' + app.get('port'));
+httpServer.listen(app.get('port'), function() {
+    console.log('Server listing on port ' + app.get('port'));
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;
