@@ -7,6 +7,7 @@ import Loader from './Components/Loader';
 
 import globalStyles from './Styles/Global';
 import styles from './Styles/LoginScreenStyles';
+import LoginScreenStyles from './Styles/LoginScreenStyles';
 
 export default class LoginScreen extends React.Component {
     constructor(props){
@@ -55,9 +56,15 @@ export default class LoginScreen extends React.Component {
         return(
           <ScrollView contentContainerStyle={{flexGrow: 1}}
                       scrollEnabled={false}
-                      keyboardShouldPersistTaps='handled'>
+                      keyboardShouldPersistTaps='handled'
+                      style={globalStyles.background}>
             <KeyboardAvoidingView style={{flex:1, alignItems: 'center', justifyContent: 'center'}}
                                   behavior="padding">
+                <KeyboardAvoidingView style={{height: 100}}>
+                <Text style={LoginScreenStyles.title}>
+                    SwoleMate
+                </Text>
+                </KeyboardAvoidingView>
                 <TextInput
                     ref={input => { this.emailInput = input }}
                     placeholder='Email'

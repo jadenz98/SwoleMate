@@ -96,7 +96,7 @@ export default class Matches extends React.Component{
         const { fontsAreLoaded } = this.state.fontsAreLoaded;
         //const encodedData=this.state.picture;
         return(
-            <View>
+            <View style={globalStyles.background}>
                 <List>
                     <FlatList
                         data={matches}

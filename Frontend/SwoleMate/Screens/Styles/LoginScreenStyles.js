@@ -1,4 +1,4 @@
-import { StyleSheet} from 'react-native';
+import { StyleSheet, Platform} from 'react-native';
 
 //exports stylesheet to be used in other classes
 export default StyleSheet.create({
@@ -29,4 +29,13 @@ export default StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
+    title: {
+        color: '#e8d129',
+        fontFamily: (Platform.OS === 'ios') ? 'AppleSDGothicNeo-Thin' : 'Roboto',
+        fontSize: 50,
+        fontWeight: 'bold',
+    },
+    background: {
+        backgroundColor: '#45a1e8',
+    }
 });
