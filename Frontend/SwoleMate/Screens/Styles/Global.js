@@ -59,5 +59,8 @@ export default StyleSheet.create({
         color: 'black',
         fontWeight: 'bold',
         fontSize: 16
+    },
+    background: {
+        backgroundColor: '#45a1e8',
     }
 });
