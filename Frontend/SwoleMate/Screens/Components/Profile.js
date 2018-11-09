@@ -106,6 +106,21 @@ export default class Profile extends React.Component {
             );
         }
 
+        let goalText;
+        if (!user.goal || user.goal === "") {
+            goalText = (
+                <Text style={style.italics}>
+                    This user has not declared a goal yet!
+                </Text>
+            );
+        } else {
+            goalText = (
+                <Text>
+                    {user.goal}
+                </Text>
+            );
+        }
+
         let milestones = user.milestones;
         let milestonesStyle = style.listText;
         if (!user.milestones || user.milestones.length === 0) {
@@ -136,6 +151,17 @@ export default class Profile extends React.Component {
                             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                                 <View style={style.textBox}>
                                     {bioText}
+                                </View>
+                            </View>
+
+                            <View style={style.spacer} />
+
+                            <Text style={style.header}>
+                                Goal
+                            </Text>
+                            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                                <View style={style.textBox}>
+                                    {goalText}
                                 </View>
                             </View>
 
