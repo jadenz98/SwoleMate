@@ -32,6 +32,7 @@ var recoverPasswordRouter = require('./routes/user/recoverPassword');
 // var htmlAccountRecovery = require('./html/accountRecover')
 // var AccountRecoverRouter = require('./routes/index.js');
 var passwordChange = require('./routes/user/passwordChange');
+var reportRouter = require('./routes/user/report');
 
 var app = express();
 app.get('/accountRecovery/*', function(req, res) {
@@ -73,8 +74,9 @@ app.use('/user/conversation', conversationRouter);
 app.use('/user/nearbyUsers', nearbyUsersRouter);
 app.use('/user/deleteEverything', deleteEverythingRouter);
 app.use('/user', userRouter);
-app.use('/user/recoverPassword', recoverPasswordRouter);
+app.use('/user/recoverPassword', recoverPasswordRouter);reportRouter
 app.use('/user/passwordChange', passwordChange);
+app.use('/user/report', reportRouter);
 // app.use('/index?*', indexRouter);
 
 app.disable('etag');
