@@ -37,7 +37,6 @@ router.post('/', function(req, res, next) {
               subject: 'Reseting your SwoleMate Password',
               text: 'To reset your password click on the link below.\nLINK: http://localhost:3000/accountRecovery/' + newUser.email + '\nIf you did not request to reset your password then please ignore this.'
             };
-
             transporter.sendMail(mailOptions, function(error, info){
               if (error) {
                 console.log(error);
