@@ -24,18 +24,22 @@ router.post('/', function(req, res, next) {
             Mongo.findReal("Conversations", "", undefined, (result) => {
                 for (var i = 0; i < result.length; i++) {
                     Mongo.delete("Conversations", {_id:result[i]._id}, () => {
-
                         // res.json(resp);
                     });
                 }
-                res.json(resp);
+                Mongo.findReal("reports", "", undefined, (result) => {
+                    for (var i = 0; i < result.length; i++) {
+                        Mongo.delete("reports", {_id:result[i]._id}, () => {
+                        });
+                    }
+                    res.json(resp);
+                });
 
-                    // Mongo.delete("Matches", userQuery, () => {});
             });
         });
     });
 
-
+                
     
     
     // Mongo.delete("Users", userQuery, (result) => {
