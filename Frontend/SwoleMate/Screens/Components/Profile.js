@@ -141,21 +141,6 @@ export default class Profile extends React.Component {
 
                             <View style={style.spacer} />
 
-                            {/* Do we Keep the phone number????
-                            <Text style={style.header}>
-                                Phone Number
-                            </Text>
-                            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                                <View style={style.textLine}>
-                                    <Text>
-                                        {user.phone}
-                                    </Text>
-                                </View>
-                            </View>
-
-                            <View style={style.spacer} />
-                            */}
-
                             <Text style={style.header}>
                                 Milestones
                             </Text>

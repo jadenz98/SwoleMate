@@ -12,6 +12,7 @@ import Messages from './Screens/Messsages';
 import PickPhoto from './Screens/PickPhoto';
 import FAQ from './Screens/FAQ';
 import OtherProfileScreen from "./Screens/OtherProfileScreen";
+import TutorialScreen from "./Screens/TutorialScreen";
 
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/
@@ -74,6 +75,14 @@ const matchesStack = createStackNavigator(
     }
 );
 
+const tutorialStack = createStackNavigator(
+    {
+        Tutorial: {
+            screen: TutorialScreen
+        }
+    }
+);
+
 const FAQStack = createStackNavigator(
     {
         FAQ: {
@@ -93,6 +102,9 @@ const DrawerNavigator = createDrawerNavigator(
         },
         Matches: {
             screen: matchesStack
+        },
+        Tutorial: {
+            screen: tutorialStack
         },
         FAQ: {
             screen: FAQStack
