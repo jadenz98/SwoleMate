@@ -233,7 +233,7 @@ export default class RegisterScreen extends React.Component{
                 }
 
                 //eventually change 'Home' to 'CreateProfile'
-                this.props.navigation.navigate('Home', userinfo);
+                this.props.navigation.navigate('Tutorial', userinfo);
             } else{ //Server returned failure on register (should mean email is taken)
               this.emailInput.clear(); //Clears email and both password TextInput's and displays alert
               this.passwordInput.clear();
