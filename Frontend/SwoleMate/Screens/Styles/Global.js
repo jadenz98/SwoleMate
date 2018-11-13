@@ -2,7 +2,6 @@ import { StyleSheet} from 'react-native';
 
 //exports stylesheet to be used in other classes
 export default StyleSheet.create({
-    //name
     header: {
         fontSize: 20,
         fontWeight: 'bold'
@@ -28,11 +27,9 @@ export default StyleSheet.create({
     contentContainer: {
         flex: 0.8
     },
-    image: {
-        flex: 1,
-        height: undefined,
-        width: undefined,
-        resizeMode: 'contain',
+    screenShotImage: {
+        width: 300,
+        height: 600,
         margin: 10,
         borderWidth: 3,
         borderColor: 'black'
