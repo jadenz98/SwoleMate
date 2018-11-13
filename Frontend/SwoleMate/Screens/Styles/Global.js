@@ -64,6 +64,10 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16
     },
+    resetText: {
+        color: "white",
+        fontSize: 10,
+    },
     btnTextBlack: {
         color: 'black',
         fontWeight: 'bold',

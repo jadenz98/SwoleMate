@@ -12,6 +12,8 @@ import Messages from './Screens/Messsages';
 import PickPhoto from './Screens/PickPhoto';
 import FAQ from './Screens/FAQ';
 import OtherProfileScreen from "./Screens/OtherProfileScreen";
+import Reset from './Screens/ResetScreen';
+import ResetConfirm from './Screens/resetConfirmation';
 import TutorialScreen from "./Screens/TutorialScreen";
 
 /*This is the first class that gets loaded, it basically takes the intial
@@ -29,6 +31,12 @@ const startStack = createStackNavigator(
         },
         Register: {
             screen: RegisterScreen
+        },
+        Reset: {
+            screen: Reset
+        },
+        ResetConfirm: {
+          screen: ResetConfirm
         }
     }, {
         initialRouteName: 'Login'
@@ -90,6 +98,7 @@ const FAQStack = createStackNavigator(
         }
     }
 );
+
 
 //creates navigation stack (push when new page, pop when previous page requested)
 const DrawerNavigator = createDrawerNavigator(
