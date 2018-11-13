@@ -12,8 +12,11 @@ import Messages from './Screens/Messsages';
 import PickPhoto from './Screens/PickPhoto';
 import FAQ from './Screens/FAQ';
 import OtherProfileScreen from "./Screens/OtherProfileScreen";
+<<<<<<< HEAD
 import Reset from './Screens/ResetScreen';
 import ResetConfirm from './Screens/resetConfirmation';
+=======
+>>>>>>> 8ac7f6440641f19fcdf99b47c0045b1d5204ce3e
 
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/

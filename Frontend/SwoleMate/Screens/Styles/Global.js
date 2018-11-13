@@ -25,6 +25,18 @@ export default StyleSheet.create({
     spacerSmall: {
         height: 5
     },
+    contentContainer: {
+        flex: 0.8
+    },
+    image: {
+        flex: 1,
+        height: undefined,
+        width: undefined,
+        resizeMode: 'contain',
+        margin: 10,
+        borderWidth: 3,
+        borderColor: 'black'
+    },
     btnPrimary: {
         margin: 5,
         backgroundColor: '#007bff',

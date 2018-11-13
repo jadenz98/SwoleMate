@@ -49,11 +49,6 @@ app.set('view engine', 'pug');
 if (config.util.getEnv('NODE_ENV') !== 'test')
     app.use(logger('dev'));
 
-// app.post('/accountRecover',function(req,res){
-//   console.log("EWAFWFAWEF");
-//   res.sendFile(path.join(__dirname+'/html/accountRecover.html'));
-//   //__dirname : It will resolve to your project folder.
-// });
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
