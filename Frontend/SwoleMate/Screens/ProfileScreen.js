@@ -37,7 +37,7 @@ export default class ProfileScreen extends React.Component{
 
     render () {
         return(
-            <Profile email={this.state.email} />
+            <Profile email={this.state.email} isSelf={true} />
         );
     }
 }

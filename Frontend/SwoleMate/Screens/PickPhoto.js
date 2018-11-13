@@ -6,7 +6,7 @@ import {ImageEditor, ImageStore, Text, View, TextInput, TouchableOpacity, Picker
 import SelectMultiple from 'react-native-select-multiple';
 
 import NativeModules from 'NativeModules';
-
+import {DrawerActions} from "react-navigation";
 import CameraRollPicker from 'react-native-camera-roll-picker'
 
 import ImageResizer from 'react-native-image-resizer';
@@ -22,7 +22,7 @@ export default class PickPhoto extends React.Component{
             user: null,
             smallerPhotoUri: null,
         }
-        Connector.get('/user', {email: props.navigation.getParam('email')}, (res) => {
+        Connector.get('/user', {email: props.navigation.dangerouslyGetParent().getParam('email')}, (res) => {
             this.setState({user: res});
             //console.log(res);
         });
@@ -51,14 +51,15 @@ export default class PickPhoto extends React.Component{
                 height: this.state.photos[0].height,
             },
             displaySize: {
-                width: ((this.state.photos[0].width)/12),
-                height: ((this.state.photos[0].height)/12)
+                width: ((this.state.photos[0].width)),
+                height: ((this.state.photos[0].height))
             }
         };
         ImageEditor.cropImage(this.state.photos[0].uri, cropData, success => { 
             ImageStore.getBase64ForTag(success, base64Success =>
                 {
                     photo.photoData = base64Success;
+                    console.log(photo.photoData);
                     photo.photoWidth = cropData.displaySize.width;
                     photo.photoHeight = cropData.displaySize.height;
                     const user= this.state.user;

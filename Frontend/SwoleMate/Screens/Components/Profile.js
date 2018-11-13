@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Image, ScrollView} from 'react-native';
+import {Alert, Text, View, Image, ScrollView, TouchableOpacity} from 'react-native';
 import { List, ListItem } from 'react-native-elements'
 import style from './Styles/ProfileStyles';
 import Connector from "../../Utils/Connector";
@@ -9,6 +9,7 @@ import Loader from './Loader';
 import {Font} from "expo";
 
 import MaterialIcons from '../../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
+import ProfileScreenStyles from '../Styles/ProfileScreenStyles';
 
 export default class Profile extends React.Component {
     constructor (props) {
@@ -77,7 +78,31 @@ export default class Profile extends React.Component {
                     source={require('../images/generic-profile-picture.png')}
                 />;
         }
-
+        if(!this.props.isSelf){
+            report = () =>{
+                Alert.alert(
+                    'Report',
+                    'Are you sure you want to report this person',
+                    [
+                        {text: 'Report'},
+                        {text: 'Cancel'}
+                    ]
+                )
+            }
+            reportButton = (
+                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                    <TouchableOpacity style={style.button} onPress={report}>
+                        <Text>
+                            Report
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            );
+            
+        }
+        else{
+            reportButton = null;
+        }
         const interestImages = (
             <View style={{flexDirection: 'row'}}>
                 {this.renderImage['Swimming'] && <Image source={require('../images/Swimming.png')}
@@ -176,6 +201,8 @@ export default class Profile extends React.Component {
                                     </List>
                                 </View>
                             </View>
+                            {reportButton}
+                            <View style={style.spacer} />
                         </View>
                     </View>
                 </View>

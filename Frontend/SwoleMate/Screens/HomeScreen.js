@@ -86,7 +86,7 @@ export default class HomeScreen extends React.Component{
                     )
                 }}
                 onSwiped={(cardIndex) => {console.log(cardIndex)}}
-                onTapCard={(cardIndex) => {this.props.navigation.navigate('ExpandedProfile',{email: this.state.potentialMatches[cardIndex].email})}}
+                onTapCard={(cardIndex) => {this.props.navigation.navigate('ExpandedProfile',{originalEmail: this.state.user.email, email: this.state.potentialMatches[cardIndex].email})}}
                 onSwipedRight={(cardIndex) => {
                     console.log("EMAIL 1: " + this.props.navigation.dangerouslyGetParent().getParam('email') + "\nEMAIL 2: " + this.state.potentialMatches[cardIndex].email);
                     Connector.post('/user/matches',{"email1": this.props.navigation.dangerouslyGetParent().getParam('email'), "email2": this.state.potentialMatches[cardIndex].email, "swipe": "true" },undefined,(res) => {
