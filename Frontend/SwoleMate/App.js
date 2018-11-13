@@ -12,10 +12,9 @@ import Messages from './Screens/Messsages';
 import PickPhoto from './Screens/PickPhoto';
 import FAQ from './Screens/FAQ';
 import OtherProfileScreen from "./Screens/OtherProfileScreen";
-<<<<<<< HEAD
 import Reset from './Screens/ResetScreen';
 import ResetConfirm from './Screens/resetConfirmation';
-=======
+import TutorialScreen from "./Screens/TutorialScreen";
 >>>>>>> 8ac7f6440641f19fcdf99b47c0045b1d5204ce3e
 
 /*This is the first class that gets loaded, it basically takes the intial
@@ -85,6 +84,14 @@ const matchesStack = createStackNavigator(
     }
 );
 
+const tutorialStack = createStackNavigator(
+    {
+        Tutorial: {
+            screen: TutorialScreen
+        }
+    }
+);
+
 const FAQStack = createStackNavigator(
     {
         FAQ: {
@@ -105,6 +112,9 @@ const DrawerNavigator = createDrawerNavigator(
         },
         Matches: {
             screen: matchesStack
+        },
+        Tutorial: {
+            screen: tutorialStack
         },
         FAQ: {
             screen: FAQStack
