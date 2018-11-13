@@ -62,6 +62,27 @@ export default class HomeScreen extends React.Component{
                 );
             }
             else{
+                const birthday = potentialMatchInfo[i].birthday;
+                var bm = parseInt(birthday.substring(0,2), 10);
+                var bd = parseInt(birthday.substring(3,5), 10);
+                var by = parseInt(birthday.substring(6), 10);
+
+                var today = new Date
+                var dd = parseInt(today.getDate(), 10);
+                var mm = parseInt(today.getMonth()+1, 10); //January is 0!
+                var yyyy = parseInt(today.getFullYear(), 10);
+
+                console.log(bm + " " + mm);
+                console.log(bd + " " + dd);
+
+                if(bm < mm || (bm == mm && bd <= dd)) {
+                  var age = yyyy - by;
+                }
+                else {
+                  var age = yyyy - by - 1;
+                }
+                potentialMatchInfo[i].age = age;
+
                 const encodedData=potentialMatchInfo[i].photoData;
                 potentialMatchInfo[i].img=(
                     <Image
@@ -82,6 +103,7 @@ export default class HomeScreen extends React.Component{
                         <View style={styles.card}>
                             {card.img}
                             <Text> {card.email} </Text>
+                            <Text> {card.age} </Text>
                         </View>
                     )
                 }}
