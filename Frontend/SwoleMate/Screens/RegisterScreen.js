@@ -21,6 +21,7 @@ export default class RegisterScreen extends React.Component{
         birthday: '',
         phone_number: '',
         bio: '',
+        goal: '',
         latitude: null,
         longitude: null,
           isGhost: false
@@ -151,9 +152,20 @@ export default class RegisterScreen extends React.Component{
               </Text>
 
               <TextInput
-                placeholder='Describe what you are looking for'
+                placeholder='Describe yourself and what you are looking for'
                 onChangeText={ (bio) => this.setState({bio})}
                 style={{height: 200, width: 200, borderColor: 'black', borderWidth: 1}}
+                multiline={true}
+              />
+
+              <Text style={globalStyles.header}>
+                Add a Goal
+              </Text>
+
+              <TextInput
+                placeholder='Describe what you are working towards'
+                onChangeText={ (goal) => this.setState({goal})}
+                style={{height: 50, width: 200, borderColor: 'black', borderWidth: 1}}
                 multiline={true}
               />
 
@@ -188,6 +200,7 @@ export default class RegisterScreen extends React.Component{
             birthday: this.state.birthday,
             phone: this.state.phone_number,
             bio: this.state.bio,
+            goal: this.state.goal,
             searchDistance: 15,
             location: {
                 coordinates: [
@@ -220,7 +233,7 @@ export default class RegisterScreen extends React.Component{
                 }
 
                 //eventually change 'Home' to 'CreateProfile'
-                this.props.navigation.navigate('Home', userinfo);
+                this.props.navigation.navigate('Tutorial', userinfo);
             } else{ //Server returned failure on register (should mean email is taken)
               this.emailInput.clear(); //Clears email and both password TextInput's and displays alert
               this.passwordInput.clear();

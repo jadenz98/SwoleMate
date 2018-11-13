@@ -136,9 +136,19 @@ export default class EditProfile extends React.Component {
 
                     <TextInput
                         value={this.state.user.bio}
-                        placeholder='Describe what you are looking for'
+                        placeholder='Describe yourself and what you are looking for'
                         onChangeText={ (bio) => this.setState({user: {...this.state.user, bio}})}
                         style={{height: 200, width: 200, borderColor: 'black', borderWidth: 1}}
+                        multiline={true}
+                    />
+
+                    <View style={globalStyles.spacerSmall}/>
+
+                    <TextInput
+                        value={this.state.user.goal}
+                        placeholder='Describe what you are working towards'
+                        onChangeText={ (goal) => this.setState({user: {...this.state.user, goal}})}
+                        style={{height: 50, width: 200, borderColor: 'black', borderWidth: 1}}
                         multiline={true}
                     />
 

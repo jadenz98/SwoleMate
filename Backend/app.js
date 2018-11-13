@@ -15,7 +15,7 @@ var bodyParser = require('body-parser');
 
 
 
-var indexRouter = require('./routes/index');
+// var indexRouter = require('./routes/index');
 var helloRouter = require('./routes/hello');
 var loginRouter = require('./routes/user/login');
 var registerRouter = require('./routes/user/register');
@@ -31,6 +31,8 @@ var deleteEverythingRouter = require('./routes/user/deleteEverything');
 var recoverPasswordRouter = require('./routes/user/recoverPassword');
 // var htmlAccountRecovery = require('./html/accountRecover')
 // var AccountRecoverRouter = require('./routes/index.js');
+var passwordChange = require('./routes/user/passwordChange');
+var reportRouter = require('./routes/user/report');
 
 var app = express();
 app.get('/accountRecovery/*', function(req, res) {
@@ -38,7 +40,7 @@ app.get('/accountRecovery/*', function(req, res) {
     // console.log(res.body);
 });
 app.get('/success/', function(req, res) {});
-app.set('port', 3000);
+app.set('port', 8000);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -47,11 +49,6 @@ app.set('view engine', 'pug');
 if (config.util.getEnv('NODE_ENV') !== 'test')
     app.use(logger('dev'));
 
-// app.post('/accountRecover',function(req,res){
-//   console.log("EWAFWFAWEF");
-//   res.sendFile(path.join(__dirname+'/html/accountRecover.html'));
-//   //__dirname : It will resolve to your project folder.
-// });
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -72,8 +69,10 @@ app.use('/user/conversation', conversationRouter);
 app.use('/user/nearbyUsers', nearbyUsersRouter);
 app.use('/user/deleteEverything', deleteEverythingRouter);
 app.use('/user', userRouter);
-app.use('/user/recoverPassword', recoverPasswordRouter);
-app.use('/index?*', indexRouter);
+app.use('/user/recoverPassword', recoverPasswordRouter);reportRouter
+app.use('/user/passwordChange', passwordChange);
+app.use('/user/report', reportRouter);
+// app.use('/index?*', indexRouter);
 
 app.disable('etag');
 

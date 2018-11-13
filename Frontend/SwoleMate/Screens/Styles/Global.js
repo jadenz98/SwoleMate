@@ -2,7 +2,6 @@ import { StyleSheet} from 'react-native';
 
 //exports stylesheet to be used in other classes
 export default StyleSheet.create({
-    //name
     header: {
         fontSize: 20,
         fontWeight: 'bold'
@@ -24,6 +23,16 @@ export default StyleSheet.create({
     },
     spacerSmall: {
         height: 5
+    },
+    contentContainer: {
+        flex: 0.8
+    },
+    screenShotImage: {
+        width: 300,
+        height: 600,
+        margin: 10,
+        borderWidth: 3,
+        borderColor: 'black'
     },
     btnPrimary: {
         margin: 5,
@@ -54,6 +63,10 @@ export default StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         fontSize: 16
+    },
+    resetText: {
+        color: "white",
+        fontSize: 10,
     },
     btnTextBlack: {
         color: 'black',
