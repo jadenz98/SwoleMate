@@ -16,7 +16,7 @@
   <input type="password" name="passs" value="">
   <br><br>
   <input type="submit" value="Submit">
-</form> 
+</form>
 
 <p>If you do not want to reset your password leave this page.</p>
 </html>
@@ -31,13 +31,15 @@ function myFunction(element) {
 		// document.getElementById("test").innerHTML = document.URL.indexOf('y');
 		let url = document.URL;
 		url = url.substring(url.indexOf('y')+2);
+    console.log(url);
+    console.log("^^");
 		// document.getElementById("test").innerHTML = url;
 		// THISISAFATTEST();
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function(out){
 			if(this.readuState == 4 && this.status == 200){
 
-			} 
+			}
 		}
 		const jsons = {
 			email:url,

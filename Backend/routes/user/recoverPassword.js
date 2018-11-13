@@ -12,7 +12,7 @@ router.post('/', function(req, res, next) {
     const userQuery = {
         email: newUser.email
     };
-    console.log(userQuery);
+    // console.log(userQuery);
 
     Mongo.find("Users", userQuery, undefined, (result) => {
         if (result.length == 0) {

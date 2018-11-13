@@ -45,5 +45,12 @@ export default StyleSheet.create({
     },
     listText: {
         fontSize: 14
+    },
+    button: {
+        width: 100,
+        height: 35,
+        backgroundColor: 'red',
+        flexDirection: 'row',
+        justifyContent: 'center'
     }
 });

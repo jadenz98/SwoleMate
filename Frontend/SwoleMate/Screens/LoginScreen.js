@@ -89,6 +89,10 @@ export default class LoginScreen extends React.Component {
                     textContentType='password'
                 />
 
+                <TouchableOpacity onPress={this.goToReset}>
+                  <Text style={globalStyles.resetText}>Forgot Password</Text>
+                </TouchableOpacity>
+
                 {/*TouchableOpacity will be used as a button because it is more customizable and can funtion the same.
                 This is the login button
                 onPress tells the button what do do when pressed (here it calls the login function defined below)*/}
@@ -110,6 +114,10 @@ export default class LoginScreen extends React.Component {
             </KeyboardAvoidingView>
           </ScrollView>
         );
+    }
+
+    goToReset = () => {
+      this.props.navigation.navigate('Reset')
     }
 
     // login function (needs to be implemented)
