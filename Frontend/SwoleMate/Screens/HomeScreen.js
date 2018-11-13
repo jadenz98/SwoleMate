@@ -72,8 +72,8 @@ export default class HomeScreen extends React.Component{
                 var mm = parseInt(today.getMonth()+1, 10); //January is 0!
                 var yyyy = parseInt(today.getFullYear(), 10);
 
-                console.log(bm + " " + mm);
-                console.log(bd + " " + dd);
+                //console.log(bm + " " + mm);
+                //console.log(bd + " " + dd);
 
                 if(bm < mm || (bm == mm && bd <= dd)) {
                   var age = yyyy - by;

@@ -15,6 +15,7 @@ import OtherProfileScreen from "./Screens/OtherProfileScreen";
 import Reset from './Screens/ResetScreen';
 import ResetConfirm from './Screens/resetConfirmation';
 import TutorialScreen from "./Screens/TutorialScreen";
+import CalendarScreen from "./Screens/CalendarScreen";
 
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/
@@ -99,6 +100,13 @@ const FAQStack = createStackNavigator(
     }
 );
 
+const calendarStack = createStackNavigator(
+    {
+        calendar: {
+            screen: CalendarScreen
+        }
+    }
+);
 
 //creates navigation stack (push when new page, pop when previous page requested)
 const DrawerNavigator = createDrawerNavigator(
@@ -117,6 +125,9 @@ const DrawerNavigator = createDrawerNavigator(
         },
         FAQ: {
             screen: FAQStack
+        },
+        Calendar: {
+            screen: calendarStack
         },
         Logout: {
             screen: startStack,
