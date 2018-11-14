@@ -1,6 +1,8 @@
 import React from 'react';
-import {Alert, Text, View, Image, ScrollView, TouchableOpacity} from 'react-native';
+import { TextInput, Modal, Alert, Text, View, Image, ScrollView, TouchableOpacity} from 'react-native';
 import { List, ListItem } from 'react-native-elements'
+import { NavigationActions,DrawerActions } from 'react-navigation';
+
 import style from './Styles/ProfileStyles';
 import Connector from "../../Utils/Connector";
 import { StyleSheet } from 'react-native';
@@ -24,7 +26,10 @@ export default class Profile extends React.Component {
 
         this.state = {
             user: null,
-            fontsAreLoaded: false
+            fontsAreLoaded: false,
+            modalVisible: false,
+            reportMessage: '',
+            originalEmail: props.originalEmail,
         };
 
         Connector.get('/user', {email: props.email}, (res) => {
@@ -56,7 +61,11 @@ export default class Profile extends React.Component {
             fontsAreLoaded: true
         });
     }
-
+sendReport = () =>{
+            Connector.post('/user/report',{email: this.props.originalEmail, emailReported: this.state.user.email, reportMessage: this.state.reportMessage},{email: this.state.originalEmail},(res)=>{
+                this.setState({modalVisible: false});
+            });
+        }
     render () {
         if (this.state.user == null || !this.state.fontsAreLoaded)
             return <Loader/>;
@@ -78,17 +87,22 @@ export default class Profile extends React.Component {
                     source={require('../images/generic-profile-picture.png')}
                 />;
         }
+        report = () =>{
+            Alert.alert(
+                'Report',
+                'Are you sure you want to report this person',
+                [
+                    {text: 'Report', onPress: () => this.setState({modalVisible: true})},
+                    {text: 'Cancel'}
+                ]
+            )
+        }
+        
+        displayModal = () =>{
+            this.setState({modalVisible: true});
+        }
         if(!this.props.isSelf){
-            report = () =>{
-                Alert.alert(
-                    'Report',
-                    'Are you sure you want to report this person',
-                    [
-                        {text: 'Report'},
-                        {text: 'Cancel'}
-                    ]
-                )
-            }
+            
             reportButton = (
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableOpacity style={style.button} onPress={report}>
@@ -131,21 +145,6 @@ export default class Profile extends React.Component {
             );
         }
 
-        let goalText;
-        if (!user.goal || user.goal === "") {
-            goalText = (
-                <Text style={style.italics}>
-                    This user has not declared a goal yet!
-                </Text>
-            );
-        } else {
-            goalText = (
-                <Text>
-                    {user.goal}
-                </Text>
-            );
-        }
-
         let milestones = user.milestones;
         let milestonesStyle = style.listText;
         if (!user.milestones || user.milestones.length === 0) {
@@ -155,6 +154,24 @@ export default class Profile extends React.Component {
 
         return(
             <ScrollView>
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.modalVisible}>
+                    <View>
+                        <TextInput
+                            placeholder='Please explain why you are reporting this person'
+                            onChangeText={ (reportMessage) => this.setState({reportMessage})}
+                            style={{height: 200, width: 200, borderColor: 'black', borderWidth: 1}}
+                            multiline={true}
+                        />
+                        <TouchableOpacity onPress={this.sendReport}>
+                            <Text>
+                                Send report
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
                 <View style={{flex:1, alignItems: 'stretch', flexDirection: 'column'}}>
                     <View style={{alignItems: 'center'}}>
                         <Text style={style.username}>
@@ -181,16 +198,20 @@ export default class Profile extends React.Component {
 
                             <View style={style.spacer} />
 
+                            {/* Do we Keep the phone number????
                             <Text style={style.header}>
-                                Goal
+                                Phone Number
                             </Text>
                             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                                <View style={style.textBox}>
-                                    {goalText}
+                                <View style={style.textLine}>
+                                    <Text>
+                                        {user.phone}
+                                    </Text>
                                 </View>
                             </View>
 
                             <View style={style.spacer} />
+                            */}
 
                             <Text style={style.header}>
                                 Milestones
