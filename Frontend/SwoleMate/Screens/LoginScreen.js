@@ -9,6 +9,8 @@ import globalStyles from './Styles/Global';
 import styles from './Styles/LoginScreenStyles';
 import LoginScreenStyles from './Styles/LoginScreenStyles';
 
+const googleClientIDAndroid = '673192647506-cdmna9p2rs727jl74q48fb5ccoihj7a2.apps.googleusercontent.com'
+const googleClientIdIOS = '673192647506-o37hpl36to83fmfhpj3vob8loc7o03ba.apps.googleusercontent.com'
 const id = '1740497489395130'
 
 export default class LoginScreen extends React.Component {
@@ -55,13 +57,29 @@ export default class LoginScreen extends React.Component {
 
         if(type === 'success'){
             const response = await fetch(
-                `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,about,picture`
+                `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,about,picture,birthday`
             );
-
+            
             console.log(await response.json());
         }
         else {
             console.error(type);
+        }
+    }
+
+    googleLogin = async () => {
+        const result = await Expo.Google.logInAsync({
+            androidClientId: googleClientIDAndroid,
+            iosClientId: googleClientIdIOS,
+            scopes: ['profile', 'email'],
+
+        });
+
+        if(result.type === 'success'){
+            console.log(result);
+        }
+        else{
+            console.log('Cancelled');
         }
     }
 
@@ -131,6 +149,11 @@ export default class LoginScreen extends React.Component {
                 <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.fbLogin}>
                     <Text style={globalStyles.btnText}>
                         Login with Facebook
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.googleLogin}>
+                    <Text style={globalStyles.btnText}>
+                        Login with Google
                     </Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>
