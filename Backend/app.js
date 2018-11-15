@@ -73,7 +73,7 @@ app.use('/user', userRouter);
 app.use('/user/recoverPassword', recoverPasswordRouter);reportRouter
 app.use('/user/passwordChange', passwordChange);
 app.use('/user/report', reportRouter);
-app.use('/user/calendar', reportRouter);
+app.use('/user/calendar', calendarRoute);
 // app.use('/index?*', indexRouter);
 // reportRouter
 app.disable('etag');
