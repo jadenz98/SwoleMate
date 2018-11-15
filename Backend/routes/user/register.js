@@ -15,7 +15,10 @@ router.post('/', function(req, res, next) {
         email: newUser.email,
         likes: []
     };
-
+    const calendar = {
+        email: newUser.email,
+        events: []
+    };
     Mongo.find("Users", userQuery, undefined, (result) => {
         if (result.length == 0) {
             const resp = {
@@ -31,6 +34,7 @@ router.post('/', function(req, res, next) {
                 // console.log(hash + "\n\n\n");
                 newUser.password = hash;
                 Mongo.insert("Matches", matches, () => {});
+                Mongo.insert("Calendars", calendar, () => {});
                 Mongo.insert("Users", newUser, () => {
                     res.json(resp);
                 });
