@@ -4,10 +4,12 @@ import Connector from '../Utils/Connector';
 import { NavigationActions } from 'react-navigation';
 
 import Loader from './Components/Loader';
-
+import Expo from 'expo';
 import globalStyles from './Styles/Global';
 import styles from './Styles/LoginScreenStyles';
 import LoginScreenStyles from './Styles/LoginScreenStyles';
+
+const id = '1740497489395130'
 
 export default class LoginScreen extends React.Component {
     constructor(props){
@@ -46,6 +48,21 @@ export default class LoginScreen extends React.Component {
             (error) => alert(error.message),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
+    }
+
+    fbLogin = async () => {
+        const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync(id, {permissions: [ 'public_profile', 'email', 'user_friends']})
+
+        if(type === 'success'){
+            const response = await fetch(
+                `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,about,picture`
+            );
+
+            console.log(await response.json());
+        }
+        else {
+            console.error(type);
+        }
     }
 
     render () {
@@ -109,6 +126,11 @@ export default class LoginScreen extends React.Component {
                 <TouchableOpacity style={globalStyles.btn} onPress={this.register}>
                     <Text style={globalStyles.btnTextBlack}>
                         Register
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.fbLogin}>
+                    <Text style={globalStyles.btnText}>
+                        Login with Facebook
                     </Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>
