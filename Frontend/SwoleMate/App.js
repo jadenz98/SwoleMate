@@ -16,6 +16,7 @@ import Reset from './Screens/ResetScreen';
 import ResetConfirm from './Screens/resetConfirmation';
 import TutorialScreen from "./Screens/TutorialScreen";
 import CalendarScreen from "./Screens/CalendarScreen";
+import LocationPicker from "./Screens/LocationPicker";
 
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/
@@ -54,6 +55,9 @@ const ProfileStack = createStackNavigator(
         },
         PickPhoto: {
             screen: PickPhoto
+        },
+        LocationPicker: {
+            screen: LocationPicker
         }
     }, {
         initialRouteName: 'ProfileScreen'
