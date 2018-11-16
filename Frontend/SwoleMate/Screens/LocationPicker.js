@@ -13,6 +13,9 @@ import globalStyles from './Styles/Global';
 export default class  LocationPicker extends React.Component {
     constructor(props) {
       super(props);
+      this.state= {
+          email: props.navigation.dangerouslyGetParent().getParam('email')
+      }
     }
 
     static navigationOptions = {
@@ -31,17 +34,13 @@ export default class  LocationPicker extends React.Component {
             returnKeyType={'search'}
             renderDescription={row => row.description}
             fetchDetails={true}
-            onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-              //console.log(data.description);
-              //console.log(details.geometry);
+            onPress={(data, details = null) => {
               const favLocation = {
                   favGym: data.description,
                   gymLatitude: details.geometry.location.lat,
                   gymLongitude: details.geometry.location.lng,
               }
-              //console.log(location);
-              Connector.post('/user/update', favLocation, {email: 's@s1'}, (response) => {
-                  console.log(response);
+              Connector.post('/user/update', favLocation, {email: this.state.email}, () => {
                   this.props.navigation.pop();
               });
            }}
