@@ -16,6 +16,7 @@ export default class CalendarScreen extends React.Component {
     super(props);
     const {navigator} = this.props;
     this.state = {
+      isMounted: true,
       items: {}
     };
     //this.onDayPress = this.onDayPress.bind(this);
@@ -34,16 +35,32 @@ export default class CalendarScreen extends React.Component {
       )
   });
 
+  componentDidMount(){
+    this.setState({isMounted: true});
+  }
+
   render() {
 
     return (
-      <Agenda
-        items={this.state.items}
-        loadItemsForMonth={this.loadItems.bind(this)}
-        renderItem={this.renderItem.bind(this)}
-        renderEmptyDate={this.renderEmptyDate.bind(this)}
-        rowHasChanged={this.rowHasChanged.bind(this)}
-        />
+      this.state.isMounted ? (
+      <View style={{flex: 1}}>
+          <Agenda
+            style={{flex: 1, flexDirection: 'row',zIndex:0}}
+            items={this.state.items}
+            loadItemsForMonth={this.loadItems.bind(this)}
+            renderItem={this.renderItem.bind(this)}
+            renderEmptyDate={this.renderEmptyDate.bind(this)}
+            rowHasChanged={this.rowHasChanged.bind(this)}
+          />
+        
+          <TouchableOpacity
+            style={{position: 'absolute', height: 40, width: 40, zIndex: 1}}>
+            <Image
+              style={{height: 40, width: 40}}
+              source={require('./images/add.png')}/>
+            
+          </TouchableOpacity>
+      </View> ) : <Loader/>
     );
   }
 
