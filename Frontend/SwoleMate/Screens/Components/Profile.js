@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, Image, ScrollView} from 'react-native';
-import { List, ListItem } from 'react-native-elements'
+import { List, ListItem } from 'react-native-elements';
 import style from './Styles/ProfileStyles';
 import Connector from "../../Utils/Connector";
 import { StyleSheet } from 'react-native';
@@ -34,14 +34,6 @@ export default class Profile extends React.Component {
                     this.renderImage[interests[i]]=true;
                 }
             }
-
-            res.milestones = [
-                "Ran a race",
-                "Got up from the couch",
-                "Got out of bed today",
-                "Ran a Triathlon",
-                "I went and walked in the rain to get a pizza because my team was dying of hunger"
-            ];
 
             this.setState({user: res});
         });

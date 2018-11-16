@@ -2,12 +2,26 @@ import React from 'react';
 import styles from "./Styles/LoginScreenStyles";
 import globalStyles from './Styles/Global';
 
-import { Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, Slider, Switch, ScrollView } from 'react-native';
+import {
+    Text,
+    View,
+    TextInput,
+    TouchableOpacity,
+    Picker,
+    Modal,
+    TouchableHighlight,
+    Slider,
+    Switch,
+    ScrollView,
+    StyleSheet
+} from 'react-native';
+import { List, ListItem } from 'react-native-elements';
 import SelectMultiple from 'react-native-select-multiple';
 
 import Loader from './Components/Loader';
 
 import Connector from '../Utils/Connector';
+import style from "./Components/Styles/ProfileStyles";
 
 export default class EditProfile extends React.Component {
     constructor(props) {
@@ -15,11 +29,13 @@ export default class EditProfile extends React.Component {
 
         this.state = {
             modalVisible: false,
+            milestoneModalVisible: false,
             user: null,
             selectedInterests: [],
             cameraRollVisible: false,
             searchDistance: 1,
             isHidden: false,
+            newMilestoneField: ""
         };
 
         this.interests = [
@@ -81,9 +97,17 @@ export default class EditProfile extends React.Component {
         if (this.state.user == null)
             return <Loader/>;
 
+        let milestones = this.state.user.milestones;
+        let milestonesStyle = globalStyles.listText;
+        if (!this.state.user.milestones || this.state.user.milestones.length === 0) {
+            milestones = ["You have not defined any milestones yet"];
+            milestonesStyle = StyleSheet.flatten([milestonesStyle, style.italics]);
+        }
+        console.log(milestones);
+
         return (
             <ScrollView>
-                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 20}}>
+                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 20, flexDirection: 'column'}}>
                     <TextInput
                         value={this.state.user.name}
                         placeholder='Name'
@@ -154,6 +178,117 @@ export default class EditProfile extends React.Component {
 
                     <View style={globalStyles.spacer}/>
 
+                    <Text style={style.header}>
+                        Milestones
+                    </Text>
+                    <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                        <View style={globalStyles.listContainer}>
+                            <List containerStyle={{marginTop: 0}}>
+                                {
+                                    milestones.map((l, i) => (
+                                        <ListItem
+                                            titleStyle={milestonesStyle}
+                                            key={l}
+                                            title={l}
+                                            titleNumberOfLines={null}
+                                            rightIcon = {
+                                                <TouchableOpacity
+                                                    onPress={
+                                                        () => {
+                                                            let milestones = this.state.user.milestones;
+                                                            milestones.splice(i, 1);
+
+                                                            this.setState({user: {...this.state.user, milestones}})
+                                                        }
+                                                    }
+
+                                                    style={{width: 30, height: 30, alignItems: "center"}}
+                                                >
+                                                    {
+                                                        this.state.user.milestones && this.state.user.milestones.length !== 0 ? (<Text style={{color: "red", fontSize: 20, fontWeight: "bold"}}>
+                                                            X
+                                                        </Text>) : (<View/>)
+                                                    }
+                                                </TouchableOpacity>
+                                            }
+                                        />
+                                    ))
+                                }
+                            </List>
+                        </View>
+                    </View>
+
+                    <View style={globalStyles.spacer}/>
+
+                    <TouchableHighlight
+                        onPress={() => {
+                            this.setState({milestoneModalVisible: true});
+                        }}
+                        style={globalStyles.btnSecondary}
+                    >
+                        <Text style={globalStyles.btnText}>Add a milestone</Text>
+                    </TouchableHighlight>
+
+                    <Modal
+                        transparent={false}
+                        visible={this.state.milestoneModalVisible}
+                        onRequestClose={() => {}}
+                    >
+                        <View style={{marginTop: 22, alignItems: "center"}}>
+                            <TextInput
+                                value={this.state.newMilestoneField}
+                                placeholder='Describe a new milestone'
+                                onChangeText={(text) => this.setState({newMilestoneField: text})}
+                                style={{height: 50, width: 200, borderColor: 'black', borderWidth: 1}}
+                                multiline={true}
+                            />
+
+                            <View style={globalStyles.spacer}/>
+
+                            <TouchableOpacity
+                                style={globalStyles.btnPrimary}
+                                onPress={() => {
+                                    const newList = this.state.user.milestones ? this.state.user.milestones : [];
+                                    newList.push(this.state.newMilestoneField);
+                                    this.setState({
+                                        user: {
+                                            ...this.state.user,
+                                            milestones: newList
+                                        },
+                                        newMilestoneField: "",
+                                        milestoneModalVisible: false
+                                    });
+                                }}
+                            >
+                                <Text style={globalStyles.btnTextBlack}>
+                                    Add
+                                </Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={globalStyles.btn}
+                                onPress={() => {
+                                    this.setState({newMilestoneField: "", milestoneModalVisible: false});
+                                }}
+                            >
+                                <Text style={globalStyles.btnTextBlack}>
+                                    Cancel
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Modal>
+
+                    <View style={globalStyles.spacer}/>
+
+                    <TouchableHighlight
+                        onPress={() => {
+                            this.setModalVisibility(true);
+                        }}
+                        style={globalStyles.btnSecondary}
+                    >
+                        <Text style={globalStyles.btnText}>Edit Interests</Text>
+                    </TouchableHighlight>
+
                     <Modal
                         transparent={false}
                         visible={this.state.modalVisible}
@@ -178,14 +313,7 @@ export default class EditProfile extends React.Component {
                         </View>
                     </Modal>
 
-                    <TouchableHighlight
-                        onPress={() => {
-                            this.setModalVisibility(true);
-                        }}
-                        style={globalStyles.btnSecondary}
-                    >
-                        <Text style={globalStyles.btnText}>Edit Interests</Text>
-                    </TouchableHighlight>
+                    <View style={globalStyles.spacer}/>
 
                     <TouchableOpacity
                         style={globalStyles.btnSecondary}

@@ -10,7 +10,7 @@ export default class QnA extends React.Component {
         super(props);
 
         this.state = {
-            isExpanded: false
+            isExpanded: true
         }
     }
 
