@@ -97,12 +97,12 @@ sendReport = () =>{
                 ]
             )
         }
-        
+
         displayModal = () =>{
             this.setState({modalVisible: true});
         }
         if(!this.props.isSelf){
-            
+
             reportButton = (
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableOpacity style={style.button} onPress={report}>
@@ -112,7 +112,7 @@ sendReport = () =>{
                     </TouchableOpacity>
                 </View>
             );
-            
+
         }
         else{
             reportButton = null;
@@ -141,6 +141,21 @@ sendReport = () =>{
             bioText = (
                 <Text>
                     {user.bio}
+                </Text>
+            );
+        }
+
+        let goalText;
+        if (!user.goal || user.goal === "") {
+            goalText = (
+                <Text style={style.italics}>
+                    This user has not declared a goal yet!
+                </Text>
+            );
+        } else {
+            goalText = (
+                <Text>
+                    {user.goal}
                 </Text>
             );
         }
@@ -193,6 +208,17 @@ sendReport = () =>{
                             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                                 <View style={style.textBox}>
                                     {bioText}
+                                </View>
+                            </View>
+
+                            <View style={style.spacer} />
+
+                            <Text style={style.header}>
+                                Goal
+                            </Text>
+                            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                                <View style={style.textBox}>
+                                    {goalText}
                                 </View>
                             </View>
 

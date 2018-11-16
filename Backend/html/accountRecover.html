@@ -2,60 +2,63 @@
 <html>
 
 <body>
-<!-- <script type="text/javascript" src="passwordChange.js"></script> -->
-<h2>SwoleMate Password Recovery</h2>
-<font color="red"><p id="test"></p></font>
-<font color="red"><p id="errorcode"></p></font>
-<font color="green"><p id="succescode"></p></font>
+    <!-- <script type="text/javascript" src="passwordChange.js"></script> -->
+    <h2>SwoleMate Password Recovery</h2>
+    <font color="red">
+        <p id="test"></p>
+    </font>
+    <font color="red">
+        <p id="errorcode"></p>
+    </font>
+    <font color="green">
+        <p id="succescode"></p>
+    </font>
+    <form onsubmit="return myFunction(this)">
+        New Password<br>
+        <input type="password" name="pass" value="">
+        <br>
+        Verifiy<br>
+        <input type="password" name="passs" value="">
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <p>If you do not want to reset your password leave this page.</p>
 
-<form onsubmit="return myFunction(this)">
-  New Password<br>
-  <input type="password" name="pass" value="">
-  <br>
-  Verifiy<br>
-  <input type="password" name="passs" value="">
-  <br><br>
-  <input type="submit" value="Submit">
-</form>
-
-<p>If you do not want to reset your password leave this page.</p>
 </html>
-
 </body>
-
 <script>
 function myFunction(element) {
-	if(element.pass.value === element.passs.value){
-		document.getElementById("succescode").innerHTML = "SUCCESS";
-		document.getElementById("errorcode").innerHTML = "";
-		// document.getElementById("test").innerHTML = document.URL.indexOf('y');
-		let url = document.URL;
-		url = url.substring(url.indexOf('y')+2);
-    console.log(url);
-    console.log("^^");
-		// document.getElementById("test").innerHTML = url;
-		// THISISAFATTEST();
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function(out){
-			if(this.readuState == 4 && this.status == 200){
+    if (element.pass.value === element.passs.value) {
+        document.getElementById("succescode").innerHTML = "SUCCESS";
+        document.getElementById("errorcode").innerHTML = "";
+        // document.getElementById("test").innerHTML = document.URL.indexOf('y');
+        let url = document.URL;
+        url = url.substring(url.indexOf('y') + 2);
+        // console.log(url);
+        // console.log("^^");
+        // document.getElementById("test").innerHTML = url;
+        // THISISAFATTEST();
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(out) {
+            if (this.readuState == 4 && this.status == 200) {
 
-			}
-		}
-		const jsons = {
-			email:url,
-			password:element.pass.value
-		}
-		xhttp.open("POST", "/user/passwordChange");
-		xhttp.setRequestHeader('Content-type', 'application/json');
-		xhttp.send(JSON.stringify(jsons));
-		element.pass.value = "";
-	    element.passs.value = "";
-		return false;
-	}
-	document.getElementById("errorcode").innerHTML = "Passwords were not the same, try agian.";
-	document.getElementById("succescode").innerHTML = "";
+            }
+        }
+        const jsons = {
+            email: url,
+            password: element.pass.value
+        }
+        xhttp.open("POST", "/user/passwordChange");
+        xhttp.setRequestHeader('Content-type', 'application/json');
+        xhttp.send(JSON.stringify(jsons));
+        element.pass.value = "";
+        element.passs.value = "";
+        return false;
+    }
+    document.getElementById("errorcode").innerHTML = "Passwords were not the same, try agian.";
+    document.getElementById("succescode").innerHTML = "";
     element.pass.value = "";
     element.passs.value = "";
-	return false;
+    return false;
 }
 </script>
