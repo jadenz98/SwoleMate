@@ -7,13 +7,14 @@ export default class OtherProfileScreen extends React.Component{
         super(props);
 
         this.state = {
-            email: props.navigation.getParam('email')
+            email: props.navigation.getParam('email'),
+            originalEmail: props.navigation.getParam('originalEmail')
         };
     }
 
     render () {
         return(
-            <Profile email={this.state.email} />
+            <Profile email={this.state.email} originalEmail={this.state.originalEmail} />
         );
     }
 }

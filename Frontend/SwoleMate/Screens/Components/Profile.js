@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Image, ScrollView} from 'react-native';
+import { TextInput, Modal, Alert, Text, View, Image, ScrollView, TouchableOpacity} from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import style from './Styles/ProfileStyles';
 import Connector from "../../Utils/Connector";
@@ -23,7 +23,10 @@ export default class Profile extends React.Component {
 
         this.state = {
             user: null,
-            fontsAreLoaded: false
+            fontsAreLoaded: false,
+            modalVisible: false,
+            reportMessage: '',
+            originalEmail: props.originalEmail,
         };
 
         Connector.get('/user', {email: props.email}, (res) => {
@@ -39,7 +42,7 @@ export default class Profile extends React.Component {
         });
     }
 
-    async componentDidMount(){
+    async componentDidMount () {
         await Font.loadAsync({
             MaterialIcons
         });
@@ -47,6 +50,29 @@ export default class Profile extends React.Component {
             fontsAreLoaded: true
         });
     }
+
+    sendReport = () =>{
+        Connector.post('/user/report', {
+                email: this.props.originalEmail,
+                emailReported: this.state.user.email,
+                reportMessage: this.state.reportMessage
+            }, {
+                email: this.state.originalEmail
+            }, (res) => {
+                this.setState({modalVisible: false});
+            });
+    };
+
+    confirmReport = () =>{
+        Alert.alert(
+            'Report',
+            'Are you sure you want to report this person',
+            [
+                {text: 'Report', onPress: () => this.setState({modalVisible: true})},
+                {text: 'Cancel'}
+            ]
+        )
+    };
 
     render () {
         if (this.state.user == null || !this.state.fontsAreLoaded)
@@ -68,6 +94,21 @@ export default class Profile extends React.Component {
                     style={style.profileImage}
                     source={require('../images/generic-profile-picture.png')}
                 />;
+        }
+
+        let reportButton;
+        if(!this.props.isSelf){
+            reportButton = (
+                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                    <TouchableOpacity style={style.button} onPress={this.confirmReport}>
+                        <Text>
+                            Report
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            );
+        } else {
+            reportButton = null;
         }
 
         const interestImages = (
@@ -122,6 +163,24 @@ export default class Profile extends React.Component {
 
         return(
             <ScrollView>
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.modalVisible}>
+                    <View>
+                        <TextInput
+                            placeholder='Please explain why you are reporting this person'
+                            onChangeText={ (reportMessage) => this.setState({reportMessage})}
+                            style={{height: 200, width: 200, borderColor: 'black', borderWidth: 1}}
+                            multiline={true}
+                        />
+                        <TouchableOpacity onPress={this.sendReport}>
+                            <Text>
+                                Send report
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
                 <View style={{flex:1, alignItems: 'stretch', flexDirection: 'column'}}>
                     <View style={{alignItems: 'center'}}>
                         <Text style={style.username}>
@@ -179,6 +238,8 @@ export default class Profile extends React.Component {
                                     </List>
                                 </View>
                             </View>
+                            {reportButton}
+                            <View style={style.spacer} />
                         </View>
                     </View>
                 </View>

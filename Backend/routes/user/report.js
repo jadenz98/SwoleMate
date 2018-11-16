@@ -3,6 +3,18 @@ var router = express.Router();
 
 import Mongo from '../../utils/Mongo';
 
+
+router.get('/', function(req, res, next) {
+    let email = req.header("email");
+    Mongo.findReal("reports", {email:email}, undefined, (bac) => {
+        res.json(bac);
+    });
+});
+
+
+
+
+
 /* POST update info */
 router.post('/', function(req, res, next) {
     let email = req.body.email;
@@ -14,14 +26,17 @@ router.post('/', function(req, res, next) {
         emailReported: emailReported,
         reportMessage: reportMessage
     }
-    console.log(message);
 
-    const resp = {
-        success: true
-    };
 
-    Mongo.insert("reports", message, () => {});
-    res.json(resp);
+
+    Mongo.insert("reports", message, () => {
+        const resp = {
+            success: true
+        };
+        res.json(resp);
+    });
 });
+
+
 
 module.exports = router;
