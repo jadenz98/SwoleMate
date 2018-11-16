@@ -196,6 +196,15 @@ export default class EditProfile extends React.Component {
                         </Text>
                     </TouchableOpacity>
 
+                    <TouchableOpacity
+                        style={globalStyles.btnSecondary}
+                        onPress={()=> { this.props.navigation.navigate('LocationPicker')}}
+                    >
+                        <Text style={globalStyles.btnText}>
+                            Add a Workout Location
+                        </Text>
+                    </TouchableOpacity>
+
                     <View style={globalStyles.spacer}/>
 
                     <Text style={globalStyles.header}>
