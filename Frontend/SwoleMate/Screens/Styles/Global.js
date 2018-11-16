@@ -75,5 +75,13 @@ export default StyleSheet.create({
     },
     background: {
         backgroundColor: '#45a1e8',
+    },
+    listContainer: {
+        flex: 0.9,
+        margin: 5,
+        borderWidth: 2
+    },
+    listText: {
+        fontSize: 14
     }
 });
