@@ -430,12 +430,8 @@ describe('SwoleMate API endpoint testing', () => {
             });
     });
 
-
-
     it('As a user i wanna delete my account', (done) => {
         let x = use[40].email;
-        // console.log(use[40].email);
-        // console.log("EWAFAEWFEAW");
         chai.request(server)
             .post('/user/delete')
             .send({ email: x })
@@ -509,6 +505,7 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
     it('should be able to edit my account', (done) => {
         let x = use[40];
         chai.request(server)
@@ -520,6 +517,7 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
     it('should be able to edit my account', (done) => {
         let x = use[40];
         chai.request(server)
@@ -531,11 +529,12 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
     it('check to see if everything is updated', (done) => {
         let x = use[40];
         // console.log(x);
         chai.request(server)
-            .post('/user')
+            .get('/user')
             .set("email", x.email)
             .send()
             .end((err, res) => {
@@ -549,7 +548,6 @@ describe('SwoleMate API endpoint testing', () => {
             });
     });
 
-
     it('should be able to delete an account at this point', (done) => {
         let x = use[40];
         chai.request(server)
@@ -560,6 +558,7 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
     it('should not be able to log into a deleted account', (done) => {
         let x = use[40];
         chai.request(server)
@@ -570,11 +569,6 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
-
-
-
-
-
 
     it('should be able to update my location', (done) => {
         use[39] = {
@@ -605,10 +599,11 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
     it('should check to make sure location is updated', (done) => {
         let x = use[39];
         chai.request(server)
-            .post('/user')
+            .get('/user')
             .set({ email: x.email })
             .end((err, res) => {
                 res.body.location.coordinates[0].should.equal(57);
@@ -646,10 +641,11 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
     it('should check to make sure location is updated', (done) => {
         let x = use[39];
         chai.request(server)
-            .post('/user')
+            .get('/user')
             .set({ email: x.email })
             .end((err, res) => {
                 res.body.location.coordinates[0].should.equal(57);
@@ -657,6 +653,7 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
     it('should be able to get 10 users from nearbyUsers', (done) => {
         let x = use[14];
         chai.request(server)
@@ -667,6 +664,7 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
     it('should be able to get 10 users from nearbyUsers on a differnt user', (done) => {
         let x = use[0];
         chai.request(server)
@@ -715,6 +713,7 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
     it('If both people swiped on eachother, start a conversation', (done) => {
         let x = use[0];
         chai.request(server)
@@ -725,6 +724,7 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
     it('If both people swiped on eachother, start a conversation', (done) => {
         let x = use[1];
         chai.request(server)
@@ -735,6 +735,7 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
     it('should be able to unmatch with someone', (done) => {
         let x = use[1];
         let y = use[0];
@@ -747,6 +748,7 @@ describe('SwoleMate API endpoint testing', () => {
                 done();
             });
     });
+
     it('If both people swiped on eachother, then one of the umatched, should reflect in DB', (done) => {
         let x = use[1];
         chai.request(server)
