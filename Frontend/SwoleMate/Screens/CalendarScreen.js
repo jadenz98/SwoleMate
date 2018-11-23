@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, View, Text, Image, Button, ScrollView, StyleSheet} from 'react-native';
+import {Dimensions, TouchableOpacity, View, Text, Image, Button, ScrollView, StyleSheet} from 'react-native';
 import styles from './Styles/CalendarScreenStyles';
 import globalStyles from './Styles/Global';
 import Swiper from 'react-native-deck-swiper';
@@ -54,7 +54,7 @@ export default class CalendarScreen extends React.Component {
           />
         
           <TouchableOpacity
-            style={{position: 'absolute', height: 40, width: 40, zIndex: 1}}>
+            style={{position: 'absolute', height: 40, width: 40, top: Dimensions.get('window').height-150, width: 40, left: Dimensions.get('window').width-75, zIndex: 1}}>
             <Image
               style={{height: 40, width: 40}}
               source={require('./images/add.png')}/>
