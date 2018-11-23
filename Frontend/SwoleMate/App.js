@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import {createStackNavigator, createDrawerNavigator} from 'react-navigation';
 
 import LoginScreen from './Screens/LoginScreen';
@@ -21,9 +20,9 @@ import LocationPicker from "./Screens/LocationPicker";
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/
 export default class App extends React.Component {
-  render() {
-    return <DrawerNavigator />;
-  }
+    render() {
+        return <DrawerNavigator />;
+    }
 }
 
 const startStack = createStackNavigator(
@@ -38,7 +37,7 @@ const startStack = createStackNavigator(
             screen: Reset
         },
         ResetConfirm: {
-          screen: ResetConfirm
+            screen: ResetConfirm
         }
     }, {
         initialRouteName: 'Login'
@@ -144,12 +143,3 @@ const DrawerNavigator = createDrawerNavigator(
         initialRouteName: 'Logout'
     }
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-});

@@ -29,12 +29,12 @@ export default class Profile extends React.Component {
             originalEmail: props.originalEmail,
         };
 
-        Connector.get('/user', {email: props.email}, (res) => {
+        Connector.get('/user', {email: this.props.email}, (res) => {
             const interests = res.interests;
 
-            for(let i=0;i<interests.length;i++){
-                if(interests[i] in this.renderImage){
-                    this.renderImage[interests[i]]=true;
+            for (let i = 0; i < interests.length; i++) {
+                if (interests[i] in this.renderImage) {
+                    this.renderImage[interests[i]] = true;
                 }
             }
 
@@ -46,13 +46,16 @@ export default class Profile extends React.Component {
         await Font.loadAsync({
             MaterialIcons
         });
+
         this.setState({
-            fontsAreLoaded: true
+            fontsAreLoaded: true,
+            user: null
         });
     }
 
-    sendReport = () =>{
-        Connector.post('/user/report', {
+    sendReport = () => {
+        Connector.post(
+            '/user/report', {
                 email: this.props.originalEmail,
                 emailReported: this.state.user.email,
                 reportMessage: this.state.reportMessage
@@ -60,7 +63,8 @@ export default class Profile extends React.Component {
                 email: this.state.originalEmail
             }, (res) => {
                 this.setState({modalVisible: false});
-            });
+            }
+        );
     };
 
     confirmReport = () =>{
@@ -161,12 +165,14 @@ export default class Profile extends React.Component {
             milestonesStyle = StyleSheet.flatten([milestonesStyle, style.italics]);
         }
 
-        return(
+        return (
             <ScrollView>
                 <Modal
                     animationType="slide"
                     transparent={false}
-                    visible={this.state.modalVisible}>
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {}}
+                >
                     <View>
                         <TextInput
                             placeholder='Please explain why you are reporting this person'

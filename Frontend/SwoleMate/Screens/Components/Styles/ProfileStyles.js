@@ -2,7 +2,7 @@ import { StyleSheet} from 'react-native';
 
 //exports stylesheet to be used in other classes
 export default StyleSheet.create({
-    italics:{
+    italics: {
         fontStyle: 'italic'
     },
     header: {

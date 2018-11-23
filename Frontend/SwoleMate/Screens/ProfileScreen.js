@@ -1,8 +1,8 @@
 import React from 'react';
-import {TouchableOpacity, Text, Image} from 'react-native';
+import { TouchableOpacity, Text, Image } from 'react-native';
 import globalStyles from './Styles/Global';
 import style from './Styles/ProfileScreenStyles';
-import {DrawerActions} from "react-navigation";
+import { DrawerActions } from "react-navigation";
 
 import Profile from './Components/Profile';
 
@@ -11,7 +11,8 @@ export default class ProfileScreen extends React.Component{
         super(props);
 
         this.state = {
-            email: props.navigation.dangerouslyGetParent().getParam('email')
+            email: props.navigation.dangerouslyGetParent().getParam('email'),
+            isFocused: false
         };
     }
 
@@ -35,8 +36,26 @@ export default class ProfileScreen extends React.Component{
         )
     });
 
+    componentDidMount() {
+        this.subs = [
+            this.props.navigation.addListener("didFocus", () => {
+                this.setState({ isFocused: true })
+            }),
+            this.props.navigation.addListener("willBlur", () => {
+                this.setState({ isFocused: false })
+            })
+        ];
+    }
+
+    componentWillUnmount() {
+        this.subs.forEach(sub => sub.remove());
+    }
+
     render () {
-        return(
+        if (!this.state.isFocused)
+            return null;
+
+        return (
             <Profile email={this.state.email} isSelf={true} />
         );
     }

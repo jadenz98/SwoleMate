@@ -48,7 +48,6 @@ export default class EditProfile extends React.Component {
         const email = props.navigation.dangerouslyGetParent().getParam('email');
         Connector.get('/user', {email: email}, (res) => {
             this.setState({user: res});
-            console.log(res);
         });
 
         this.save = this.save.bind(this);
@@ -348,19 +347,19 @@ export default class EditProfile extends React.Component {
                     <View style={globalStyles.spacer}/>
 
                     <Text style={globalStyles.header}>
-                      Set search distance
+                        Set search distance
                     </Text>
 
                     <View style={styles.container}>
-                      <Text>{this.state.user.searchDistance}</Text>
-                      <Slider
-                        value={this.state.user.searchDistance}
-                        style={{ width: 300 }}
-                        minimumValue={1}
-                        maximumValue={100}
-                        step={1}
-                        onValueChange={(val) => this.setState({user: {...this.state.user, searchDistance: val}})}
-                      />
+                        <Text>{this.state.user.searchDistance}</Text>
+                        <Slider
+                            value={this.state.user.searchDistance}
+                            style={{ width: 300 }}
+                            minimumValue={1}
+                            maximumValue={100}
+                            step={1}
+                            onValueChange={(val) => this.setState({user: {...this.state.user, searchDistance: val}})}
+                        />
                     </View>
 
                     <View style={globalStyles.spacer}/>
