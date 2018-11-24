@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from "./Styles/LoginScreenStyles";
 import globalStyles from './Styles/Global';
 
 import {
@@ -17,6 +16,7 @@ import {
 } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import SelectMultiple from 'react-native-select-multiple';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Loader from './Components/Loader';
 
@@ -105,12 +105,16 @@ export default class EditProfile extends React.Component {
         console.log(milestones);
 
         return (
-            <ScrollView>
+            <KeyboardAwareScrollView
+                scrollEnabled={true}
+                contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
+                enableOnAndroid={true}
+            >
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 20, flexDirection: 'column'}}>
                     <TextInput
                         value={this.state.user.name}
                         placeholder='Name'
-                        style={styles.textbox}
+                        style={globalStyles.inputBox}
                         onChangeText={(name) => this.setState({user: {...this.state.user, name: name}})}
                         autoCapitalize='none'
                         autoCorrect={false}
@@ -121,7 +125,7 @@ export default class EditProfile extends React.Component {
                     <TextInput
                         value={this.state.user.email}
                         placeholder='Email'
-                        style={styles.textbox}
+                        style={globalStyles.inputBox}
                         onChangeText={(email) => this.setState({user: {...this.state.user, email: email}})}
                         autoCapitalize='none'
                         autoCorrect={false}
@@ -132,7 +136,7 @@ export default class EditProfile extends React.Component {
                     <TextInput
                         value={this.state.user.birthday}
                         placeholder='Birthday (mm/dd/yyyy)'
-                        style={styles.textbox}
+                        style={globalStyles.inputBox}
                         onChangeText={(birthday) => this.setState({user: {...this.state.user, birthday}})}
                         keyboardType='decimal-pad'
                         maxLength={10}
@@ -143,25 +147,32 @@ export default class EditProfile extends React.Component {
                     <TextInput
                         value={this.state.user.phone}
                         placeholder='Phone Number'
-                        style={styles.textbox}
+                        style={globalStyles.inputBox}
                         onChangeText={(phone) => this.setState({user: {...this.state.user, phone}})}
                         keyboardType='phone-pad'
                     />
 
-                    <Picker
-                        selectedValue={this.state.user.sex}
-                        style={{height: 50, width: 150}}
-                        onValueChange={(itemValue, itemIndex) => this.setState({user: {...this.state.user, sex: itemValue}})}>
-                        <Picker.Item label="Male" value="male"/>
-                        <Picker.Item label="Female" value="female"/>
-                        <Picker.Item label="Prefer not to specify" value="not_specified"/>
-                    </Picker>
+                    <View style={{
+                        borderWidth: 1,
+                        margin: 5,
+                        backgroundColor: 'white'
+                    }}>
+                        <Picker
+                            selectedValue={this.state.user.sex}
+                            style={{width: 150}}
+                            onValueChange={(itemValue, itemIndex) => this.setState({user: {...this.state.user, sex: itemValue}})}
+                        >
+                            <Picker.Item label="Male" value="male"/>
+                            <Picker.Item label="Female" value="female"/>
+                            <Picker.Item label="Prefer not to specify" value="not_specified"/>
+                        </Picker>
+                    </View>
 
                     <TextInput
                         value={this.state.user.bio}
                         placeholder='Describe yourself and what you are looking for'
                         onChangeText={ (bio) => this.setState({user: {...this.state.user, bio}})}
-                        style={{height: 200, width: 200, borderColor: 'black', borderWidth: 1}}
+                        style={{height: 200, width: 200, borderColor: 'black', backgroundColor: 'white', borderWidth: 1, padding: 5}}
                         multiline={true}
                     />
 
@@ -171,7 +182,7 @@ export default class EditProfile extends React.Component {
                         value={this.state.user.goal}
                         placeholder='Describe what you are working towards'
                         onChangeText={ (goal) => this.setState({user: {...this.state.user, goal}})}
-                        style={{height: 50, width: 200, borderColor: 'black', borderWidth: 1}}
+                        style={{height: 50, width: 200, borderColor: 'black', borderWidth: 1, backgroundColor: 'white', padding: 5}}
                         multiline={true}
                     />
 
@@ -238,7 +249,7 @@ export default class EditProfile extends React.Component {
                                 value={this.state.newMilestoneField}
                                 placeholder='Describe a new milestone'
                                 onChangeText={(text) => this.setState({newMilestoneField: text})}
-                                style={{height: 50, width: 200, borderColor: 'black', borderWidth: 1}}
+                                style={{height: 50, width: 200, borderColor: 'black', borderWidth: 1, padding: 5}}
                                 multiline={true}
                             />
 
@@ -323,6 +334,8 @@ export default class EditProfile extends React.Component {
                         </Text>
                     </TouchableOpacity>
 
+                    <View style={globalStyles.spacer}/>
+
                     <TouchableOpacity
                         style={globalStyles.btnSecondary}
                         onPress={()=> { this.props.navigation.navigate('LocationPicker',{email: this.props.navigation.getParam('email')})}}
@@ -350,7 +363,13 @@ export default class EditProfile extends React.Component {
                         Set search distance
                     </Text>
 
-                    <View style={styles.container}>
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: '#F5FCFF'
+                    }}>
                         <Text>{this.state.user.searchDistance}</Text>
                         <Slider
                             value={this.state.user.searchDistance}
@@ -377,7 +396,7 @@ export default class EditProfile extends React.Component {
                         </Text>
                     </TouchableOpacity>
                 </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
         );
     }
 }

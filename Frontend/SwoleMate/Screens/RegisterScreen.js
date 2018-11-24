@@ -1,11 +1,11 @@
 import React from 'react';
-import { Text, View, TextInput, TouchableOpacity, Picker, ScrollView, KeyboardAvoidingView } from 'react-native';
-import Connector from '../Utils/Connector'
+import { Text, View, TextInput, TouchableOpacity, Picker } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Connector from '../Utils/Connector';
 import Loader from './Components/Loader';
 import { NavigationActions } from "react-navigation";
 
 import globalStyles from './Styles/Global';
-import styles from './Styles/LoginScreenStyles';
 
 export default class RegisterScreen extends React.Component{
     constructor(props){
@@ -54,140 +54,152 @@ export default class RegisterScreen extends React.Component{
             return <Loader/>;
 
         return(
-            <ScrollView
-                contentContainerStyle={{flexGrow: 1}}
+            <KeyboardAwareScrollView
                 scrollEnabled={true}
-                keyboardShouldPersistTaps='handled'
+                contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
+                enableOnAndroid={true}
+                extraScrollHeight={250}
             >
-                <KeyboardAvoidingView
-                    style={{flex:1, alignItems: 'center', justifyContent: 'center'}}
-                    behavior="padding" enabled
-                >
-                    <View style={globalStyles.spacer}/>
+                <View style={globalStyles.spacer}/>
 
-                    <Text style={globalStyles.header}>
-                        Register a new Swolemate Account Here
-                    </Text>
+                <Text style={globalStyles.header}>
+                    Register a new Swolemate Account Here
+                </Text>
 
-                    <View style={globalStyles.spacer}/>
+                <View style={globalStyles.spacer}/>
 
-                    <TextInput
-                        ref={input => {this.emailInput = input }}
-                        placeholder='Email'
-                        style={styles.textbox}
-                        onChangeText={ (email) => this.setState({email})}
-                        autoCapitalize='none'
-                        keyboardType='email-address'
-                        textContentType='emailAddress'
-                    />
+                <TextInput
+                    ref={input => {this.emailInput = input }}
+                    placeholder='Email'
+                    style={globalStyles.inputBox}
+                    onChangeText={ (email) => this.setState({email})}
+                    autoCapitalize='none'
+                    keyboardType='email-address'
+                    textContentType='emailAddress'
+                />
 
-                    <TextInput
-                        ref={input => {this.passwordInput = input }}
-                        placeholder='Password'
-                        style={styles.textbox}
-                        onChangeText={ (newPassword) => this.setState({newPassword})}
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                        maxLength={15}
-                        secureTextEntry={true}
-                        textContentType='password'
-                    />
+                <View style={globalStyles.spacerSmall}/>
 
-                    <TextInput
-                        ref={input => {this.passConfirmInput = input }}
-                        placeholder='Confirm Password'
-                        style={styles.textbox}
-                        onChangeText={ (passwordConfirm) => this.setState({passwordConfirm})}
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                        maxLength={15}
-                        secureTextEntry={true}
-                        textContentType='password'
-                    />
+                <TextInput
+                    ref={input => {this.passwordInput = input }}
+                    placeholder='Password'
+                    style={globalStyles.inputBox}
+                    onChangeText={ (newPassword) => this.setState({newPassword})}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    maxLength={15}
+                    secureTextEntry={true}
+                    textContentType='password'
+                />
 
-                    <View style={globalStyles.spacer}/>
+                <View style={globalStyles.spacerSmall}/>
 
-                    <Text style={globalStyles.header}>
-                        Create a Profile
-                    </Text>
+                <TextInput
+                    ref={input => {this.passConfirmInput = input }}
+                    placeholder='Confirm Password'
+                    style={globalStyles.inputBox}
+                    onChangeText={ (passwordConfirm) => this.setState({passwordConfirm})}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    maxLength={15}
+                    secureTextEntry={true}
+                    textContentType='password'
+                />
 
-                    <TextInput
-                        ref={input => {this.nameInput = input }}
-                        placeholder='Name'
-                        style={styles.textbox}
-                        onChangeText={ (name) => this.setState({name})}
-                        autoCapitalize='words'
-                        textContentType='name'
-                    />
+                <View style={globalStyles.spacer}/>
 
+                <Text style={globalStyles.header}>
+                    Create a Profile
+                </Text>
+
+                <TextInput
+                    ref={input => {this.nameInput = input }}
+                    placeholder='Name'
+                    style={globalStyles.inputBox}
+                    onChangeText={ (name) => this.setState({name})}
+                    autoCapitalize='words'
+                    textContentType='name'
+                />
+
+                <View style={globalStyles.spacerSmall}/>
+
+                <TextInput
+                    ref={input => {this.birthdayInput = input }}
+                    placeholder='Birthday (mm/dd/yyyy)'
+                    style={globalStyles.inputBox}
+                    onChangeText={ (birthday) => this.setState({birthday})}
+                    //keyboardType='decimal-pad'
+                    maxLength={10}
+                />
+
+                <View style={globalStyles.spacerSmall}/>
+
+                <TextInput
+                    ref={input => {this.phoneInput = input }}
+                    placeholder='Phone number'
+                    style={globalStyles.inputBox}
+                    onChangeText={ (phone_number) => this.setState({phone_number})}
+                    keyboardType='phone-pad'
+                />
+
+                <View style={{
+                    borderWidth: 1,
+                    margin: 5,
+                    backgroundColor: 'white'
+                }}>
                     <Picker
                         selectedValue={this.state.sex}
-                        style={{ height: 50, width: 150 }}
-                        onValueChange={(itemValue, itemIndex) => this.setState({sex: itemValue})}>
+                        style={{ width: 150 }}
+                        onValueChange={(itemValue, itemIndex) => this.setState({sex: itemValue})}
+                    >
                         <Picker.Item label="Male" value="male" />
                         <Picker.Item label="Female" value="female" />
                         <Picker.Item label="Prefer not to specify" value="not_specified" />
-                        <Picker.Item label="Apache attack helicopter" value="not_specified" />
                     </Picker>
+                </View>
 
-                    <TextInput
-                        ref={input => {this.birthdayInput = input }}
-                        placeholder='Birthday (mm/dd/yyyy)'
-                        style={styles.textbox}
-                        onChangeText={ (birthday) => this.setState({birthday})}
-                        //keyboardType='decimal-pad'
-                        maxLength={10}
-                    />
+                <View style={globalStyles.spacer}/>
 
-                    <TextInput
-                        ref={input => {this.phoneInput = input }}
-                        placeholder='Phone number'
-                        style={styles.textbox}
-                        onChangeText={ (phone_number) => this.setState({phone_number})}
-                        keyboardType='phone-pad'
-                    />
+                <Text style={globalStyles.header}>
+                    Add a Bio
+                </Text>
 
-                    <View style={globalStyles.spacer}/>
+                <TextInput
+                    placeholder='Describe yourself and what you are looking for'
+                    onChangeText={ (bio) => this.setState({bio})}
+                    style={{height: 200, width: 200, borderColor: 'black', backgroundColor: 'white', borderWidth: 1, padding: 5}}
+                    multiline={true}
+                />
 
-                    <Text style={globalStyles.header}>
-                        Add a Bio
+                <View style={globalStyles.spacer}/>
+
+                <Text style={globalStyles.header}>
+                    Add a Goal
+                </Text>
+
+                <TextInput
+                    placeholder='Describe what you are working towards'
+                    onChangeText={ (goal) => this.setState({goal})}
+                    style={{height: 50, width: 200, borderColor: 'black', borderWidth: 1, backgroundColor: 'white', padding: 5}}
+                    multiline={true}
+                />
+
+                <View style={globalStyles.spacer}/>
+
+                <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.registerAccount}>
+                    <Text style={globalStyles.btnText}>
+                        Register Account
                     </Text>
+                </TouchableOpacity>
 
-                    <TextInput
-                        placeholder='Describe yourself and what you are looking for'
-                        onChangeText={ (bio) => this.setState({bio})}
-                        style={{height: 200, width: 200, borderColor: 'black', borderWidth: 1}}
-                        multiline={true}
-                    />
-
-                    <Text style={globalStyles.header}>
-                        Add a Goal
+                <TouchableOpacity style={globalStyles.btn} onPress={() => {this.props.navigation.pop()}}>
+                    <Text style={globalStyles.btnTextBlack}>
+                        Cancel
                     </Text>
+                </TouchableOpacity>
 
-                    <TextInput
-                        placeholder='Describe what you are working towards'
-                        onChangeText={ (goal) => this.setState({goal})}
-                        style={{height: 50, width: 200, borderColor: 'black', borderWidth: 1}}
-                        multiline={true}
-                    />
-
-                    <View style={globalStyles.spacer}/>
-
-                    <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.registerAccount}>
-                        <Text style={globalStyles.btnText}>
-                            Register Account
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={globalStyles.btn} onPress={() => {this.props.navigation.pop()}}>
-                        <Text style={globalStyles.btnTextBlack}>
-                            Cancel
-                        </Text>
-                    </TouchableOpacity>
-
-                    <View style={{ height: 300 }} />
-                </KeyboardAvoidingView>
-            </ScrollView>
+                <View style={globalStyles.spacer}/>
+            </KeyboardAwareScrollView>
         );
     }
 

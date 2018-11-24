@@ -1,8 +1,12 @@
 import React from 'react';
 
-import { Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import Connector from '../Utils/Connector';
+
+import globalStyles from './Styles/Global';
+
+import { Header } from 'react-navigation';
 
 export default class Messages extends React.Component{
     constructor(props){
@@ -33,15 +37,15 @@ export default class Messages extends React.Component{
                             console.log(res);
                         }
                     );
-                }}>
-
-                <Text>
+                }}
+                style = { StyleSheet.flatten([globalStyles.btnDanger, {marginRight: 15, width: undefined}]) }
+            >
+                <Text style = {globalStyles.btnText}>
                     Unmatch
                 </Text>
             </TouchableOpacity>
         )
     });
-
 
     componentWillMount() {
         this._interval = setInterval(() => {
@@ -116,12 +120,18 @@ export default class Messages extends React.Component{
             _id: this.state.email
         };
         return (
-            <GiftedChat
-                messages={this.state.messages}
-                onSend={this.onSend}
-                user={user}
-                placeholder='Type a message...'
-            />
+            <KeyboardAvoidingView
+                style={{flex:1}}
+                behavior="padding"
+                keyboardVerticalOffset={Header.HEIGHT + 20}
+            >
+                <GiftedChat
+                    messages={this.state.messages}
+                    onSend={this.onSend}
+                    user={user}
+                    placeholder='Type a message...'
+                />
+            </KeyboardAvoidingView>
         );
     }
 

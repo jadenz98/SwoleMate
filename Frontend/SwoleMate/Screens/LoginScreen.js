@@ -53,21 +53,25 @@ export default class LoginScreen extends React.Component {
 
         //inside of return is jsx style code that will be rendered on the page
         return(
-            <ScrollView contentContainerStyle={{flexGrow: 1}}
-                        scrollEnabled={false}
-                        keyboardShouldPersistTaps='handled'
-                        style={globalStyles.background}>
-                <KeyboardAvoidingView style={{flex:1, alignItems: 'center', justifyContent: 'center'}}
-                                      behavior="padding">
+            <ScrollView
+                contentContainerStyle={{flexGrow: 1}}
+                scrollEnabled={false}
+                keyboardShouldPersistTaps='handled'
+                style={globalStyles.background}
+            >
+                <KeyboardAvoidingView
+                    style={{flex:1, alignItems: 'center', justifyContent: 'center'}}
+                    behavior="padding"
+                >
                     <KeyboardAvoidingView style={{height: 100}}>
                         <Text style={styles.title}>
                             SwoleMate
                         </Text>
                     </KeyboardAvoidingView>
+
                     <TextInput
-                        ref={input => { this.emailInput = input }}
                         placeholder='Email'
-                        style={styles.textbox}
+                        style={globalStyles.inputBox}
                         onChangeText={ (email) => this.setState({email})}
                         autoCapitalize='none'
                         keyboardType='email-address'
@@ -77,9 +81,8 @@ export default class LoginScreen extends React.Component {
                     <View style={globalStyles.spacerSmall}/>
 
                     <TextInput
-                        ref={input => { this.passwordInput = input }}
                         placeholder='Password'
-                        style={styles.textbox}
+                        style={globalStyles.inputBox}
                         onChangeText={ (password) => this.setState({password})}
                         autoCapitalize='none'
                         autoCorrect={false}

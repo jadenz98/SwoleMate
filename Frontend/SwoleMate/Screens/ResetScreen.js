@@ -31,7 +31,7 @@ export default class ResetScreen extends React.Component {
                     <TextInput
                         ref={input => {this.emailInput = input }}
                         placeholder='Email'
-                        style={styles.textbox}
+                        style={globalStyles.inputBox}
                         onChangeText={ (email) => this.setState({email})}
                         autoCapitalize='none'
                         keyboardType='email-address'
