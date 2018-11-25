@@ -18,21 +18,18 @@ router.post('/', function(req, res, next) {
         if (result.length === 0) {
             res.json(yikes);
         } else {
-            for (let i = 0; i < result.length; i++) {
-                Mongo.delete("Users", {_id:result[i]._id}, () => {});
-            }
-
-            Mongo.findReal("Matches", userQuery, undefined, (result) => {
-                for (let i = 0; i < result.length; i++) {
-                    Mongo.delete("Matches", {_id:result[i]._id}, () => {});
-                }
-
-                Mongo.findReal("Conversations", userQuery, undefined, (result) => {
-                    for (let i = 0; i < result.length; i++) {
-                        Mongo.delete("Conversations", {_id:result[i]._id}, () => {});
-                    }
-
-                    res.json(resp);
+            // Delete the user
+            Mongo.delete("Users", userQuery, () => {
+                Mongo.delete("Matches", userQuery, () => {
+                    Mongo.delete("Conversations", {email1: result[0].email}, () => {
+                        Mongo.delete("Conversations", {email2: result[0].email}, () => {
+                            Mongo.delete("reports", {email: result[0].email}, () => {
+                                Mongo.delete("Calendars", {email: result[0].email}, () => {
+                                    res.json(resp);
+                                });
+                            });
+                        });
+                    });
                 });
             });
         }
