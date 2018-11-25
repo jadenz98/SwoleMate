@@ -60,7 +60,13 @@ export default class LoginScreen extends React.Component {
                 `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,about,picture,birthday`
             );
             
-            console.log(await response.json());
+            var loginInfo = await response.json();
+            this.setState({
+                email: loginInfo.email,
+                password: 'Facebook',
+            });
+            this.login();
+            console.log(loginInfo);
         }
         else {
             console.error(type);
@@ -76,6 +82,11 @@ export default class LoginScreen extends React.Component {
         });
 
         if(result.type === 'success'){
+            this.setState({
+                email: result.user.email,
+                password: 'Google',
+            });
+            this.login();
             console.log(result);
         }
         else{

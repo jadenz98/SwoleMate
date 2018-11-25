@@ -1,12 +1,18 @@
 import React from 'react';
 import { Text, View, TextInput, TouchableOpacity, Picker, ScrollView, KeyboardAvoidingView } from 'react-native';
 import Connector from '../Utils/Connector'
+import Expo from 'expo';
 
 import Loader from './Components/Loader';
 
 import globalStyles from './Styles/Global';
 import styles from './Styles/LoginScreenStyles';
 import {NavigationActions} from "react-navigation";
+
+const googleClientIDAndroid = '673192647506-cdmna9p2rs727jl74q48fb5ccoihj7a2.apps.googleusercontent.com'
+const googleClientIdIOS = '673192647506-o37hpl36to83fmfhpj3vob8loc7o03ba.apps.googleusercontent.com'
+const id = '1740497489395130'
+
 
 export default class RegisterScreen extends React.Component{
     constructor(props){
@@ -22,12 +28,70 @@ export default class RegisterScreen extends React.Component{
         phone_number: '',
         bio: '',
         goal: '',
+        socialMediaAccount: false,
         latitude: null,
         longitude: null,
           isGhost: false
       };
         this.getLocation();
     }
+
+
+    fbRegister = async () => {
+      const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync(id, {permissions: [ 'public_profile', 'email', 'user_friends']})
+
+      if(type === 'success'){
+          const response = await fetch(
+              `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,about,picture,birthday`
+          );
+          var loginInfo = await response.json();
+          this.setState({
+            socialMediaAccount: true,
+            email: loginInfo.email,
+            name: loginInfo.name,
+            newPassword: 'Facebook',
+            passwordConfirm: 'Facebook',
+            sex: 'not_specified',
+            
+          });
+          
+          console.log(loginInfo);
+          this.registerAccount();
+
+      }
+      else {
+          console.error(type);
+      }
+  }
+
+  googleRegister = async () => {
+      const result = await Expo.Google.logInAsync({
+          androidClientId: googleClientIDAndroid,
+          iosClientId: googleClientIdIOS,
+          scopes: ['profile', 'email'],
+
+      });
+
+      if(result.type === 'success'){
+          this.setState({
+            socialMediaAccount: true,
+            email: result.user.email,
+            name: result.user.name,
+            newPassword: 'Google',
+            passwrodConfirm: 'Google',
+            sex: 'not_specified',
+
+          });
+          this.registerAccount();
+          console.log(result);
+      }
+      else{
+          console.log('Cancelled');
+      }
+  }
+
+
+
 
     //Function to get user's location
     getLocation(){
@@ -68,6 +132,20 @@ export default class RegisterScreen extends React.Component{
               </Text>
 
                 <View style={globalStyles.spacer}/>
+
+              <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.fbRegister}>
+                  <Text style={globalStyles.btnText}>
+                      Register with Facebook
+                  </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.googleRegister}>
+                  <Text style={globalStyles.btnText}>
+                      Register with Google
+                  </Text>
+              </TouchableOpacity>
+
+              <View style={globalStyles.spacer}/>
+
 
               <TextInput
                 ref={input => {this.emailInput = input }}
@@ -183,6 +261,8 @@ export default class RegisterScreen extends React.Component{
                     </Text>
                 </TouchableOpacity>
 
+                
+
               <View style={{ height: 300 }} />
             </KeyboardAvoidingView>
           </ScrollView>
@@ -191,7 +271,7 @@ export default class RegisterScreen extends React.Component{
 
     //register function
     registerAccount = () => {
-      if(this.validateInput()){
+      if(this.state.socialMediaAccount || this.validateInput()){
         //alert('success');
         Connector.post("/user/register", {
             email:  this.state.email,
