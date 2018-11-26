@@ -1,34 +1,23 @@
 import React from 'react';
 
-import AssetUtils from 'expo-asset-utils';
+import { ImageEditor, ImageStore, Text, View, TouchableOpacity, } from 'react-native';
 
-import {ImageEditor, ImageStore, Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight } from 'react-native';
-import SelectMultiple from 'react-native-select-multiple';
-
-import NativeModules from 'NativeModules';
-import {DrawerActions} from "react-navigation";
 import CameraRollPicker from 'react-native-camera-roll-picker'
-
-import ImageResizer from 'react-native-image-resizer';
 
 import Connector from '../Utils/Connector';
 
-export default class PickPhoto extends React.Component{
-
+export default class PickPhoto extends React.Component {
     constructor(props){
         super(props);
-        this.state= {
+        this.state = {
             photos: [],
             user: null,
             smallerPhotoUri: null,
-        }
+        };
         Connector.get('/user', {email: props.navigation.dangerouslyGetParent().getParam('email')}, (res) => {
             this.setState({user: res});
-            //console.log(res);
         });
     }
-
-    
 
     static navigationOptions = {
         title: 'Pick Photo',
@@ -39,12 +28,12 @@ export default class PickPhoto extends React.Component{
         if (typeof image != 'undefined'){
             this.setState({photos: image});
         }
-    }
+    };
 
     save = () => {
         let photo = {};
 
-        cropData = {
+        const cropData = {
             offset: {x: 0, y: 0},
             size: {
                 width: this.state.photos[0].width,
@@ -55,6 +44,7 @@ export default class PickPhoto extends React.Component{
                 height: ((this.state.photos[0].height))
             }
         };
+
         ImageEditor.cropImage(this.state.photos[0].uri, cropData, success => { 
             ImageStore.getBase64ForTag(success, base64Success =>
                 {
@@ -70,8 +60,7 @@ export default class PickPhoto extends React.Component{
                     
                 }, base64Failure => {console.log(base64Failure)});
         }, failure => { console.log(failure)});
-        
-    }
+    };
 
     render(){
         return(

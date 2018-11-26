@@ -1,8 +1,6 @@
 import React from 'react';
 import { TextInput, Modal, Alert, Text, View, Image, ScrollView, TouchableOpacity} from 'react-native';
-import { List, ListItem } from 'react-native-elements'
-import { NavigationActions,DrawerActions } from 'react-navigation';
-
+import { List, ListItem } from 'react-native-elements';
 import style from './Styles/ProfileStyles';
 import Connector from "../../Utils/Connector";
 import { StyleSheet } from 'react-native';
@@ -11,7 +9,6 @@ import Loader from './Loader';
 import {Font} from "expo";
 
 import MaterialIcons from '../../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
-import ProfileScreenStyles from '../Styles/ProfileScreenStyles';
 
 export default class Profile extends React.Component {
     constructor (props) {
@@ -32,40 +29,55 @@ export default class Profile extends React.Component {
             originalEmail: props.originalEmail,
         };
 
-        Connector.get('/user', {email: props.email}, (res) => {
+        Connector.get('/user', {email: this.props.email}, (res) => {
             const interests = res.interests;
 
-            for(let i=0;i<interests.length;i++){
-                if(interests[i] in this.renderImage){
-                    this.renderImage[interests[i]]=true;
+            for (let i = 0; i < interests.length; i++) {
+                if (interests[i] in this.renderImage) {
+                    this.renderImage[interests[i]] = true;
                 }
             }
-
-            res.milestones = [
-                "Ran a race",
-                "Got up from the couch",
-                "Got out of bed today",
-                "Ran a Triathlon",
-                "I went and walked in the rain to get a pizza because my team was dying of hunger"
-            ];
 
             this.setState({user: res});
         });
     }
 
-    async componentDidMount(){
+    async componentDidMount () {
         await Font.loadAsync({
             MaterialIcons
         });
+
         this.setState({
-            fontsAreLoaded: true
+            fontsAreLoaded: true,
+            user: null
         });
     }
-sendReport = () =>{
-            Connector.post('/user/report',{email: this.props.originalEmail, emailReported: this.state.user.email, reportMessage: this.state.reportMessage},{email: this.state.originalEmail},(res)=>{
+
+    sendReport = () => {
+        Connector.post(
+            '/user/report', {
+                email: this.props.originalEmail,
+                emailReported: this.state.user.email,
+                reportMessage: this.state.reportMessage
+            }, {
+                email: this.state.originalEmail
+            }, (res) => {
                 this.setState({modalVisible: false});
-            });
-        }
+            }
+        );
+    };
+
+    confirmReport = () =>{
+        Alert.alert(
+            'Report',
+            'Are you sure you want to report this person',
+            [
+                {text: 'Report', onPress: () => this.setState({modalVisible: true})},
+                {text: 'Cancel'}
+            ]
+        )
+    };
+
     render () {
         if (this.state.user == null || !this.state.fontsAreLoaded)
             return <Loader/>;
@@ -87,36 +99,22 @@ sendReport = () =>{
                     source={require('../images/generic-profile-picture.png')}
                 />;
         }
-        report = () =>{
-            Alert.alert(
-                'Report',
-                'Are you sure you want to report this person',
-                [
-                    {text: 'Report', onPress: () => this.setState({modalVisible: true})},
-                    {text: 'Cancel'}
-                ]
-            )
-        }
 
-        displayModal = () =>{
-            this.setState({modalVisible: true});
-        }
+        let reportButton;
         if(!this.props.isSelf){
-
             reportButton = (
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                    <TouchableOpacity style={style.button} onPress={report}>
+                    <TouchableOpacity style={style.button} onPress={this.confirmReport}>
                         <Text>
                             Report
                         </Text>
                     </TouchableOpacity>
                 </View>
             );
-
-        }
-        else{
+        } else {
             reportButton = null;
         }
+
         const interestImages = (
             <View style={{flexDirection: 'row'}}>
                 {this.renderImage['Swimming'] && <Image source={require('../images/Swimming.png')}
@@ -283,12 +281,14 @@ sendReport = () =>{
           }
         }
 
-        return(
+        return (
             <ScrollView>
                 <Modal
                     animationType="slide"
                     transparent={false}
-                    visible={this.state.modalVisible}>
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {}}
+                >
                     <View>
                         <TextInput
                             placeholder='Please explain why you are reporting this person'
