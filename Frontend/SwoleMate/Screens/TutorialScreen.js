@@ -1,9 +1,7 @@
 import React from 'react';
-import { Text, View, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
-import QnA from './Components/QnA';
+import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import globalStyles from './Styles/Global';
 import {DrawerActions} from "react-navigation";
-import style from "./Components/Styles/ProfileStyles";
 
 export default class TutorialScreen extends React.Component {
     constructor(props){

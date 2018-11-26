@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {Font, AppLoading } from 'expo';
-import { Platform, Text, View, TextInput, TouchableOpacity, Picker, Modal, TouchableHighlight, FlatList, Image } from 'react-native';
+import { Font } from 'expo';
+import { Platform, View, TouchableOpacity, FlatList, Image } from 'react-native';
 import { List, ListItem } from 'react-native-elements'
 
 import Loader from './Components/Loader';
@@ -9,10 +9,9 @@ import Connector from '../Utils/Connector';
 
 import MaterialIcons from '../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
 import globalStyles from "./Styles/Global";
-import {DrawerActions} from "react-navigation";
+import { DrawerActions } from "react-navigation";
 
 export default class Matches extends React.Component{
-
     constructor(props){
         super(props);
         this.state = {
@@ -22,13 +21,16 @@ export default class Matches extends React.Component{
             picture: null,
             matches: [],
         };
+
+        //gets the user information using the email passed from the previous screen
         Connector.get('/user', {email: this.props.navigation.dangerouslyGetParent().getParam('email')}, (res) => {
             this.setState({
                 user: res,
                 picture: res.photoData,
             });
-            console.log("\n\n\n\n\n" + this.state.user);
         });
+
+        //gets the users matches using the email passed from the previous screen
         Connector.get('/user/matches', {email: this.props.navigation.dangerouslyGetParent().getParam('email')}, (res)=>{
             this.setState({
                 matches: res,
@@ -36,17 +38,16 @@ export default class Matches extends React.Component{
         });
     }
 
-
-    async componentDidMount(){
+    //once the component mounts, it checks the current OS running the app and determines which way to load the required font
+    async componentDidMount() {
         if(Platform.OS === 'ios'){
-        await Font.loadAsync({
-            'Material Icons': require('../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf')
-        });
-        this.setState({
-            fontsAreLoaded: true
-        });
-        }
-        else{
+            await Font.loadAsync({
+                'Material Icons': require('../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf')
+            });
+            this.setState({
+                fontsAreLoaded: true
+            });
+        } else {
             await Font.loadAsync({
                 MaterialIcons
             });
@@ -54,7 +55,6 @@ export default class Matches extends React.Component{
                 fontsAreLoaded: true
             });
         }
-        //console.log("\n\n\n\n\n\n\n\n\n\n\nFonts Loaded");
     }
 
     getMatches = () => {
@@ -78,13 +78,13 @@ export default class Matches extends React.Component{
 
     render(){
         const matches = this.state.matches;
-        if(matches==null||matches==undefined){
+        if (matches == null || !matches) {
             return <Loader/>;
         }
 
-        for(i = 0; i < matches.length; i++){
+        //for each match of the current user, set the appropriate image source depending on whether the user has a chosen profile image
+        for (let i = 0; i < matches.length; i++) {
             matches[i].key = matches[i].email;
-            //console.log(matches[i]);
             if(matches[i].photoData === undefined){
                 matches[i].imgSrc = require('./images/generic-profile-picture.png');
             } else {
@@ -93,20 +93,13 @@ export default class Matches extends React.Component{
             }
         }
 
-        const { fontsAreLoaded } = this.state.fontsAreLoaded;
-        //const encodedData=this.state.picture;
-        return(
+        return (
             <View style={globalStyles.background}>
                 <List>
                     <FlatList
                         data={matches}
                         renderItem={({item}) =>
-                            /*<TouchableOpacity>
-                                <Text>
-                                    {item.key}
-                                </Text>
-                            </TouchableOpacity> */
-                            // remove or comment the TouchableOpacity code above and uncomment code below
+                            // once fonts are loaded, the the list item components for the data above are rendered
                            this.state.fontsAreLoaded ? (
                            <ListItem
                                 roundAvatar

@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from "./Styles/LoginScreenStyles";
 import globalStyles from './Styles/Global';
 
 import {
@@ -12,11 +11,11 @@ import {
     TouchableHighlight,
     Slider,
     Switch,
-    ScrollView,
     StyleSheet
 } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import SelectMultiple from 'react-native-select-multiple';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
@@ -51,18 +50,18 @@ export default class EditProfile extends React.Component {
         const email = props.navigation.dangerouslyGetParent().getParam('email');
         Connector.get('/user', {email: email}, (res) => {
             this.setState({user: res});
-            console.log(res);
         });
 
         this.save = this.save.bind(this);
         this.cancel = this.cancel.bind(this);
     }
 
-    //This sets the title on the top header
+    //This sets any options for the header navigation bar
     static navigationOptions = {
         title: 'Edit Your Profile',
     };
 
+    //callback for when user selects/deselects an option in the TouchMultiple component
     onSelectionsChange = (selectedInterests) => {
         let newUser = this.state.user;
         let interests = [];
@@ -79,10 +78,12 @@ export default class EditProfile extends React.Component {
         });
     };
 
+    //sets the visibility of the interests modal
     setModalVisibility(visible) {
         this.setState({modalVisible: visible});
     }
 
+    //sends updated user data to server to be stored in database
     save () {
         const user = this.state.user;
 
@@ -91,6 +92,7 @@ export default class EditProfile extends React.Component {
         });
     }
 
+    //cancelation of editing profile info will take the user to the previous screen (profile screen)
     cancel () {
         this.props.navigation.pop();
     }
@@ -136,12 +138,16 @@ export default class EditProfile extends React.Component {
         console.log(milestones);
 
         return (
-            <ScrollView>
+            <KeyboardAwareScrollView
+                scrollEnabled={true}
+                contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
+                enableOnAndroid={true}
+            >
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 20, flexDirection: 'column'}}>
                     <TextInput
                         value={this.state.user.name}
                         placeholder='Name'
-                        style={styles.textbox}
+                        style={globalStyles.inputBox}
                         onChangeText={(name) => this.setState({user: {...this.state.user, name: name}})}
                         autoCapitalize='none'
                         autoCorrect={false}
@@ -152,7 +158,7 @@ export default class EditProfile extends React.Component {
                     <TextInput
                         value={this.state.user.email}
                         placeholder='Email'
-                        style={styles.textbox}
+                        style={globalStyles.inputBox}
                         onChangeText={(email) => this.setState({user: {...this.state.user, email: email}})}
                         autoCapitalize='none'
                         autoCorrect={false}
@@ -163,7 +169,7 @@ export default class EditProfile extends React.Component {
                     <TextInput
                         value={this.state.user.birthday}
                         placeholder='Birthday (mm/dd/yyyy)'
-                        style={styles.textbox}
+                        style={globalStyles.inputBox}
                         onChangeText={(birthday) => this.setState({user: {...this.state.user, birthday}})}
                         keyboardType='decimal-pad'
                         maxLength={10}
@@ -174,25 +180,32 @@ export default class EditProfile extends React.Component {
                     <TextInput
                         value={this.state.user.phone}
                         placeholder='Phone Number'
-                        style={styles.textbox}
+                        style={globalStyles.inputBox}
                         onChangeText={(phone) => this.setState({user: {...this.state.user, phone}})}
                         keyboardType='phone-pad'
                     />
 
-                    <Picker
-                        selectedValue={this.state.user.sex}
-                        style={{height: 50, width: 150}}
-                        onValueChange={(itemValue, itemIndex) => this.setState({user: {...this.state.user, sex: itemValue}})}>
-                        <Picker.Item label="Male" value="male"/>
-                        <Picker.Item label="Female" value="female"/>
-                        <Picker.Item label="Prefer not to specify" value="not_specified"/>
-                    </Picker>
+                    <View style={{
+                        borderWidth: 1,
+                        margin: 5,
+                        backgroundColor: 'white'
+                    }}>
+                        <Picker
+                            selectedValue={this.state.user.sex}
+                            style={{width: 150}}
+                            onValueChange={(itemValue, itemIndex) => this.setState({user: {...this.state.user, sex: itemValue}})}
+                        >
+                            <Picker.Item label="Male" value="male"/>
+                            <Picker.Item label="Female" value="female"/>
+                            <Picker.Item label="Prefer not to specify" value="not_specified"/>
+                        </Picker>
+                    </View>
 
                     <TextInput
                         value={this.state.user.bio}
                         placeholder='Describe yourself and what you are looking for'
                         onChangeText={ (bio) => this.setState({user: {...this.state.user, bio}})}
-                        style={{height: 200, width: 200, borderColor: 'black', borderWidth: 1}}
+                        style={{height: 200, width: 200, borderColor: 'black', backgroundColor: 'white', borderWidth: 1, padding: 5}}
                         multiline={true}
                     />
 
@@ -202,7 +215,7 @@ export default class EditProfile extends React.Component {
                         value={this.state.user.goal}
                         placeholder='Describe what you are working towards'
                         onChangeText={ (goal) => this.setState({user: {...this.state.user, goal}})}
-                        style={{height: 50, width: 200, borderColor: 'black', borderWidth: 1}}
+                        style={{height: 50, width: 200, borderColor: 'black', borderWidth: 1, backgroundColor: 'white', padding: 5}}
                         multiline={true}
                     />
 
@@ -269,7 +282,7 @@ export default class EditProfile extends React.Component {
                                 value={this.state.newMilestoneField}
                                 placeholder='Describe a new milestone'
                                 onChangeText={(text) => this.setState({newMilestoneField: text})}
-                                style={{height: 50, width: 200, borderColor: 'black', borderWidth: 1}}
+                                style={{height: 50, width: 200, borderColor: 'black', borderWidth: 1, padding: 5}}
                                 multiline={true}
                             />
 
@@ -387,19 +400,37 @@ export default class EditProfile extends React.Component {
                     <View style={globalStyles.spacer}/>
 
                     <Text style={globalStyles.header}>
+                        Only show basic info
+                    </Text>
+                    <View style={globalStyles.btn}>
+                        <Switch
+                            value={this.state.user.basicInfo}
+                            onValueChange={(switchState) => this.setState({user: {...this.state.user, basicInfo: switchState}})}
+                        />
+                    </View>
+
+                    <View style={globalStyles.spacer}/>
+
+                    <Text style={globalStyles.header}>
                       Set search distance
                     </Text>
 
-                    <View style={styles.container}>
-                      <Text>{this.state.user.searchDistance}</Text>
-                      <Slider
-                        value={this.state.user.searchDistance}
-                        style={{ width: 300 }}
-                        minimumValue={1}
-                        maximumValue={100}
-                        step={1}
-                        onValueChange={(val) => this.setState({user: {...this.state.user, searchDistance: val}})}
-                      />
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: '#F5FCFF'
+                    }}>
+                        <Text>{this.state.user.searchDistance}</Text>
+                        <Slider
+                            value={this.state.user.searchDistance}
+                            style={{ width: 300 }}
+                            minimumValue={1}
+                            maximumValue={100}
+                            step={1}
+                            onValueChange={(val) => this.setState({user: {...this.state.user, searchDistance: val}})}
+                        />
                     </View>
 
                     <View style={globalStyles.spacer}/>
@@ -417,7 +448,7 @@ export default class EditProfile extends React.Component {
                         </Text>
                     </TouchableOpacity>
                 </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
         );
     }
 }

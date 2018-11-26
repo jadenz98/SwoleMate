@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
+import React from 'react';
+import { View, TouchableOpacity, Image } from 'react-native';
 import QnA from './Components/QnA';
 import globalStyles from './Styles/Global';
 import {DrawerActions} from "react-navigation";

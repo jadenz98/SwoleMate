@@ -29,8 +29,6 @@ var userRouter = require('./routes/user/index');
 var nearbyUsersRouter = require('./routes/user/nearbyUsers');
 var deleteEverythingRouter = require('./routes/user/deleteEverything');
 var recoverPasswordRouter = require('./routes/user/recoverPassword');
-// var htmlAccountRecovery = require('./html/accountRecover')
-// var AccountRecoverRouter = require('./routes/index.js');
 var passwordChange = require('./routes/user/passwordChange');
 var reportRouter = require('./routes/user/report');
 var calendarRoute = require('./routes/user/calendar');
@@ -70,12 +68,10 @@ app.use('/user/conversation', conversationRouter);
 app.use('/user/nearbyUsers', nearbyUsersRouter);
 app.use('/user/deleteEverything', deleteEverythingRouter);
 app.use('/user', userRouter);
-app.use('/user/recoverPassword', recoverPasswordRouter);reportRouter
+app.use('/user/recoverPassword', recoverPasswordRouter);
 app.use('/user/passwordChange', passwordChange);
 app.use('/user/report', reportRouter);
 app.use('/user/calendar', calendarRoute);
-// app.use('/index?*', indexRouter);
-// reportRouter
 app.disable('etag');
 
 // catch 404 and forward to error handler

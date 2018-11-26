@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, View, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
 import Connector from '../Utils/Connector';
 import { NavigationActions } from 'react-navigation';
@@ -7,7 +7,6 @@ import Loader from './Components/Loader';
 
 import globalStyles from './Styles/Global';
 import styles from './Styles/LoginScreenStyles';
-import LoginScreenStyles from './Styles/LoginScreenStyles';
 
 export default class LoginScreen extends React.Component {
     constructor(props){
@@ -28,7 +27,7 @@ export default class LoginScreen extends React.Component {
         this.getLocation();
     }
 
-    //This sets the title on the top header
+    //This sets any options for the header navigation bar
     static navigationOptions = {
         title: 'Login',
     };
@@ -49,106 +48,104 @@ export default class LoginScreen extends React.Component {
     }
 
     render () {
-      if(this.state.latitude == null)
-          return <Loader/>;
+        //if latitude has not been set, a loader screen will appear until it is
+        if(this.state.latitude == null)
+            return <Loader/>;
 
         //inside of return is jsx style code that will be rendered on the page
         return(
-          <ScrollView contentContainerStyle={{flexGrow: 1}}
-                      scrollEnabled={false}
-                      keyboardShouldPersistTaps='handled'
-                      style={globalStyles.background}>
-            <KeyboardAvoidingView style={{flex:1, alignItems: 'center', justifyContent: 'center'}}
-                                  behavior="padding">
-                <KeyboardAvoidingView style={{height: 100}}>
-                <Text style={LoginScreenStyles.title}>
-                    SwoleMate
-                </Text>
+            <ScrollView
+                contentContainerStyle={{flexGrow: 1}}
+                scrollEnabled={false}
+                keyboardShouldPersistTaps='handled'
+                style={globalStyles.background}
+            >
+                <KeyboardAvoidingView
+                    style={{flex:1, alignItems: 'center', justifyContent: 'center'}}
+                    behavior="padding"
+                >
+                    <KeyboardAvoidingView style={{height: 100}}>
+                        <Text style={styles.title}>
+                            SwoleMate
+                        </Text>
+                    </KeyboardAvoidingView>
+
+                    <TextInput
+                        placeholder='Email'
+                        style={globalStyles.inputBox}
+                        onChangeText={ (email) => this.setState({email})}
+                        autoCapitalize='none'
+                        keyboardType='email-address'
+                        textContentType='emailAddress'
+                    />
+
+                    <View style={globalStyles.spacerSmall}/>
+
+                    <TextInput
+                        placeholder='Password'
+                        style={globalStyles.inputBox}
+                        onChangeText={ (password) => this.setState({password})}
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        maxLength={15}
+                        secureTextEntry={true}
+                        textContentType='password'
+                    />
+
+                    <TouchableOpacity onPress={this.goToReset}>
+                        <Text style={globalStyles.resetText}>Forgot Password</Text>
+                    </TouchableOpacity>
+
+                    <View style={globalStyles.spacer}/>
+
+                    <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.login}>
+                        <Text style={globalStyles.btnText}>
+                            Login
+                        </Text>
+                    </TouchableOpacity>
+
+                    {/*This is the Register button*/}
+                    <TouchableOpacity style={globalStyles.btn} onPress={this.register}>
+                        <Text style={globalStyles.btnTextBlack}>
+                            Register
+                        </Text>
+                    </TouchableOpacity>
                 </KeyboardAvoidingView>
-                <TextInput
-                    ref={input => { this.emailInput = input }}
-                    placeholder='Email'
-                    style={styles.textbox}
-                    onChangeText={ (email) => this.setState({email})}
-                    autoCapitalize='none'
-                    keyboardType='email-address'
-                    textContentType='emailAddress'
-                />
-
-                <View style={globalStyles.spacerSmall}/>
-
-                <TextInput
-                    ref={input => { this.passwordInput = input }}
-                    placeholder='Password'
-                    style={styles.textbox}
-                    onChangeText={ (password) => this.setState({password})}
-                    autoCapitalize='none'
-                    autoCorrect={false}
-                    maxLength={15}
-                    secureTextEntry={true}
-                    textContentType='password'
-                />
-
-                <TouchableOpacity onPress={this.goToReset}>
-                  <Text style={globalStyles.resetText}>Forgot Password</Text>
-                </TouchableOpacity>
-
-                {/*TouchableOpacity will be used as a button because it is more customizable and can funtion the same.
-                This is the login button
-                onPress tells the button what do do when pressed (here it calls the login function defined below)*/}
-
-                <View style={globalStyles.spacer}/>
-
-                <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.login}>
-                    <Text style={globalStyles.btnText}>
-                        Login
-                    </Text>
-                </TouchableOpacity>
-
-                {/*This is the Register button*/}
-                <TouchableOpacity style={globalStyles.btn} onPress={this.register}>
-                    <Text style={globalStyles.btnTextBlack}>
-                        Register
-                    </Text>
-                </TouchableOpacity>
-            </KeyboardAvoidingView>
-          </ScrollView>
+            </ScrollView>
         );
     }
 
+    //takes user to resetPassword page
     goToReset = () => {
-      this.props.navigation.navigate('Reset')
-    }
+        this.props.navigation.navigate('Reset')
+    };
 
-    // login function (needs to be implemented)
+    //logs in the user with provided credentials via the TextInputs
     login = () => {
-        //sends alert to screen testing username and password are stored correctly (will eventually be taken out or commented out)
-        //alert('Username: ' + this.state.username + '\nPassword: ' + this.state.password);
-
         Connector.post("/user/login", {
             email: this.state.email,
             password: this.state.password
         }, {}, (response) => {
             console.log(response.success);
             if(response.success){ //Server returned success on login
+                
                 //object to pass user info to next screen
-                var userinfo = {
-                  email: this.state.email
+                const userInfo = {
+                    email: this.state.email
                 };
 
+                //sends the users current location to the server
                 Connector.post("/user/updateLocation",
-                  {
-                    latitude: this.state.latitude,
-                    longitude: this.state.longitude,
-                  },
-                  {
-                    email: this.state.email
-                  }, (response) => {
-                    console.log(response);
-                  }
+                    {
+                        latitude: this.state.latitude,
+                        longitude: this.state.longitude,
+                    },
+                    {
+                        email: this.state.email
+                    }, (response) => {
+                        console.log(response);
+                    }
                 );
-                //this should eventually be removed
-                //alert('Lat: ' + this.state.latitude + '\nLong: ' + this.state.longitude + '\nError: ' + this.state.error);
 
                 const screensToPassInfoTo = [
                     'Home',
@@ -158,7 +155,7 @@ export default class LoginScreen extends React.Component {
 
                 for (let i = 0; i < screensToPassInfoTo.length; i++){
                     const setParamsAction = NavigationActions.setParams({
-                        params: userinfo,
+                        params: userInfo,
                         key: screensToPassInfoTo[i]
                     });
                     this.props.navigation.dangerouslyGetParent().dispatch(setParamsAction);
@@ -166,15 +163,14 @@ export default class LoginScreen extends React.Component {
 
                 this.props.navigation.navigate('Home');
             } else { //Server returned failure on login
-                //this.emailInput.clear(); //Clears both TextInput's and displays alert
                 this.passwordInput.clear();
-                alert('Login information was incorrect')
+                alert('Login information was incorrect');
             }
         });
     };
 
-    //register function (sends to RegisterScreen)
+    //takes user to register screen
     register = () => {
-        this.props.navigation.navigate('Register')
+        this.props.navigation.navigate('Register');
     };
 }

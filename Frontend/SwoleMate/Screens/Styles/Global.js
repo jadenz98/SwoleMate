@@ -8,7 +8,7 @@ export default StyleSheet.create({
     },
     icon: {
         height: '100%',
-        width: '100%',
+        width: '100%'
     },
     hamburger: {
         width: 35,
@@ -50,6 +50,14 @@ export default StyleSheet.create({
         width: 150,
         alignItems: 'center'
     },
+    btnDanger: {
+        margin: 5,
+        backgroundColor: '#dc3545',
+        padding: 5,
+        borderRadius: 5,
+        width: 150,
+        alignItems: 'center'
+    },
     btn: {
         margin: 5,
         backgroundColor: 'white',
@@ -62,19 +70,30 @@ export default StyleSheet.create({
     btnText: {
         color: 'white',
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 16,
+        textAlign: 'center'
     },
     resetText: {
         color: "white",
         fontSize: 10,
+        textAlign: 'center'
     },
     btnTextBlack: {
         color: 'black',
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 16,
+        textAlign: 'center'
+    },
+    inputBox: {
+        paddingLeft: 5,
+        paddingRight: 5,
+        width: 150,
+        borderColor: 'black',
+        backgroundColor: 'white',
+        borderWidth: 1
     },
     background: {
-        backgroundColor: '#45a1e8',
+        backgroundColor: '#45a1e8'
     },
     listContainer: {
         flex: 0.9,

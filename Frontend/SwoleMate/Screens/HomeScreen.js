@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, View, Text, Image, Button, StyleSheet} from 'react-native';
+import { TouchableOpacity, View, Text, Image } from 'react-native';
 import styles from './Styles/HomeScreenStyles';
 import globalStyles from './Styles/Global';
 import Swiper from 'react-native-deck-swiper';
@@ -11,30 +11,28 @@ import Loader from './Components/Loader';
 export default class HomeScreen extends React.Component{
     constructor(props) {
         super(props);
-        const {navigation} = this.props;
-        const name = navigation.getParam('username');
         this.state = {
             user: null,
             picture: null,
             potentialMatches: []
         };
 
+        //gets current user information from the server using the email passed from the previous screen
         Connector.get('/user', {email: props.navigation.dangerouslyGetParent().getParam('email')}, (res) => {
             this.setState({
                 user: res,
                 picture: res.photoData,
             });
-            //console.log("\n\n\n\n\n" + res.photoData);
         });
+        //gets all nearby users to current user (matching currently stored search criteria)
         Connector.get('/user/nearbyUsers', {email: props.navigation.dangerouslyGetParent().getParam('email')}, (res)=>{
             this.setState({
                 potentialMatches: res,
             });
-            //console.log(res);
         });
     }
 
-    //This sets the title on the top header
+    //This sets any options for the header navigation bar
     static navigationOptions = ({ navigation }) => ({
         title: 'SwoleMate',
         headerLeft: (
@@ -49,40 +47,41 @@ export default class HomeScreen extends React.Component{
 
     render(){
         let potentialMatchInfo = this.state.potentialMatches;
+
+        //if potentialMatches have not loaded, show a loading screen
         if(potentialMatchInfo==null){
             return <Loader/>;
         }
-        for(let i=0; i < potentialMatchInfo.length; i++){
+        for(let i=0; i < potentialMatchInfo.length; i++){ //for each nearby user that is a potential match
+            //if the user does not have a profile photo on file, use a generic photo
             if(potentialMatchInfo[i].photoData === undefined){
-                //console.log("\n\n\n\n\n\n\n\nIMAGE UNDEFINED\n\n\n\n\n\n\n\n")
                 potentialMatchInfo[i].img=(
                     <Image style={{width: 300, height: 400}}
-                        source={require('./images/generic-profile-picture.png')}
+                           source={require('./images/generic-profile-picture.png')}
                     />
                 );
             }
-            else{
+            else{//if the user does have a profile photo on file
                 const birthday = potentialMatchInfo[i].birthday;
-                var bm = parseInt(birthday.substring(0,2), 10);
-                var bd = parseInt(birthday.substring(3,5), 10);
-                var by = parseInt(birthday.substring(6), 10);
+                const bm = parseInt(birthday.substring(0,2), 10);
+                const bd = parseInt(birthday.substring(3,5), 10);
+                const by = parseInt(birthday.substring(6), 10);
 
-                var today = new Date
-                var dd = parseInt(today.getDate(), 10);
-                var mm = parseInt(today.getMonth()+1, 10); //January is 0!
-                var yyyy = parseInt(today.getFullYear(), 10);
+                const today = new Date
+                const dd = parseInt(today.getDate(), 10);
+                const mm = parseInt(today.getMonth()+1, 10); //January is 0!
+                const yyyy = parseInt(today.getFullYear(), 10);
 
-                //console.log(bm + " " + mm);
-                //console.log(bd + " " + dd);
-
+                let age;
                 if(bm < mm || (bm == mm && bd <= dd)) {
-                  var age = yyyy - by;
+                    age = yyyy - by;
                 }
                 else {
-                  var age = yyyy - by - 1;
+                    age = yyyy - by - 1;
                 }
                 potentialMatchInfo[i].age = age;
 
+                //add img field to that particular user information object which contains an image component with their profile image                
                 const encodedData=potentialMatchInfo[i].photoData;
                 potentialMatchInfo[i].img=(
                     <Image
@@ -94,62 +93,60 @@ export default class HomeScreen extends React.Component{
         }
 
         return(
-          <View style={{flex:1}}>
-            <Swiper
-                cards={potentialMatchInfo}
-                //stackSize={2}
-                renderCard={(card) => {
-                    return (
-                        <View style={styles.card}>
-                            {card.img}
-                            <Text> {card.email} </Text>
-                            <Text> {card.age} </Text>
-                        </View>
-                    )
-                }}
-                onSwiped={(cardIndex) => {console.log(cardIndex)}}
-                onTapCard={(cardIndex) => {this.props.navigation.navigate('ExpandedProfile',{originalEmail: this.state.user.email, email: this.state.potentialMatches[cardIndex].email})}}
-                onSwipedRight={(cardIndex) => {
-                    console.log("EMAIL 1: " + this.props.navigation.dangerouslyGetParent().getParam('email') + "\nEMAIL 2: " + this.state.potentialMatches[cardIndex].email);
-                    Connector.post('/user/matches',{"email1": this.props.navigation.dangerouslyGetParent().getParam('email'), "email2": this.state.potentialMatches[cardIndex].email, "swipe": "true" },undefined,(res) => {
-                        console.log("Match Status: " + res.success);
-                        if (res.success) {
-                          alert('You have a match');
-                        }
-                    });
-                }}
-                onSwipedLeft={(cardIndex) => {
-                    console.log("EMAIL 1: " + this.props.navigation.dangerouslyGetParent().getParam('email') + "\nEMAIL 2: " + this.state.potentialMatches[cardIndex].email);
-                    Connector.post('/user/matches',{"email1": this.props.navigation.dangerouslyGetParent().getParam('email'), "email2": this.state.potentialMatches[cardIndex].email, "swipe": "false" },undefined,(res) => {
-                        console.log("Match Status: " + res.success);
-                    });
-                }}
-                onSwipedAll={() => {console.log('No More Potential Matches')}}
-                cardIndex={0}
-                backgroundColor={'#45a1e8'}
-                cardVerticalMargin={20}
-                marginTop={0}
-                marginBottom={0}
+            <View style={{flex:1}}>
+                <Swiper
+                    cards={potentialMatchInfo}
+                    renderCard={(card) => {
+                        return (
+                            <View style={styles.card}>
+                                {card.img}
+                                <Text> {card.email} </Text>
+                                <Text> {card.age} </Text>
+                            </View>
+                        )
+                    }}
+                    onSwiped={(cardIndex) => {console.log(cardIndex)}}
+                    onTapCard={(cardIndex) => {this.props.navigation.navigate('ExpandedProfile',{originalEmail: this.state.user.email, email: this.state.potentialMatches[cardIndex].email})}}
+                    onSwipedRight={(cardIndex) => {
+                        console.log("EMAIL 1: " + this.props.navigation.dangerouslyGetParent().getParam('email') + "\nEMAIL 2: " + this.state.potentialMatches[cardIndex].email);
+                        Connector.post('/user/matches',{"email1": this.props.navigation.dangerouslyGetParent().getParam('email'), "email2": this.state.potentialMatches[cardIndex].email, "swipe": "true" },undefined,(res) => {
+                            console.log("Match Status: " + res.success);
+                            if (res.success) {
+                                alert('You have a match');
+                            }
+                        });
+                    }}
+                    onSwipedLeft={(cardIndex) => {
+                        console.log("EMAIL 1: " + this.props.navigation.dangerouslyGetParent().getParam('email') + "\nEMAIL 2: " + this.state.potentialMatches[cardIndex].email);
+                        Connector.post('/user/matches',{"email1": this.props.navigation.dangerouslyGetParent().getParam('email'), "email2": this.state.potentialMatches[cardIndex].email, "swipe": "false" },undefined,(res) => {
+                            console.log("Match Status: " + res.success);
+                        });
+                    }}
+                    onSwipedAll={() => {console.log('No More Potential Matches')}}
+                    cardIndex={0}
+                    backgroundColor={'#45a1e8'}
+                    cardVerticalMargin={20}
+                    marginTop={0}
+                    marginBottom={0}
                 >
-            </Swiper>
-        </View>
+                </Swiper>
+            </View>
         );
     }
 
+    //takes user to matches screen and passes email as a parameter
     goToMatches = () => {
-        var userinfo={
+        const userinfo = {
             email: props.navigation.getParam('email'),
         };
         console.log("Going to matches: " + userinfo.email);
-      this.props.navigation.navigate('Matches');
-
+        this.props.navigation.navigate('Matches', userinfo);
     };
 
+    //takes user to their profile screen and passes email and interests as a parameter
     goToProfile = () => {
-        //this alert tests that username was successfully recieved from previous page
-        //alert('Username: ' + name);
         const { navigation } = this.props;
-        var userinfo={
+        const userinfo = {
             email: navigation.getParam('email'),
             interests: navigation.getParam('interests')
         };

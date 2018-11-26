@@ -6,10 +6,7 @@ import Mongo from '../../utils/Mongo';
 /* POST update info */
 router.post('/', function(req, res, next) {
     const email = req.header("email");
-    // console.log(email);
     const userQuery = {email};
-
-    // console.log(req.body);
 
     const newValues = {
         $set: req.body
@@ -19,6 +16,7 @@ router.post('/', function(req, res, next) {
         const resp = {
             success: true
         };
+
         res.json(resp);
     });
 });
