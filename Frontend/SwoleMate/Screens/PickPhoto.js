@@ -23,6 +23,7 @@ export default class PickPhoto extends React.Component {
         title: 'Pick Photo',
     };
 
+    //callback for cameraRollPicker that takes the selected images (as image objects) as the parameters 
     getSelectedImages = (image) =>{
         console.log(image);
         if (typeof image != 'undefined'){
@@ -35,19 +36,22 @@ export default class PickPhoto extends React.Component {
 
         const cropData = {
             offset: {x: 0, y: 0},
+            //size of the original image
             size: {
                 width: this.state.photos[0].width,
                 height: this.state.photos[0].height,
             },
+            //desired size of the cropped image
             displaySize: {
                 width: ((this.state.photos[0].width)),
                 height: ((this.state.photos[0].height))
             }
         };
 
-        ImageEditor.cropImage(this.state.photos[0].uri, cropData, success => { 
-            ImageStore.getBase64ForTag(success, base64Success =>
+        ImageEditor.cropImage(this.state.photos[0].uri, cropData, success => { //crops image according to cropData above
+            ImageStore.getBase64ForTag(success, base64Success => //provides a base64 string of the image
                 {
+                    //photo object with the base64 string, photo height, and photo width is created on the fly and then sent to the server
                     photo.photoData = base64Success;
                     console.log(photo.photoData);
                     photo.photoWidth = cropData.displaySize.width;

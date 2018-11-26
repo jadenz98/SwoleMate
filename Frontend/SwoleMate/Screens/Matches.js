@@ -21,12 +21,16 @@ export default class Matches extends React.Component{
             picture: null,
             matches: [],
         };
+
+        //gets the user information using the email passed from the previous screen
         Connector.get('/user', {email: this.props.navigation.dangerouslyGetParent().getParam('email')}, (res) => {
             this.setState({
                 user: res,
                 picture: res.photoData,
             });
         });
+
+        //gets the users matches using the email passed from the previous screen
         Connector.get('/user/matches', {email: this.props.navigation.dangerouslyGetParent().getParam('email')}, (res)=>{
             this.setState({
                 matches: res,
@@ -34,6 +38,7 @@ export default class Matches extends React.Component{
         });
     }
 
+    //once the component mounts, it checks the current OS running the app and determines which way to load the required font
     async componentDidMount() {
         if(Platform.OS === 'ios'){
             await Font.loadAsync({
@@ -77,6 +82,7 @@ export default class Matches extends React.Component{
             return <Loader/>;
         }
 
+        //for each match of the current user, set the appropriate image source depending on whether the user has a chosen profile image
         for (let i = 0; i < matches.length; i++) {
             matches[i].key = matches[i].email;
             if(matches[i].photoData === undefined){
@@ -93,12 +99,7 @@ export default class Matches extends React.Component{
                     <FlatList
                         data={matches}
                         renderItem={({item}) =>
-                            /*<TouchableOpacity>
-                                <Text>
-                                    {item.key}
-                                </Text>
-                            </TouchableOpacity> */
-                            // remove or comment the TouchableOpacity code above and uncomment code below
+                            // once fonts are loaded, the the list item components for the data above are rendered
                            this.state.fontsAreLoaded ? (
                            <ListItem
                                 roundAvatar

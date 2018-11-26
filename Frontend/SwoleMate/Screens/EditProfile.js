@@ -53,11 +53,12 @@ export default class EditProfile extends React.Component {
         this.cancel = this.cancel.bind(this);
     }
 
-    //This sets the title on the top header
+    //This sets any options for the header navigation bar
     static navigationOptions = {
         title: 'Edit Your Profile',
     };
 
+    //callback for when user selects/deselects an option in the TouchMultiple component
     onSelectionsChange = (selectedInterests) => {
         let newUser = this.state.user;
         let interests = [];
@@ -74,10 +75,12 @@ export default class EditProfile extends React.Component {
         });
     };
 
+    //sets the visibility of the interests modal
     setModalVisibility(visible) {
         this.setState({modalVisible: visible});
     }
 
+    //sends updated user data to server to be stored in database
     save () {
         const user = this.state.user;
 
@@ -86,6 +89,7 @@ export default class EditProfile extends React.Component {
         });
     }
 
+    //cancelation of editing profile info will take the user to the previous screen (profile screen)
     cancel () {
         this.props.navigation.pop();
     }

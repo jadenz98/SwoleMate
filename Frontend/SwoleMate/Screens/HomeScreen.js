@@ -17,12 +17,14 @@ export default class HomeScreen extends React.Component{
             potentialMatches: []
         };
 
+        //gets current user information from the server using the email passed from the previous screen
         Connector.get('/user', {email: props.navigation.dangerouslyGetParent().getParam('email')}, (res) => {
             this.setState({
                 user: res,
                 picture: res.photoData,
             });
         });
+        //gets all nearby users to current user (matching currently stored search criteria)
         Connector.get('/user/nearbyUsers', {email: props.navigation.dangerouslyGetParent().getParam('email')}, (res)=>{
             this.setState({
                 potentialMatches: res,
@@ -30,7 +32,7 @@ export default class HomeScreen extends React.Component{
         });
     }
 
-    //This sets the title on the top header
+    //This sets any options for the header navigation bar
     static navigationOptions = ({ navigation }) => ({
         title: 'SwoleMate',
         headerLeft: (
@@ -45,10 +47,13 @@ export default class HomeScreen extends React.Component{
 
     render(){
         let potentialMatchInfo = this.state.potentialMatches;
+
+        //if potentialMatches have not loaded, show a loading screen
         if(potentialMatchInfo==null){
             return <Loader/>;
         }
-        for(let i=0; i < potentialMatchInfo.length; i++){
+        for(let i=0; i < potentialMatchInfo.length; i++){ //for each nearby user that is a potential match
+            //if the user does not have a profile photo on file, use a generic photo
             if(potentialMatchInfo[i].photoData === undefined){
                 potentialMatchInfo[i].img=(
                     <Image style={{width: 300, height: 400}}
@@ -56,7 +61,7 @@ export default class HomeScreen extends React.Component{
                     />
                 );
             }
-            else{
+            else{//if the user does have a profile photo on file
                 const birthday = potentialMatchInfo[i].birthday;
                 const bm = parseInt(birthday.substring(0,2), 10);
                 const bd = parseInt(birthday.substring(3,5), 10);
@@ -76,6 +81,7 @@ export default class HomeScreen extends React.Component{
                 }
                 potentialMatchInfo[i].age = age;
 
+                //add img field to that particular user information object which contains an image component with their profile image                
                 const encodedData=potentialMatchInfo[i].photoData;
                 potentialMatchInfo[i].img=(
                     <Image
@@ -128,14 +134,16 @@ export default class HomeScreen extends React.Component{
         );
     }
 
+    //takes user to matches screen and passes email as a parameter
     goToMatches = () => {
         const userinfo = {
             email: props.navigation.getParam('email'),
         };
         console.log("Going to matches: " + userinfo.email);
-        this.props.navigation.navigate('Matches');
+        this.props.navigation.navigate('Matches', userinfo);
     };
 
+    //takes user to their profile screen and passes email and interests as a parameter
     goToProfile = () => {
         const { navigation } = this.props;
         const userinfo = {

@@ -27,7 +27,7 @@ export default class LoginScreen extends React.Component {
         this.getLocation();
     }
 
-    //This sets the title on the top header
+    //This sets any options for the header navigation bar
     static navigationOptions = {
         title: 'Login',
     };
@@ -48,6 +48,7 @@ export default class LoginScreen extends React.Component {
     }
 
     render () {
+        //if latitude has not been set, a loader screen will appear until it is
         if(this.state.latitude == null)
             return <Loader/>;
 
@@ -114,11 +115,12 @@ export default class LoginScreen extends React.Component {
         );
     }
 
+    //takes user to resetPassword page
     goToReset = () => {
         this.props.navigation.navigate('Reset')
     };
 
-    // login function (needs to be implemented)
+    //logs in the user with provided credentials via the TextInputs
     login = () => {
         Connector.post("/user/login", {
             email: this.state.email,
@@ -126,11 +128,13 @@ export default class LoginScreen extends React.Component {
         }, {}, (response) => {
             console.log(response.success);
             if(response.success){ //Server returned success on login
+                
                 //object to pass user info to next screen
                 const userInfo = {
                     email: this.state.email
                 };
 
+                //sends the users current location to the server
                 Connector.post("/user/updateLocation",
                     {
                         latitude: this.state.latitude,
@@ -165,7 +169,7 @@ export default class LoginScreen extends React.Component {
         });
     };
 
-    //register function (sends to RegisterScreen)
+    //takes user to register screen
     register = () => {
         this.props.navigation.navigate('Register');
     };
