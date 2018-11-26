@@ -11,7 +11,6 @@ import {
     TouchableHighlight,
     Slider,
     Switch,
-    ScrollView,
     StyleSheet
 } from 'react-native';
 import { List, ListItem } from 'react-native-elements';

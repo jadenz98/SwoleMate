@@ -9,23 +9,23 @@ import globalStyles from './Styles/Global';
 
 export default class RegisterScreen extends React.Component{
     constructor(props){
-      super(props);
-      this.state={
-        newUsername: '',
-        newPassword: '',
-        passwordConfirm: '',
-        email: '',
-        name: '',
-        sex: '',
-        birthday: '',
-        phone_number: '',
-        bio: '',
-        goal: '',
-        latitude: null,
-        longitude: null,
-          isGhost: false,
-          basicInfo: false
-      };
+        super(props);
+        this.state={
+            newUsername: '',
+            newPassword: '',
+            passwordConfirm: '',
+            email: '',
+            name: '',
+            sex: '',
+            birthday: '',
+            phone_number: '',
+            bio: '',
+            goal: '',
+            latitude: null,
+            longitude: null,
+            isGhost: false,
+            basicInfo: false
+        };
         this.getLocation();
     }
 

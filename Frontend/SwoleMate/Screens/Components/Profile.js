@@ -147,138 +147,140 @@ export default class Profile extends React.Component {
         let milestones = user.milestones;
         let milestonesStyle = style.listText;
         if(this.props.isSelf) {
-          if (!user.goal || user.goal === "") {
-              goalText = (
-                <View>
-                  <Text style={style.header}>
-                      Goal
-                  </Text>
-                  <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                      <View style={style.textBox}>
-                          <Text style={style.italics}>
-                              You have not declared a goal yet!
-                          </Text>
-                      </View>
-                  </View>
-                </View>
-              );
-          } else {
-              goalText = (
-                <View>
-                  <Text style={style.header}>
-                      Goal
-                  </Text>
-                  <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                      <View style={style.textBox}>
-                          <Text>
-                              {user.goal}
-                          </Text>
-                      </View>
-                  </View>
-                </View>
-              );
-          }
+            if (!user.goal || user.goal === "") {
+                goalText = (
+                    <View>
+                        <Text style={style.header}>
+                            Goal
+                        </Text>
+                        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                            <View style={style.textBox}>
+                                <Text style={style.italics}>
+                                    You have not declared a goal yet!
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+                );
+            } else {
+                goalText = (
+                    <View>
+                        <Text style={style.header}>
+                            Goal
+                        </Text>
+                        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                            <View style={style.textBox}>
+                                <Text>
+                                    {user.goal}
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+                );
+            }
 
-          if (!user.milestones || user.milestones.length === 0) {
-              milestones = ["You do not have any milestones yet!"];
-              milestonesStyle = StyleSheet.flatten([milestonesStyle, style.italics]);
-          }
+            if (!user.milestones || user.milestones.length === 0) {
+                milestones = ["You do not have any milestones yet!"];
+                milestonesStyle = StyleSheet.flatten([milestonesStyle, style.italics]);
+            }
 
-          milestonesText = (
-            <View>
-                <Text style={style.header}>
-                    Milestones
-                </Text>
-                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                    <View style={style.listContainer}>
-                        <List containerStyle={{marginTop: 0}}>
-                            {
-                                milestones.map((l) => (
-                                    this.state.fontsAreLoaded ? (<ListItem
-                                        titleStyle={milestonesStyle}
-                                        key={l}
-                                        title={l}
-                                        hideChevron
-                                        titleNumberOfLines={null}
-                                    />): null
-                                ))
-                            }
-                        </List>
+            milestonesText = (
+                <View>
+                    <Text style={style.header}>
+                        Milestones
+                    </Text>
+                    <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                        <View style={style.listContainer}>
+                            <List containerStyle={{marginTop: 0}}>
+                                {
+                                    milestones.map((l) => (
+                                        this.state.fontsAreLoaded ? (<ListItem
+                                            titleStyle={milestonesStyle}
+                                            key={l}
+                                            title={l}
+                                            hideChevron
+                                            titleNumberOfLines={null}
+                                        />): null
+                                    ))
+                                }
+                            </List>
+                        </View>
                     </View>
                 </View>
-            </View>
-          );
+            );
 
         } else { //if this.props isnt self
-          if(user.basicInfo) {
-            goalText = null;
-          }
-          else if (!user.goal || user.goal === "") {
-              goalText = (
-                <View>
-                  <Text style={style.header}>
-                      Goal
-                  </Text>
-                  <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                      <View style={style.textBox}>
-                          <Text style={style.italics}>
-                              This user has not declared a goal yet!
-                          </Text>
-                      </View>
-                  </View>
-                </View>
-              );
-          }
-          else {
-              goalText = (
-                <View>
-                  <Text style={style.header}>
-                      Goal
-                  </Text>
-                  <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                      <View style={style.textBox}>
-                          <Text>
-                              {user.goal}
-                          </Text>
-                      </View>
-                  </View>
-                </View>
-              );
-          }
+            if(user.basicInfo) {
+                goalText = null;
+            }
+            else if (!user.goal || user.goal === "") {
+                goalText = (
+                    <View>
+                        <Text style={style.header}>
+                            Goal
+                        </Text>
+                        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                            <View style={style.textBox}>
+                                <Text style={style.italics}>
+                                    This user has not declared a goal yet!
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+                );
+            }
+            else {
+                goalText = (
+                    <View>
+                        <Text style={style.header}>
+                            Goal
+                        </Text>
+                        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                            <View style={style.textBox}>
+                                <Text>
+                                    {user.goal}
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+                );
+            }
 
-          if (!user.milestones || user.milestones.length === 0) {
-              milestones = ["This user does not have any milestones yet!"];
-              milestonesStyle = StyleSheet.flatten([milestonesStyle, style.italics]);
-          }
-          if(user.basicInfo) {
-            milestonesText = null;
-          }
-          else {
-            milestonesText = (
-              <View>
-                  <Text style={style.header}>
-                      Milestones
-                  </Text>
-                  <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                      <View style={style.listContainer}>
-                          <List containerStyle={{marginTop: 0}}>
-                              {
-                                  milestones.map((l) => (
-                                      this.state.fontsAreLoaded ? (<ListItem
-                                          titleStyle={milestonesStyle}
-                                          key={l}
-                                          title={l}
-                                          hideChevron
-                                          titleNumberOfLines={null}
-                                      />): null
-                                  ))
-                              }
-                          </List>
-                      </View>
-                  </View>
-              </View>
-            );
-          }
+            if (!user.milestones || user.milestones.length === 0) {
+                milestones = ["This user does not have any milestones yet!"];
+                milestonesStyle = StyleSheet.flatten([milestonesStyle, style.italics]);
+            }
+
+            if (user.basicInfo) {
+                milestonesText = null;
+            }
+
+            else {
+                milestonesText = (
+                    <View>
+                        <Text style={style.header}>
+                            Milestones
+                        </Text>
+                        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                            <View style={style.listContainer}>
+                                <List containerStyle={{marginTop: 0}}>
+                                    {
+                                        milestones.map((l) => (
+                                            this.state.fontsAreLoaded ? (<ListItem
+                                                titleStyle={milestonesStyle}
+                                                key={l}
+                                                title={l}
+                                                hideChevron
+                                                titleNumberOfLines={null}
+                                            />): null
+                                        ))
+                                    }
+                                </List>
+                            </View>
+                        </View>
+                    </View>
+                );
+            }
         }
 
         return (
@@ -332,21 +334,6 @@ export default class Profile extends React.Component {
                             {goalText}
 
                             <View style={style.spacer} />
-
-                            {/* Do we Keep the phone number????
-                            <Text style={style.header}>
-                                Phone Number
-                            </Text>
-                            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                                <View style={style.textLine}>
-                                    <Text>
-                                        {user.phone}
-                                    </Text>
-                                </View>
-                            </View>
-
-                            <View style={style.spacer} />
-                            */}
 
                             {milestonesText}
 

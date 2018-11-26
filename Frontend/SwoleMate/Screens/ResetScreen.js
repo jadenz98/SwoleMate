@@ -2,7 +2,6 @@ import React from 'react';
 import { TouchableOpacity, Text, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
 import Connector from '../Utils/Connector';
 
-import styles from './Styles/LoginScreenStyles';
 import globalStyles from './Styles/Global';
 
 export default class ResetScreen extends React.Component {
