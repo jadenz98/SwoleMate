@@ -24,7 +24,8 @@ export default class RegisterScreen extends React.Component{
         goal: '',
         latitude: null,
         longitude: null,
-          isGhost: false
+          isGhost: false,
+          basicInfo: false
       };
         this.getLocation();
     }

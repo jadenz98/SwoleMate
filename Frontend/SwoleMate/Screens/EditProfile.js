@@ -211,6 +211,18 @@ export default class EditProfile extends React.Component {
                     <View style={globalStyles.spacer}/>
 
                     <Text style={globalStyles.header}>
+                        Only show basic info
+                    </Text>
+                    <View style={globalStyles.btn}>
+                        <Switch
+                            value={this.state.user.basicInfo}
+                            onValueChange={(switchState) => this.setState({user: {...this.state.user, basicInfo: switchState}})}
+                        />
+                    </View>
+
+                    <View style={globalStyles.spacer}/>
+
+                    <Text style={globalStyles.header}>
                       Set search distance
                     </Text>
 
