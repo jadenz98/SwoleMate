@@ -18,6 +18,9 @@ import {
 import { List, ListItem } from 'react-native-elements';
 import SelectMultiple from 'react-native-select-multiple';
 
+import MapView from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+
 import Loader from './Components/Loader';
 
 import Connector from '../Utils/Connector';
@@ -90,6 +93,33 @@ export default class EditProfile extends React.Component {
 
     cancel () {
         this.props.navigation.pop();
+    }
+
+    //function to conditionally render map if fav gym set
+    renderFavLocation () {
+        if (!this.state.user.favGym) { //should be true if no gym set
+            return <Text>No fav gym set</Text>;
+        }
+        return (
+          <View style={{...StyleSheet.absoluteFillObject, height: 100, width: 250, flex: 1, justifyContent: 'center', alignItems: 'center',}}>
+            <MapView
+                style={{...StyleSheet.absoluteFillObject,}}
+                region={{
+                  latitude: this.state.user.gymLatitude,
+                  longitude: this.state.user.gymLongitude,
+                  latitudeDelta: 0.015,
+                  longitudeDelta: 0.0121,
+                }}
+                /*{<Marker
+                  coordinate={
+                      latitude: this.state.user.gymLatitude,
+                      longitude: this.state.user.gymLongitude,
+                  }
+                  title={this.state.user.favGym}
+                />}*/
+            />
+          </View>
+        );
     }
 
     render() {
@@ -324,14 +354,23 @@ export default class EditProfile extends React.Component {
                         </Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity
-                        style={globalStyles.btnSecondary}
-                        onPress={()=> { this.props.navigation.navigate('LocationPicker',{email: this.props.navigation.getParam('email')})}}
-                    >
-                        <Text style={globalStyles.btnText}>
-                            Add a Workout Location
-                        </Text>
-                    </TouchableOpacity>
+                    <View style={globalStyles.spacer}/>
+
+                    <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center',}}>
+                      <Text style={globalStyles.header}>
+                          Favorite Gym Location
+                      </Text>
+                      {this.renderFavLocation()}
+                      <View style={globalStyles.spacer}/>
+                      <TouchableOpacity
+                          style={globalStyles.btnSecondary}
+                          onPress={()=> { this.props.navigation.navigate('LocationPicker',{email: this.props.navigation.getParam('email')})}}
+                      >
+                          <Text style={globalStyles.btnText}>
+                              Add a Workout Location
+                          </Text>
+                      </TouchableOpacity>
+                    </View>
 
                     <View style={globalStyles.spacer}/>
 
