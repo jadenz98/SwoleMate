@@ -10,7 +10,7 @@ import styles from './Styles/LoginScreenStyles';
 
 const googleClientIDAndroid = '673192647506-cdmna9p2rs727jl74q48fb5ccoihj7a2.apps.googleusercontent.com'
 const googleClientIdIOS = '673192647506-o37hpl36to83fmfhpj3vob8loc7o03ba.apps.googleusercontent.com'
-const id = '1740497489395130'
+const fbClientId = '1740497489395130'
 
 export default class LoginScreen extends React.Component {
     constructor(props){
@@ -52,7 +52,7 @@ export default class LoginScreen extends React.Component {
     }
 
     fbLogin = async () => {
-        const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync(id, {permissions: [ 'public_profile', 'email', 'user_friends']})
+        const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync(fbClientId, {permissions: [ 'public_profile', 'email', 'user_friends']})
 
         if(type === 'success'){
             const response = await fetch(
@@ -140,48 +140,6 @@ export default class LoginScreen extends React.Component {
 
                     <TouchableOpacity onPress={this.goToReset}>
                         <Text style={globalStyles.resetText}>Forgot Password</Text>
-                    </TouchableOpacity>
-
-                    <View style={globalStyles.spacer}/>
-
-                    <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.login}>
-                        <Text style={globalStyles.btnText}>
-                            Login
-                        </Text>
-                    </TouchableOpacity>
-
-                    {/*This is the Register button*/}
-                    <TouchableOpacity style={globalStyles.btn} onPress={this.register}>
-                        <Text style={globalStyles.btnTextBlack}>
-                            Register
-                        </Text>
-                    </TouchableOpacity>
-                    <TextInput
-                        ref={input => { this.emailInput = input }}
-                        placeholder='Email'
-                        style={styles.textbox}
-                        onChangeText={ (email) => this.setState({email})}
-                        autoCapitalize='none'
-                        keyboardType='email-address'
-                        textContentType='emailAddress'
-                    />
-
-                    <View style={globalStyles.spacerSmall}/>
-
-                    <TextInput
-                        ref={input => { this.passwordInput = input }}
-                        placeholder='Password'
-                        style={styles.textbox}
-                        onChangeText={ (password) => this.setState({password})}
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                        maxLength={15}
-                        secureTextEntry={true}
-                        textContentType='password'
-                    />
-
-                    <TouchableOpacity onPress={this.goToReset}>
-                    <Text style={globalStyles.resetText}>Forgot Password</Text>
                     </TouchableOpacity>
 
                     {/*TouchableOpacity will be used as a button because it is more customizable and can funtion the same.
