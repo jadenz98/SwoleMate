@@ -6,6 +6,9 @@ import Mongo from '../../utils/Mongo';
 
 /* POST Register info */
 router.post('/', function(req, res, next) {
+    console.log(req)
+
+
     const newUser = req.body;
     const userQuery = {
         email: newUser.email
@@ -24,12 +27,14 @@ router.post('/', function(req, res, next) {
             const resp = {
                 success: true
             };
-
+            /**
+             * This will has the password with a salt of 10. 
+             * @params newUser.password This is the password that the user will be set with. 
+             */ 
             bcrypt.hash(newUser.password, 10, function(err, hash) {
-                if(err){
+                if (err) {
                     console.log(err);
                 }
-
                 newUser.password = hash;
                 Mongo.insert("Matches", matches, () => {});
                 Mongo.insert("Calendars", calendar, () => {});
@@ -45,6 +50,9 @@ router.post('/', function(req, res, next) {
             res.json(resp);
         }
     });
+});
+router.get('/', function(req, res, next) {
+    console.log(req)
 });
 
 module.exports = router;
