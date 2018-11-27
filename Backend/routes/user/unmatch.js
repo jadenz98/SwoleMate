@@ -19,21 +19,25 @@ router.post('/', function(req, res, next) {
 
     Mongo.delete("Conversations", userQuery2, () => {});
 
-    Mongo.find("Matches", {email: req.body.email1}, undefined, (matches) => {
-        for(let i = 0; i < matches.likes.length; i++) {
-            if(matches.likes[i].email === req.body.email2) {
+    Mongo.find("Matches", { email: req.body.email1 }, undefined, (matches) => {
+        for (let i = 0; i < matches.likes.length; i++) {
+            if (matches.likes[i].email === req.body.email2) {
                 matches.likes[i].match = false;
                 const newValues = {
                     $set: matches
                 };
-
-                Mongo.update("Matches", {email: req.body.email1}, newValues, (success) => {});
+                /**
+                 * This will update the matches of email 1 so they get unmatched and 
+                 * can never be matched again. 
+                 */
+                Mongo.update("Matches", { email: req.body.email1 }, newValues, (success) => {
+                    const resp = {
+                        success: true
+                    };
+                });
             }
         }
 
-        const resp = {
-            success: true
-        };
 
         res.json(resp);
     });

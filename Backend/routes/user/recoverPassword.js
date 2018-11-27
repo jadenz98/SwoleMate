@@ -23,6 +23,9 @@ router.post('/', function(req, res, next) {
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
+                    /**
+                     * Need to fix this, password should not be in here!. 
+                     */ 
                     user: 'SwoleMateRecovery@gmail.com',
                     pass: 'DontGuessThis'
                 }
