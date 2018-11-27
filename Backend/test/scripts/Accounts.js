@@ -31,7 +31,46 @@ Accounts.create = function (num, name, callback) {
         goal: "GOAL!!!"
     };
 
-    if (num <= -1) {
+    if (num <= -1 && name === "t@t") {
+        const match = function match(num1, num2, callback) {
+            if (num1 === num2) {
+                callback();
+            } else {
+                console.log("Matching t@t" + num1 + " with t@t" + num2 + "...");
+
+                request.post(
+                    'http://localhost:8000/user/matches',
+                    {
+                        json: {
+                            email1: "t@t" + num1,
+                            email2: "t@t" + num2,
+                            swipe: "true"
+                        }
+                    }, function (error, response, body) {
+                        if (!error && response.statusCode === 200) {
+                            request.post(
+                                'http://localhost:8000/user/matches',
+                                {
+                                    json: {
+                                        email1: "t@t" + num2,
+                                        email2: "t@t" + num1,
+                                        swipe: "true"
+                                    }
+                                }, function (error, response, body) {
+                                    if (!error && response.statusCode === 200) {
+                                        match(num1 + 1, num2, callback);
+                                    }
+                                }
+                            );
+                        }
+                    }
+                );
+            }
+        };
+
+        // Recursively match all the users to t@t19
+        match(0, 19, callback);
+    } else if (num <= -1) {
         callback();
     } else {
         console.log("Creating user " + user.name + "...");
