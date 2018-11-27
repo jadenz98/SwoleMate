@@ -38,6 +38,15 @@ export default class Mongo {
         });
     }
 
+    /**
+     * An abstraction to the find function, diff between this and the one above
+     * is this will return a array no matter how many things, (for example just 1)
+     *
+     * @param collection        The collection to search in
+     * @param query             The query to execute
+     * @param sort              The sort conditions of the resulting query (Optional)
+     * @param callback          The callback to be executed after the query. The results are passed in to this.
+     */
     static findReal (collection, query, sort, callback) {
         MongoClient.connect(url, function(err, db) {
             const dbo = db.db(DBName);
@@ -199,8 +208,11 @@ export default class Mongo {
     }
 
     /**
-     * Method to get users close to the specified user
-     * An abstraction on the find method
+     * An abstraction to the nearbyUsers function. This will find the users around 
+     * a certain location and return them in array form. 
+     * 
+     * @param email        The email to find the users around
+     * @param callback          The callback to be executed after the query. The results are passed in to this.
      */
     static getNearbyUsers (email, callback) {
         // Get the coordinates of the user
@@ -276,8 +288,11 @@ export default class Mongo {
     }
 
     /**
-     * Method to get list of matches by the specified user
-     * An abstraction on the find method
+     * An abstraction to the matches function. Checks the database for all the matches of 
+     * a specfic email. 
+     * 
+     * @param email        The email to find the matches for
+     * @param callback          The callback to be executed after the query. The results are passed in to this.
      */
     static getMatches (email, callback) {
         const query = [];
@@ -304,8 +319,13 @@ export default class Mongo {
     }
 
     /**
-     * Method to get a conversation between two users
-     * An abstraction on the find method
+     * An abstraction to the conversations function. This will return an array of all the 
+     * messages that have been sent between two users.  
+     * 
+     * @param email1        The email to find the conversations for
+     * @param email2        The email to find the conversations for
+     * @param callback          The callback to be executed after the query. The results are passed in to this.
+     *                          This will be a array of email - message type json. 
      */
     static getConversation (email1, email2, callback) {
         this.findReal("Conversations", {email1 : email1}, undefined, (tryone) => {
@@ -327,6 +347,15 @@ export default class Mongo {
         });
     }
 
+    /**
+     * An abstraction to the Conversations function. This will set a conversations (which is 
+     * really just adding a message to a conversation between 2 people)
+     * 
+     * @param email1        The email to find the conversations for
+     * @param email2        The email to find the conversations for
+     * @param callback          The callback to be executed after the query. The results are passed in to this.
+     *                          This will be a array of email - message type json. 
+     */
     static setConversation (email1, email2, msg, callback) {
         let convo = [];
         this.findReal("Conversations", {email1 : email1}, undefined, (tryone) => {
