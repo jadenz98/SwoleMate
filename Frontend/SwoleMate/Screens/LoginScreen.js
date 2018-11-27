@@ -4,9 +4,13 @@ import Connector from '../Utils/Connector';
 import { NavigationActions } from 'react-navigation';
 
 import Loader from './Components/Loader';
-
+import Expo from 'expo';
 import globalStyles from './Styles/Global';
 import styles from './Styles/LoginScreenStyles';
+
+const googleClientIDAndroid = '673192647506-cdmna9p2rs727jl74q48fb5ccoihj7a2.apps.googleusercontent.com'
+const googleClientIdIOS = '673192647506-o37hpl36to83fmfhpj3vob8loc7o03ba.apps.googleusercontent.com'
+const id = '1740497489395130'
 
 export default class LoginScreen extends React.Component {
     constructor(props){
@@ -45,6 +49,48 @@ export default class LoginScreen extends React.Component {
             (error) => alert(error.message),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
+    }
+
+    fbLogin = async () => {
+        const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync(id, {permissions: [ 'public_profile', 'email', 'user_friends']})
+
+        if(type === 'success'){
+            const response = await fetch(
+                `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,about,picture,birthday`
+            );
+            
+            var loginInfo = await response.json();
+            this.setState({
+                email: loginInfo.email,
+                password: 'Facebook',
+            });
+            this.login();
+            console.log(loginInfo);
+        }
+        else {
+            console.error(type);
+        }
+    }
+
+    googleLogin = async () => {
+        const result = await Expo.Google.logInAsync({
+            androidClientId: googleClientIDAndroid,
+            iosClientId: googleClientIdIOS,
+            scopes: ['profile', 'email'],
+
+        });
+
+        if(result.type === 'success'){
+            this.setState({
+                email: result.user.email,
+                password: 'Google',
+            });
+            this.login();
+            console.log(result);
+        }
+        else{
+            console.log('Cancelled');
+        }
     }
 
     render () {
@@ -110,8 +156,64 @@ export default class LoginScreen extends React.Component {
                             Register
                         </Text>
                     </TouchableOpacity>
+                    <TextInput
+                        ref={input => { this.emailInput = input }}
+                        placeholder='Email'
+                        style={styles.textbox}
+                        onChangeText={ (email) => this.setState({email})}
+                        autoCapitalize='none'
+                        keyboardType='email-address'
+                        textContentType='emailAddress'
+                    />
+
+                    <View style={globalStyles.spacerSmall}/>
+
+                    <TextInput
+                        ref={input => { this.passwordInput = input }}
+                        placeholder='Password'
+                        style={styles.textbox}
+                        onChangeText={ (password) => this.setState({password})}
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        maxLength={15}
+                        secureTextEntry={true}
+                        textContentType='password'
+                    />
+
+                    <TouchableOpacity onPress={this.goToReset}>
+                    <Text style={globalStyles.resetText}>Forgot Password</Text>
+                    </TouchableOpacity>
+
+                    {/*TouchableOpacity will be used as a button because it is more customizable and can funtion the same.
+                    This is the login button
+                    onPress tells the button what do do when pressed (here it calls the login function defined below)*/}
+
+                    <View style={globalStyles.spacer}/>
+
+                    <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.login}>
+                        <Text style={globalStyles.btnText}>
+                            Login
+                        </Text>
+                    </TouchableOpacity>
+
+                    {/*This is the Register button*/}
+                    <TouchableOpacity style={globalStyles.btn} onPress={this.register}>
+                        <Text style={globalStyles.btnTextBlack}>
+                            Register
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.fbLogin}>
+                        <Text style={globalStyles.btnText}>
+                            Login with Facebook
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.googleLogin}>
+                        <Text style={globalStyles.btnText}>
+                            Login with Google
+                        </Text>
+                    </TouchableOpacity>
                 </KeyboardAvoidingView>
-            </ScrollView>
+          </ScrollView>
         );
     }
 
