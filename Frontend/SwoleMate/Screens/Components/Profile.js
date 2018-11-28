@@ -1,7 +1,8 @@
 import React from 'react';
-import { TextInput, Modal, Alert, Text, View, Image, ScrollView, TouchableOpacity} from 'react-native';
+import { TextInput, Modal, Alert, Text, View, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import style from './Styles/ProfileStyles';
+import globalStyles from "../Styles/Global";
 import Connector from "../../Utils/Connector";
 import { StyleSheet } from 'react-native';
 
@@ -25,8 +26,10 @@ export default class Profile extends React.Component {
             user: null,
             fontsAreLoaded: false,
             modalVisible: false,
+            shareUserModalVisible: false,
             reportMessage: '',
             originalEmail: props.originalEmail,
+            matches: null,
         };
 
         Connector.get('/user', {email: this.props.email}, (res) => {
@@ -40,6 +43,12 @@ export default class Profile extends React.Component {
 
             this.setState({user: res});
         });
+
+        Connector.get('/user/matches', {email: this.props.originalEmail}, (res) => {
+            this.setState({
+                matches: res,
+            });
+        });
     }
 
     async componentDidMount () {
@@ -52,6 +61,57 @@ export default class Profile extends React.Component {
             user: null
         });
     }
+
+    getMatches = () => {
+        const matches = this.state.matches;
+        if (matches == null || !matches) {
+            return <Text>No Matches to load</Text>;
+        }
+
+        //for each match of the current user, set the appropriate image source depending on whether the user has a chosen profile image
+        for (let i = 0; i < matches.length; i++) {
+            matches[i].key = matches[i].email;
+            if(matches[i].photoData === undefined){
+                matches[i].imgSrc = require('../images/generic-profile-picture.png');
+            } else {
+                const encodedData=matches[i].photoData;
+                matches[i].imgSrc = {uri: `data:image/jpeg;base64,${encodedData}`};
+            }
+        }
+        return (
+            <View style={globalStyles.background}>
+                <List>
+                    <FlatList
+                        data={matches}
+                        renderItem={({item}) =>
+                            // once fonts are loaded, the the list item components for the data above are rendered
+                           this.state.fontsAreLoaded ? (
+                           <ListItem
+                                roundAvatar
+                                avatar = {item.imgSrc}
+                                onPress={()=> {
+                                        var userinfo={
+                                            email: this.props.originalEmail,
+                                            email2: item.email,
+                                        };
+                                        Alert.alert(
+                                            'Profile Shared',
+                                            'This profile was shared to ' + item.name,
+                                            [
+                                                {text: 'Okay', onPress: () => this.setState({shareUserModalVisible: false})}
+                                            ]
+                                        )
+                                    }
+                                }
+                                title={item.name}>
+                            </ListItem>
+                            ) : null
+                        }
+                    />
+                </List>
+            </View>
+        );
+    };
 
     sendReport = () => {
         Connector.post(
@@ -78,6 +138,10 @@ export default class Profile extends React.Component {
         )
     };
 
+    shareProfile = () => {
+        Alert.alert('Share', 'Share this profile', [{text: 'Okay'}])
+    };
+
     render () {
         if (this.state.user == null || !this.state.fontsAreLoaded)
             return <Loader/>;
@@ -98,6 +162,21 @@ export default class Profile extends React.Component {
                     style={style.profileImage}
                     source={require('../images/generic-profile-picture.png')}
                 />;
+        }
+
+        let shareButton;
+        if(!this.props.isSelf){
+            shareButton = (
+                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                    <TouchableOpacity style={style.button} onPress={() => this.setState({shareUserModalVisible: true})}>
+                        <Text>
+                            Share this Profile
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            );
+        } else {
+            shareButton = null;
         }
 
         let reportButton;
@@ -305,6 +384,16 @@ export default class Profile extends React.Component {
                         </TouchableOpacity>
                     </View>
                 </Modal>
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.shareUserModalVisible}
+                    onRequestClose={() => this.setState({shareUserModalVisible: false})}
+                >
+                    <View>
+                        {this.getMatches()}
+                    </View>
+                </Modal>
                 <View style={{flex:1, alignItems: 'stretch', flexDirection: 'column'}}>
                     <View style={{alignItems: 'center'}}>
                         <Text style={style.username}>
@@ -336,6 +425,8 @@ export default class Profile extends React.Component {
                             <View style={style.spacer} />
 
                             {milestonesText}
+
+                            {shareButton}
 
                             {reportButton}
                             <View style={style.spacer} />
