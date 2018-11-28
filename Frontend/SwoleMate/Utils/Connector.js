@@ -1,6 +1,6 @@
 export default class Connector {
     // Paste your local IP here for local dev
-    static url = "http://192.168.1.121:3000";
+    static url = "http://18.224.157.155:3000";
 
 
     /**
