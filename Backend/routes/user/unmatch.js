@@ -34,12 +34,13 @@ router.post('/', function(req, res, next) {
                     const resp = {
                         success: true
                     };
+                    res.json(resp);
                 });
             }
         }
 
 
-        res.json(resp);
+        
     });
 });
 
