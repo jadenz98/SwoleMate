@@ -8,9 +8,7 @@ import Expo from 'expo';
 import globalStyles from './Styles/Global';
 import styles from './Styles/LoginScreenStyles';
 
-const googleClientIDAndroid = '673192647506-cdmna9p2rs727jl74q48fb5ccoihj7a2.apps.googleusercontent.com'
-const googleClientIdIOS = '673192647506-o37hpl36to83fmfhpj3vob8loc7o03ba.apps.googleusercontent.com'
-const fbClientId = '1740497489395130'
+import api from '../config/api';
 
 export default class LoginScreen extends React.Component {
     constructor(props){
@@ -52,14 +50,14 @@ export default class LoginScreen extends React.Component {
     }
 
     fbLogin = async () => {
-        const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync(fbClientId, {permissions: [ 'public_profile', 'email', 'user_friends']})
+        const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync(api.fbClientId, {permissions: [ 'public_profile', 'email', 'user_friends']});
 
         if(type === 'success'){
             const response = await fetch(
                 `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,about,picture,birthday`
             );
             
-            var loginInfo = await response.json();
+            const loginInfo = await response.json();
             this.setState({
                 email: loginInfo.email,
                 password: 'Facebook',
@@ -70,12 +68,12 @@ export default class LoginScreen extends React.Component {
         else {
             console.error(type);
         }
-    }
+    };
 
     googleLogin = async () => {
         const result = await Expo.Google.logInAsync({
-            androidClientId: googleClientIDAndroid,
-            iosClientId: googleClientIdIOS,
+            androidClientId: api.googleClientIDAndroid,
+            iosClientId: api.googleClientIdIOS,
             scopes: ['profile', 'email'],
 
         });
@@ -91,7 +89,7 @@ export default class LoginScreen extends React.Component {
         else{
             console.log('Cancelled');
         }
-    }
+    };
 
     render () {
         //if latitude has not been set, a loader screen will appear until it is
@@ -136,6 +134,7 @@ export default class LoginScreen extends React.Component {
                         maxLength={15}
                         secureTextEntry={true}
                         textContentType='password'
+                        ref={input => { this.passwordInput = input }}
                     />
 
                     <TouchableOpacity onPress={this.goToReset}>
