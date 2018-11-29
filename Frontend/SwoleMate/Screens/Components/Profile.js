@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, Modal, Alert, Text, View, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native';
+import { TextInput, Modal, Alert, Text, View, Image, ScrollView, TouchableOpacity, FlatList, Platform } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import style from './Styles/ProfileStyles';
 import globalStyles from "../Styles/Global";
@@ -30,6 +30,8 @@ export default class Profile extends React.Component {
             reportMessage: '',
             originalEmail: props.originalEmail,
             matches: null,
+            id: null,
+
         };
 
         Connector.get('/user', {email: this.props.email}, (res) => {
@@ -52,14 +54,21 @@ export default class Profile extends React.Component {
     }
 
     async componentDidMount () {
-        await Font.loadAsync({
-            MaterialIcons
-        });
-
-        this.setState({
-            fontsAreLoaded: true,
-            user: null
-        });
+        if(Platform.OS === 'ios'){
+            await Font.loadAsync({
+                'Material Icons': require('../../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf')
+            });
+            this.setState({
+                fontsAreLoaded: true
+            });
+        } else {
+            await Font.loadAsync({
+                MaterialIcons
+            });
+            this.setState({
+                fontsAreLoaded: true
+            });
+        }
     }
 
     getMatches = () => {
@@ -94,13 +103,19 @@ export default class Profile extends React.Component {
                                             email: this.props.originalEmail,
                                             email2: item.email,
                                         };
-                                        Alert.alert(
-                                            'Profile Shared',
-                                            'This profile was shared to ' + item.name,
-                                            [
-                                                {text: 'Okay', onPress: () => this.setState({shareUserModalVisible: false})}
-                                            ]
-                                        )
+                                        Connector.get('/user', {email: this.props.originalEmail}, (res) => {
+                                            Connector.post('/user/conversation', {sender: this.props.originalEmail, re: item.email, msg: res.name + ' has shared a profile: #link[' + this.state.user.email + ':@' + this.state.user.name + ']'}, {email: this.props.originalEmail}, (res) => {
+                                                console.log(res);
+                                            });
+                                            Alert.alert(
+                                                'Profile Shared',
+                                                'This profile was shared to ' + item.name,
+                                                [
+                                                    {text: 'Okay', onPress: () => this.setState({shareUserModalVisible: false})}
+                                                ]
+                                            )
+                                        });
+
                                     }
                                 }
                                 title={item.name}>
