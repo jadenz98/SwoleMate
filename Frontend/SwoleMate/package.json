@@ -43,6 +43,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.7.4",
     "react-native-maps": "^0.22.1",
     "react-native-modal-datetime-picker": "^6.0.0",
+    "react-native-parsed-text": "0.0.21",
     "react-native-range-slider": "^0.1.0",
     "react-native-select-multiple": "^1.2.0",
     "react-native-selectmultiple-button": "^0.1.105",
