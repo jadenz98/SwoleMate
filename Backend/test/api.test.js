@@ -8,7 +8,7 @@ const Accounts = require('./scripts/Accounts');
 
 chai.use(chaiHttp);
 
-describe('SwoleMate API endpoint testing', function () {
+describe('SwoleMate API endpoint testing', function() {
     this.timeout(50000);
 
     before((done) => {
@@ -270,7 +270,7 @@ describe('SwoleMate API endpoint testing', function () {
                         email2: "s@s1"
                     })
                     .end((err, res) => {
-                        res.body.should.deep.equal([{email: 's@s0', msg: 'hi!', _id: 0}]);
+                        res.body.should.deep.equal([{ email: 's@s0', msg: 'hi!', _id: 0 }]);
 
                         done();
                     });
@@ -350,7 +350,7 @@ describe('SwoleMate API endpoint testing', function () {
 
                 chai.request(server)
                     .get('/user/report')
-                    .set({email: "s@s0"})
+                    .set({ email: "s@s0" })
                     .end((err, res) => {
                         res.should.have.status(200);
                         res.body.length.should.equal(1);
@@ -359,4 +359,84 @@ describe('SwoleMate API endpoint testing', function () {
                     });
             });
     });
+
+    it('Should be able to change my password', (done) => {
+        chai.request(server)
+            .get('/user')
+            .set({ email: "s@s0" })
+            .end((err, res) => {
+                res.should.have.status(200);
+
+
+                chai.request(server)
+                    .post('/user/passwordChange')
+                    .send({ email: "s@s0", password: "123" })
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.success.should.be.true;
+
+                        chai.request(server)
+                            .post('/user/login')
+                            .send({ email: "s@s0", password: "123" })
+                            .end((err, res) => {
+                                res.should.have.status(200);
+                                res.body.success.should.be.true;
+
+                                done();
+                            });
+                    });
+            });
+
+    });
+
+
+    it('Should not be able to change my password to an empty password', (done) => {
+        chai.request(server)
+            .get('/user')
+            .set({ email: "s@s0" })
+            .end((err, res) => {
+                res.should.have.status(200);
+                chai.request(server)
+                    .post('/user/passwordChange')
+                    .send({ email: "s@s0", password: "" })
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        // res.body.success.should.be.true;
+                        chai.request(server)
+                            .post('/user/login')
+                            .send({ email: "s@s0", password: "123" })
+                            .end((err, res) => {
+                                res.should.have.status(200);
+                                res.body.success.should.be.false;
+                                done();
+                            });
+                    });
+            });
+    });
+
+    it('Should be able to set Calendar Events', (done) => {
+        let event = {
+            date: "2018-23-12",
+            time: "12:30",
+            endtime: "1:30"
+        }
+        chai.request(server)
+            .post('/user/calendar')
+            .send({ email: "s@s0", event: event })
+            .end((err, res) => {
+                res.should.have.status(200);
+
+                chai.request(server)
+                    .get('/user/calendar')
+                    .set({ email: "s@s0" })
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.length.should.equal(1);
+                        done();
+                    });
+            });
+    });
 });
+
+
+/* db.Conversations.update({"email1": "t@t3", "email2":"t@t19"}, {$set: {"conversation": []}}) */
