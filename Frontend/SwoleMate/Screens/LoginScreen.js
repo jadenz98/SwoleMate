@@ -210,7 +210,8 @@ export default class LoginScreen extends React.Component {
                 const screensToPassInfoTo = [
                     'Home',
                     'Matches',
-                    'Profile'
+                    'Profile',
+                    'Calendar'
                 ];
 
                 for (let i = 0; i < screensToPassInfoTo.length; i++){

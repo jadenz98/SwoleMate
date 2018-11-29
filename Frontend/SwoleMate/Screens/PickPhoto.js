@@ -48,10 +48,12 @@ export default class PickPhoto extends React.Component {
             }
         };
 
-        ImageEditor.cropImage(this.state.photos[0].uri, cropData, success => { //crops image according to cropData above
-            ImageStore.getBase64ForTag(success, base64Success => //provides a base64 string of the image
+        //crops image according to cropData above
+        ImageEditor.cropImage(this.state.photos[0].uri, cropData, success => { 
+            //provides a base64 string of the image
+            ImageStore.getBase64ForTag(success, base64Success => 
                 {
-                    //photo object with the base64 string, photo height, and photo width is created on the fly and then sent to the server
+                    //photo object with fields containing the base64 string, photo height, and photo width is created on the fly and then sent to the server
                     photo.photoData = base64Success;
                     console.log(photo.photoData);
                     photo.photoWidth = cropData.displaySize.width;

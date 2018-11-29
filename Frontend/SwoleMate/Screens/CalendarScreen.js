@@ -14,14 +14,28 @@ export default class CalendarScreen extends React.Component {
         super(props);
         const {navigator} = this.props;
         this.state = {
+            email: props.navigation.dangerouslyGetParent().getParam('email'),
             eventModalVisible: false,
             dateModalVisible: false,
+            startTimeModalVisible: false,
+            endTimeModalVisible: false,
             isMounted: true,
+            eventsArray: [],
             items: {},
             newEventTitle: '',
             newEventDate: '',
-
+            newEventStartTime: '',
+            newEventEndTime: '',
+            DateTimePickerMode: 'date',
+            newEventStartMinutes: 0,
+            newEventEndMinutes: 0,
+            newEventLength: 0,
         };
+        Connector.get('/user/calendar',{email: this.state.email}, (res) => {
+            this.setState({
+                eventsArray: res
+            });
+        });
         //this.onDayPress = this.onDayPress.bind(this);
     }
 
@@ -47,6 +61,22 @@ export default class CalendarScreen extends React.Component {
             clearInterval(this.itemLoaderTimeout);
     }
 
+    createEvent = () => {
+        let event = {};
+        event.Title=this.state.newEventTitle;
+        //startTime and endTime represent the time of day in minutes
+        event.startTime=this.state.newEventStartTime;
+        event.endTime=this.state.newEventEndTime;
+        event.date=this.state.newEventDate;
+        event.length=(parseInt(this.state.newEventEndMinutes)-parseInt(this.state.newEventStartMinutes));
+
+        Connector.post('/user/calendar',{'email': this.state.email, 'event': event},undefined,(res) => {
+            console.log(res);
+        });
+
+
+
+    }
 
     render () {
         return (
@@ -91,12 +121,51 @@ export default class CalendarScreen extends React.Component {
                                 />
                                 <View style={globalStyles.spacerSmall}/>
                                 <TextInput
-                                    value={this.state.newEventDate}
+                                    value={this.state.newEventStartTime}
                                     ref={input => {this.nameInput = input }}
-                                    placeholder='Date'
+                                    placeholder='Start Time'
                                     style={globalStyles.inputBox}
                                     onTouchStart={()=> {
-                                        this.setState({dateModalVisible: true});
+                                        this.setState({
+                                            startTimeModalVisible: true,
+                                            DateTimePickerMode: 'time',
+                                        });
+
+                                    }}
+                                    editable={false}
+                                    //onChangeText={ (newEventDate) => this.setState({newEventDate})}
+                                    //autoCapitalize='words'
+                                    textContentType='Time'
+                                />
+                                <View style={globalStyles.spacerSmall}/>
+                                <TextInput
+                                    value={this.state.newEventEndTime}
+                                    ref={input => {this.nameInput = input }}
+                                    placeholder='End Time'
+                                    style={globalStyles.inputBox}
+                                    onTouchStart={()=> {
+                                        this.setState({
+                                            endTimeModalVisible: true,
+                                            DateTimePickerMode: 'time',
+                                        });
+
+                                    }}
+                                    editable={false}
+                                    //onChangeText={ (newEventDate) => this.setState({newEventDate})}
+                                    //autoCapitalize='words'
+                                    textContentType='Time'
+                                />
+                                <View style={globalStyles.spacerSmall}/>
+                                <TextInput
+                                    value={this.state.newEventDate}
+                                    ref={input => {this.nameInput = input }}
+                                    placeholder='Date of Event'
+                                    style={globalStyles.inputBox}
+                                    onTouchStart={()=> {
+                                        this.setState({
+                                            dateModalVisible: true,
+                                            DateTimePickerMode: 'date',
+                                        });
 
                                     }}
                                     editable={false}
@@ -106,7 +175,8 @@ export default class CalendarScreen extends React.Component {
                                 />
                                 <View style={globalStyles.spacerSmall}/>
                             </KeyboardAvoidingView>
-
+                            
+                            <View style={globalStyles.spacerSmall}/>
                             <TouchableOpacity
                                 style={globalStyles.btn}
                                 onPress={() => {
@@ -117,18 +187,79 @@ export default class CalendarScreen extends React.Component {
                                     Close
                                 </Text>
                             </TouchableOpacity>
+
+                            <View style={globalStyles.spacerSmall}/>
+                            <TouchableOpacity
+                                style={globalStyles.btn}
+                                onPress={() => {
+                                    var eventLength=this.state.newEventEndMinutes-this.state.newEventStartMinutes;
+                                    if(eventLength<1){
+                                        alert("End time must be larger than start time");
+                                    }
+                                    else{
+                                        this.setState({
+                                            eventModalVisible: false,
+                                        });
+                                        this.createEvent();
+                                    }
+                                }}
+                            >
+                                <Text style={globalStyles.btnTextBlack}>
+                                    Create Event
+                                </Text>
+                            </TouchableOpacity>
+                            
+                            {/*This component picks the date*/}
                             <DateTimePicker
                                 isVisible={this.state.dateModalVisible}
-                                mode='time'
+                                mode={this.state.DateTimePickerMode}
                                 onConfirm={(date)=>{
                                     this.setState({
-                                        newEventDate: date.getHours().toString()+ ":" + date.getMinutes().toString(),
+                                        newEventDate: (date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()),
                                         dateModalVisible: false,
                                     });
                                 }}
                                 onCancel={()=>{
                                     this.setState({
                                         dateModalVisible: false,
+                                    });
+                                }}
+                            >
+                            </DateTimePicker>
+
+                            {/*This component picks the start time*/}
+                            <DateTimePicker
+                                isVisible={this.state.startTimeModalVisible}
+                                mode={this.state.DateTimePickerMode}
+                                onConfirm={(date)=>{
+                                    this.setState({
+                                        newEventStartTime: ((date.getHours()%12)==0 ? 12:(date.getHours()%12)) + ":" + date.getMinutes(),
+                                        newEventStartMinutes: ((date.getHours()*60)+(date.getMinutes())),
+                                        startTimeModalVisible: false,
+                                    });
+                                }}
+                                onCancel={()=>{
+                                    this.setState({
+                                        startTimeModalVisible: false,
+                                    });
+                                }}
+                            >
+                            </DateTimePicker>
+
+                            {/*This component picks the end time*/}
+                            <DateTimePicker
+                                isVisible={this.state.endTimeModalVisible}
+                                mode={this.state.DateTimePickerMode}
+                                onConfirm={(date)=>{
+                                    this.setState({
+                                        newEventEndTime: ((date.getHours()%12)==0 ? 12:(date.getHours()%12)) + ":" + date.getMinutes(),
+                                        newEventEndMinutes: ((date.getHours()*60)+(date.getMinutes())),
+                                        endTimeModalVisible: false,
+                                    });
+                                }}
+                                onCancel={()=>{
+                                    this.setState({
+                                        endTimeModalVisible: false,
                                     });
                                 }}
                             >
@@ -141,6 +272,12 @@ export default class CalendarScreen extends React.Component {
 
     loadItems(day) {
         this.itemLoaderTimeout = setTimeout(() => {
+            /*const newItems={};
+            for(let i=0;i<this.state.eventsArray.length;i++){
+                newItems[eventsArray[i].date] = eventsArray[i].title;
+            }*/
+
+
             for (let i = -15; i < 85; i++) {
                 const time = day.timestamp + i * 24 * 60 * 60 * 1000;
                 const strTime = this.timeToString(time);
@@ -162,7 +299,7 @@ export default class CalendarScreen extends React.Component {
                 items: newItems
             });
         }, 1000);
-        // console.log(`Load Items for ${day.year}-${day.month}`);
+        //console.log(`Load Items for ${day.year}-${day.month}`);
     }
 
     renderItem(item) {
