@@ -63,10 +63,6 @@ export default class LoginScreen extends React.Component {
                 password: 'Facebook',
             });
             this.login();
-            console.log(loginInfo);
-        }
-        else {
-            console.error(type);
         }
     };
 
@@ -84,10 +80,6 @@ export default class LoginScreen extends React.Component {
                 password: 'Google',
             });
             this.login();
-            console.log(result);
-        }
-        else{
-            console.log('Cancelled');
         }
     };
 
@@ -185,7 +177,6 @@ export default class LoginScreen extends React.Component {
             email: this.state.email,
             password: this.state.password
         }, {}, (response) => {
-            console.log(response.success);
             if(response.success){ //Server returned success on login
                 
                 //object to pass user info to next screen
@@ -202,7 +193,6 @@ export default class LoginScreen extends React.Component {
                     {
                         email: this.state.email
                     }, (response) => {
-                        console.log(response);
                     }
                 );
 

@@ -68,17 +68,15 @@ export default class PickPhoto extends React.Component {
                 {
                     //photo object with fields containing the base64 string, photo height, and photo width is created on the fly and then sent to the server
                     photo.photoData = base64Success;
-                    //console.log(photo.photoData);
                     photo.photoWidth = cropData.displaySize.width;
                     photo.photoHeight = cropData.displaySize.height;
                     const user= this.state.user;
                     Connector.post('/user/update', photo, {email: user.email}, (res) => {
-                        console.log(res);
                         this.props.navigation.state.params.refresh();
                         this.props.navigation.pop();
                     });
-                }, base64Failure => {console.log(base64Failure)});
-        }, failure => { console.log(failure)});
+                }, base64Failure => {});
+        }, failure => {});
     };
 
     render(){

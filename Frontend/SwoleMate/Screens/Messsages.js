@@ -37,7 +37,6 @@ export default class Messages extends React.Component{
                         }, {
                             email: navigation.getParam('email')
                         }, (res)=>{
-                            console.log(res);
                         }
                     );
                 }}
@@ -78,44 +77,14 @@ export default class Messages extends React.Component{
         clearInterval(this._interval);
     }
 
-    /*componentWillMount() {
-      Connector.get('/user/conversation', {email1: this.state.email, email2: this.state.reEmail}, (conversation) => {
-        console.log(conversation);
-        for(var i = 0; i < conversation.length; i++){
-          var msg =
-            {
-              _id: conversation[i]._id,
-              text: conversation[i].msg,
-              user:{
-                _id: conversation[i].email,
-              }
-            }
-          this.setState((previousState) => {
-            return{
-              messages: GiftedChat.append(previousState.messages, msg),
-            };
-          });
-        }
-      });
-
-    }*/
-
-    /*getConversation = () => {
-      Connector.get('/user/conversation', {email1: 'a@a.com', email2: 's@s1'}, (conversation) => {
-          console.log(conversation);
-      });
-    }*/
 
     onReceivedMessage = (messages) => {
         this.storeMessages(messages);
     };
 
     onSend = (messages=[]) => {
-        console.log(messages);
         Connector.post('/user/conversation', {sender: this.state.email, re: this.state.reEmail, msg: messages[0].text}, {email: this.state.email}, (res) => {
-            //console.log(res);
         });
-        //this.storeMessages(messages);
     };
 
     parsePatterns = (linkStyle) => {
@@ -127,8 +96,6 @@ export default class Messages extends React.Component{
                 onPress: (matchingString, matches) => {
                     let pattern = /#link\[(.+@{1}.+):{1}@{1}(.+)\]/;
                     let match = matchingString.match(pattern);
-                    //Alert.alert('Profile', `Link to ${match[1]}`,[{text: 'Okay'}])
-                    //console.log(this.state.email);
                     this.props.navigation.navigate('SharedProfile', {originalEmail: this.state.email, email: `${match[1]}`});
                 },
                 renderText: (matchingString, matches) => {
