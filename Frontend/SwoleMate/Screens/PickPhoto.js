@@ -19,10 +19,10 @@ export default class PickPhoto extends React.Component {
         Connector.get('/user', {email: props.navigation.dangerouslyGetParent().getParam('email')}, (res) => {
             this.setState({user: res});
         });
-        //this.requestExternalStoragePermission();
+        this.requestExternalStoragePermission();
     }
 
-    /*requestExternalStoragePermission = async () => {
+    requestExternalStoragePermission = async () => {
         const { Location, Permissions } = Expo;
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         if (status === 'granted') {
@@ -30,7 +30,7 @@ export default class PickPhoto extends React.Component {
         } else {
             throw new Error('Location permission not granted');
         }
-    }*/
+    }
 
     static navigationOptions = {
         title: 'Pick Photo',
