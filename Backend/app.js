@@ -32,7 +32,6 @@ var recoverPasswordRouter = require('./routes/user/recoverPassword');
 var passwordChange = require('./routes/user/passwordChange');
 var reportRouter = require('./routes/user/report');
 var calendarRoute = require('./routes/user/calendar');
-var updateCalendarRoute = require('./routes/user/updateCalendar');
 
 var app = express();
 app.get('/accountRecovery/*', function(req, res) {
@@ -73,7 +72,6 @@ app.use('/user/recoverPassword', recoverPasswordRouter);
 app.use('/user/passwordChange', passwordChange);
 app.use('/user/report', reportRouter);
 app.use('/user/calendar', calendarRoute);
-app.use('/user/updateCalendar', updateCalendarRoute);
 app.disable('etag');
 
 // catch 404 and forward to error handler
