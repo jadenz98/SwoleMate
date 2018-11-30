@@ -41,6 +41,7 @@ export default class  LocationPicker extends React.Component {
                   gymLongitude: details.geometry.location.lng,
               }
               Connector.post('/user/update', favLocation, {email: this.state.email}, () => {
+                  this.props.navigation.state.params.refresh();
                   this.props.navigation.pop();
               });
            }}
