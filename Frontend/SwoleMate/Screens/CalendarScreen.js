@@ -23,7 +23,8 @@ export default class CalendarScreen extends React.Component {
             isMounted: true,
             eventsArray: [],
             items: {},
-            deleteEventTitle: '',
+            deleteEventTime: '',
+            deleteEventDate: '',
             currentEventTitle: '',
             currentEventDate: '',
             currentEventStartTime: '',
@@ -89,17 +90,22 @@ export default class CalendarScreen extends React.Component {
         event.endTime=this.state.currentEventEndTime;
         event.date=this.state.currentEventDate;
         event.length=(parseInt(this.state.newEventEndMinutes)-parseInt(this.state.newEventStartMinutes));
-        //this.setState({
-        //    currentItem: event
+
+        //Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
+            //console.log(res);
         //});
-        Connector.post('/user/calendar',{'email': this.state.email, 'event': event},undefined,() => {
+        Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
+            //console.log(res);
+            Connector.post('/user/calendar',{'email': this.state.email, 'event': event},undefined,() => {
+            //console.log(res);
+          });
+        });
+    }
+
+    deleteEvent = () => {
+        Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
             //console.log(res);
         });
-        /*
-        Connector.post('/user/updateCalendar',event,{email: this.state.email},() => {
-            //console.log(res);
-        });
-        */
     }
 
     render () {
@@ -239,12 +245,28 @@ export default class CalendarScreen extends React.Component {
                                     this.setState({
                                         editEventModalVisible: false,
                                     });
+                                    //this.deleteEvent();
                                     this.editEvent();
                                 }
                             }}
                         >
                             <Text style={globalStyles.btnTextBlack}>
                                 Edit Event
+                            </Text>
+                        </TouchableOpacity>
+
+                        <View style={globalStyles.spacerSmall}/>
+                        <TouchableOpacity
+                            style={globalStyles.btn}
+                            onPress={() => {
+                                this.setState({
+                                    editEventModalVisible: false,
+                                });
+                                this.deleteEvent();
+                            }}
+                        >
+                            <Text style={globalStyles.btnTextBlack}>
+                                Delete Event
                             </Text>
                         </TouchableOpacity>
 
@@ -456,8 +478,8 @@ export default class CalendarScreen extends React.Component {
                                 is24Hour={false}
                                 onConfirm={(date)=>{
                                     this.setState({
-                                        newEventStartTime: ((date.getHours()%12)==0 ? 12:(date.getHours()%12)) + ":" + date.getMinutes(),
-                                        newEventStartMinutes: ((date.getHours()*60)+(date.getMinutes())),
+                                        newEventStartTime: ((date.getHours()%12)==0 ? 12:(date.getHours()%12)) + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes():date.getMinutes()),
+                                        newEventStartMinutes: ((date.getHours()*60)+(date.getMinutes()<10 ? '0'+date.getMinutes():date.getMinutes())),
                                         startTimeModalVisible: false,
                                     });
                                 }}
@@ -476,8 +498,8 @@ export default class CalendarScreen extends React.Component {
                                 is24Hour={false}
                                 onConfirm={(date)=>{
                                     this.setState({
-                                        newEventEndTime: ((date.getHours()%12)==0 ? 12:(date.getHours()%12)) + ":" + date.getMinutes(),
-                                        newEventEndMinutes: ((date.getHours()*60)+(date.getMinutes())),
+                                        newEventEndTime: ((date.getHours()%12)==0 ? 12:(date.getHours()%12)) + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes():date.getMinutes()),
+                                        newEventEndMinutes: ((date.getHours()*60)+(date.getMinutes()<10 ? '0'+date.getMinutes():date.getMinutes())),
                                         endTimeModalVisible: false,
                                     });
                                 }}
@@ -509,7 +531,7 @@ export default class CalendarScreen extends React.Component {
                                 id: strTime,
                                 start: events[j].startTime,
                                 end: events[j].endTime,
-                                name: /*events[j].startTime + " - " + events[j].endTime + '\n\n' + */events[j].Title,
+                                name: events[j].startTime + " - " + events[j].endTime + '\n\n' + events[j].Title,
                                 height: 90
                             });
                         }
@@ -534,7 +556,8 @@ export default class CalendarScreen extends React.Component {
             console.log(item);
 
             this.setState({
-              deleteEventTitle: item.name,
+              deleteEventTime: item.start,
+              deleteEventDate: item.id,
               currentEventTitle: item.name,
               currentEventDate: item.id,
               currentEventStartTime: item.start,
