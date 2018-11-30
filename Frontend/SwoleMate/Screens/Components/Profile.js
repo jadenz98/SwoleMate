@@ -260,7 +260,7 @@ export default class Profile extends React.Component {
         }
 
         let favGymMap;
-        if(!true){
+        if(user.basicInfo){
             favGymMap = null;
         } else {
             favGymMap = (
