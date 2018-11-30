@@ -4,6 +4,8 @@ import Connector from '../Utils/Connector'
 
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
+import api from '../config/api';
+
 export default class  LocationPicker extends React.Component {
     constructor(props) {
         super(props);
@@ -43,7 +45,7 @@ export default class  LocationPicker extends React.Component {
                     }}
                     query={{
                         // available options: https://developers.google.com/places/web-service/autocomplete
-                        key: 'AIzaSyAJxKt_3yf9YZ_48BlIwYNmZwq99yUgsRg',
+                        key: api.location,
                         language: 'en', // language of the results
                     }}
                     currentLocationLabel="Current location"
