@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyleSheet, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, KeyboardAvoidingView, Alert } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import Connector from '../Utils/Connector';
 
@@ -18,7 +18,10 @@ export default class Messages extends React.Component{
             latestID: -1,
         };
 
-        this.props.navigation.setParams({ title: this.state.reEmail })
+        //Sets title of page as name of reciever
+        Connector.get('/user', {email: this.state.reEmail}, (resp) => {
+            this.props.navigation.setParams({ title: resp.name })
+        })
     }
 
     static navigationOptions = ({ navigation }) => ({
@@ -115,6 +118,28 @@ export default class Messages extends React.Component{
         //this.storeMessages(messages);
     };
 
+    parsePatterns = (linkStyle) => {
+        return [
+            {
+                //This pattern should match all text in format #text[email@email:@name]
+                pattern: /#link\[(.+@{1}.+):{1}@{1}(.+)\]/,
+                style: { ...linkStyle, color: 'darkorange' },
+                onPress: (matchingString, matches) => {
+                    let pattern = /#link\[(.+@{1}.+):{1}@{1}(.+)\]/;
+                    let match = matchingString.match(pattern);
+                    //Alert.alert('Profile', `Link to ${match[1]}`,[{text: 'Okay'}])
+                    //console.log(this.state.email);
+                    this.props.navigation.navigate('ExpandedProfile', {originalEmail: this.state.email, email: `${match[1]}`});
+                },
+                renderText: (matchingString, matches) => {
+                    let pattern = /#link\[(.+@{1}.+):{1}@{1}(.+)\]/;
+                    let match = matchingString.match(pattern);
+                    return `${match[2]}`;
+                }
+            },
+        ];
+    }
+
     render(){
         const user = {
             _id: this.state.email
@@ -130,6 +155,7 @@ export default class Messages extends React.Component{
                     onSend={this.onSend}
                     user={user}
                     placeholder='Type a message...'
+                    parsePatterns={this.parsePatterns}
                 />
             </KeyboardAvoidingView>
         );

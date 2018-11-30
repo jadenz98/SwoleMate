@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, KeyboardAvoidingView, Dimensions, TouchableOpacity, View, Text, Image, Modal } from 'react-native';
+import { TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, Dimensions, TouchableOpacity, View, Text, Image, Modal } from 'react-native';
 import styles from './Styles/CalendarScreenStyles';
 import globalStyles from './Styles/Global';
 import Connector from '../Utils/Connector';
@@ -285,6 +285,7 @@ export default class CalendarScreen extends React.Component {
                     >
                         <View style={{marginTop: 22}}>
 
+                            {/*<KeyboardAvoidingView style={{height: 100}}>*/}
                                 <Text>
                                     Add Event
                                 </Text>
@@ -298,60 +299,75 @@ export default class CalendarScreen extends React.Component {
                                     textContentType='Title'
                                 />
                                 <View style={globalStyles.spacerSmall}/>
-                                <TextInput
-                                    value={this.state.newEventStartTime}
-                                    ref={input => {this.nameInput = input }}
-                                    placeholder='Start Time'
-                                    style={globalStyles.inputBox}
-                                    onTouchStart={()=> {
+                                <TouchableOpacity
+                                    onPress={()=> {
                                         this.setState({
                                             startTimeModalVisible: true,
                                             DateTimePickerMode: 'time',
                                         });
 
                                     }}
-                                    editable={false}
-                                    //onChangeText={ (newEventDate) => this.setState({newEventDate})}
-                                    //autoCapitalize='words'
-                                    textContentType='Time'
-                                />
+                                >
+                                    <TextInput
+                                        value={this.state.newEventStartTime}
+                                        ref={input => {this.nameInput = input }}
+                                        placeholder='Start Time'
+                                        style={globalStyles.inputBox}
+                                        pointerEvents='none'
+                                        editable={false}
+                                        //onChangeText={ (newEventDate) => this.setState({newEventDate})}
+                                        //autoCapitalize='words'
+                                        textContentType='Time'
+                                    />
+                                </TouchableOpacity>
                                 <View style={globalStyles.spacerSmall}/>
-                                <TextInput
-                                    value={this.state.newEventEndTime}
-                                    ref={input => {this.nameInput = input }}
-                                    placeholder='End Time'
-                                    style={globalStyles.inputBox}
-                                    onTouchStart={()=> {
+
+                                <TouchableOpacity
+                                    onPress={()=> {
                                         this.setState({
                                             endTimeModalVisible: true,
                                             DateTimePickerMode: 'time',
                                         });
 
                                     }}
-                                    editable={false}
-                                    //onChangeText={ (newEventDate) => this.setState({newEventDate})}
-                                    //autoCapitalize='words'
-                                    textContentType='Time'
-                                />
+                                >
+                                    <TextInput
+                                        value={this.state.newEventEndTime}
+                                        ref={input => {this.nameInput = input }}
+                                        placeholder='End Time'
+                                        style={globalStyles.inputBox}
+                                        pointerEvents='none'
+                                        editable={false}
+                                        //onChangeText={ (newEventDate) => this.setState({newEventDate})}
+                                        //autoCapitalize='words'
+                                        textContentType='Time'
+                                    />
+                                </TouchableOpacity>
                                 <View style={globalStyles.spacerSmall}/>
-                                <TextInput
-                                    value={this.state.newEventDate}
-                                    ref={input => {this.nameInput = input }}
-                                    placeholder='Date of Event'
-                                    style={globalStyles.inputBox}
-                                    onTouchStart={()=> {
+
+                                <TouchableOpacity
+                                    onPress={()=> {
                                         this.setState({
                                             dateModalVisible: true,
                                             DateTimePickerMode: 'date',
                                         });
 
                                     }}
-                                    editable={false}
-                                    //onChangeText={ (newEventDate) => this.setState({newEventDate})}
-                                    //autoCapitalize='words'
-                                    textContentType='Date'
-                                />
+                                >
+                                    <TextInput
+                                        value={this.state.newEventDate}
+                                        ref={input => {this.nameInput = input }}
+                                        placeholder='Date of Event'
+                                        style={globalStyles.inputBox}
+                                        pointerEvents='none'
+                                        editable={false}
+                                        //onChangeText={ (newEventDate) => this.setState({newEventDate})}
+                                        //autoCapitalize='words'
+                                        textContentType='Date'
+                                    />
+                                </TouchableOpacity>
                                 <View style={globalStyles.spacerSmall}/>
+                            {/*</KeyboardAvoidingView>*/}
 
                             <View style={globalStyles.spacerSmall}/>
                             <TouchableOpacity
@@ -408,6 +424,7 @@ export default class CalendarScreen extends React.Component {
                             <DateTimePicker
                                 isVisible={this.state.startTimeModalVisible}
                                 mode={this.state.DateTimePickerMode}
+                                is24Hour={false}
                                 onConfirm={(date)=>{
                                     this.setState({
                                         newEventStartTime: ((date.getHours()%12)==0 ? 12:(date.getHours()%12)) + ":" + date.getMinutes(),
@@ -427,6 +444,7 @@ export default class CalendarScreen extends React.Component {
                             <DateTimePicker
                                 isVisible={this.state.endTimeModalVisible}
                                 mode={this.state.DateTimePickerMode}
+                                is24Hour={false}
                                 onConfirm={(date)=>{
                                     this.setState({
                                         newEventEndTime: ((date.getHours()%12)==0 ? 12:(date.getHours()%12)) + ":" + date.getMinutes(),
