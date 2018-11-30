@@ -259,25 +259,6 @@ export default class Profile extends React.Component {
             reportButton = null;
         }
 
-        let favGymMap;
-        if(user.basicInfo){
-            favGymMap = null;
-        } else {
-            favGymMap = (
-                <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                    <Text style={globalStyles.header}>
-                        Favorite Gym Location
-                    </Text>
-                    <View style={{width: 200, height: 200, padding: 5}}>
-
-                      {this.renderFavLocation()}
-                      <View style={globalStyles.spacer}/>
-
-                    </View>
-                </View>
-            );
-        }
-
         const interestImages = (
             <View style={{flexDirection: 'row'}}>
                 {this.renderImage['Swimming'] && <Image source={require('../images/Swimming.png')}
@@ -305,11 +286,27 @@ export default class Profile extends React.Component {
                 </Text>
             );
         }
+        let favGymMap;
         let goalText;
         let milestonesText;
         let milestones = user.milestones;
         let milestonesStyle = style.listText;
         if(this.props.isSelf) {
+
+            favGymMap = (
+                <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                    <Text style={globalStyles.header}>
+                        Favorite Gym Location
+                    </Text>
+                    <View style={{width: 200, height: 200, padding: 5}}>
+
+                      {this.renderFavLocation()}
+                      <View style={globalStyles.spacer}/>
+
+                    </View>
+                </View>
+            );
+
             if (!user.goal || user.goal === "") {
                 goalText = (
                     <View>
@@ -373,6 +370,24 @@ export default class Profile extends React.Component {
             );
 
         } else { //if this.props isnt self
+            
+            if(user.basicInfo){
+                favGymMap = null;
+            } else {
+                favGymMap = (
+                    <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={globalStyles.header}>
+                            Favorite Gym Location
+                        </Text>
+                        <View style={{width: 200, height: 200, padding: 5}}>
+
+                          {this.renderFavLocation()}
+                          <View style={globalStyles.spacer}/>
+
+                        </View>
+                    </View>
+                );
+            }
             if(user.basicInfo) {
                 goalText = null;
             } else if (!user.goal || user.goal === "") {
