@@ -125,7 +125,7 @@ export default class EditProfile extends React.Component {
           <View style={{...StyleSheet.absoluteFillObject,}}    >
             <MapView
                 liteMode
-                style={{...StyleSheet.absoluteFillObject,}}
+                style={{...StyleSheet.absoluteFillObject,flex:1}}
                 region={{
                   latitude: this.state.user.gymLatitude,
                   longitude: this.state.user.gymLongitude,
@@ -398,14 +398,16 @@ export default class EditProfile extends React.Component {
                     </TouchableOpacity>
 
                     <View style={globalStyles.spacer}/>
-
-                    <View style={{padding: 5}}>
-                      <Text style={globalStyles.header}>
-                          Favorite Gym Location
-                      </Text>
+                    <Text style={globalStyles.header}>
+                        Favorite Gym Location
+                    </Text>
+                    <View style={{width: 200, height: 200, padding: 5}}>
+                      
                       {this.renderFavLocation()}
                       <View style={globalStyles.spacer}/>
-                      <TouchableOpacity
+                      
+                    </View>
+                    <TouchableOpacity
                           style={globalStyles.btnSecondary}
                           onPress={()=> { this.props.navigation.navigate('LocationPicker',{email: this.props.navigation.getParam('email'), refresh: this.setFavLocation})}}
                       >
@@ -413,7 +415,6 @@ export default class EditProfile extends React.Component {
                               Add a Workout Location
                           </Text>
                       </TouchableOpacity>
-                    </View>
 
                     <View style={globalStyles.spacer}/>
 
