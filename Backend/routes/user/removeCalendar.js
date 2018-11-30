@@ -17,7 +17,6 @@ router.post('/', function(req, res, next) {
         for (var i = 0; i < result.events.length; i++) {
             if ((result.events[i].date == date) && (result.events[i].startTime == time)) {
                 result.events.splice(i, 1);
-                console.log(result.events);
                 const newValues = {
                     $set: { events: result.events }
                 };

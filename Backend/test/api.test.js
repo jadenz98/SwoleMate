@@ -578,14 +578,99 @@ describe('SwoleMate API endpoint testing', function() {
             .end((err, res) => { //#link[t@t18:@t@t18]
                 res.should.have.status(200);
                 res.body.success.should.be.true;
-                done();
+                console.log("EAFEWFAEW");
                 chai.request(server)
                     .get('/user/conversation')
-                    .set({ email1: "s@s0", email2: "s@s1" })
+                    .set({ email1: "s@s9", email2: "s@s19" })
                     .end((err, res) => {
                         res.should.have.status(200);
-                        res.body.length.should.equal(1);
-                        res.body[0].msg.should.equal("#NOLINK[t@t18:@t@t18]");
+                        res.body.length.should.equal(2);
+                        res.body[1].msg.should.equal("#NOLINK[t@t18:@t@t18]");
+                        done();
+                    });
+            });
+    });
+
+    it('As a user I want to set goals', (done) => {
+        chai.request(server)
+            .post('/user/update')
+            .set({ email: "s@s1" })
+            .send({ goal: "THISISAGOAL" })
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+
+                chai.request(server)
+                    .get('/user')
+                    .set({ email: "s@s1" })
+                    .end((err, res) => {
+                        res.should.have.status(200);
+
+                        res.body.goal.should.equal("THISISAGOAL");
+                        // res.body[0].msg.should.equal("#NOLINK[t@t18:@t@t18]");
+                        done();
+                    });
+            });
+    });
+
+    it('As a user I want to set goals EDGE THE BEGE', (done) => {
+        chai.request(server)
+            .post('/user/update')
+            .set({ email: "s@s1" })
+            .send({ goal: "" })
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+
+                chai.request(server)
+                    .get('/user')
+                    .set({ email: "s@s1" })
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.goal.should.equal("");
+                        // res.body[0].msg.should.equal("#NOLINK[t@t18:@t@t18]");
+                        done();
+                    });
+            });
+    });
+
+    it('As a user I want to set my fav gym location', (done) => {
+        chai.request(server)
+            .post('/user/update')
+            .set({ email: "s@s1" })
+            .send({ favgym: "Co Rec, North Martin Jischke Drive, West Lafayette, IN, USA" })
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+
+                chai.request(server)
+                    .get('/user')
+                    .set({ email: "s@s1" })
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.favgym.should.equal("Co Rec, North Martin Jischke Drive, West Lafayette, IN, USA");
+                        // res.body[0].msg.should.equal("#NOLINK[t@t18:@t@t18]");
+                        done();
+                    });
+            });
+    });
+
+    it('As a user I want to set my fav gym location EDGE THE BEGE', (done) => {
+        chai.request(server)
+            .post('/user/update')
+            .set({ email: "s@s1" })
+            .send({ favgym: "" })
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+
+                chai.request(server)
+                    .get('/user')
+                    .set({ email: "s@s1" })
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.favgym.should.equal("");
+                        // res.body[0].msg.should.equal("#NOLINK[t@t18:@t@t18]");
                         done();
                     });
             });
@@ -595,30 +680,3 @@ describe('SwoleMate API endpoint testing', function() {
 
 
 /* db.Conversations.update({"email1": "t@t3", "email2":"t@t19"}, {$set: {"conversation": []}}) */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
