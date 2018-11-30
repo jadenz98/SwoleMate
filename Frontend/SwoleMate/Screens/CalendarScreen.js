@@ -20,6 +20,7 @@ export default class CalendarScreen extends React.Component {
             dateModalVisible: false,
             startTimeModalVisible: false,
             endTimeModalVisible: false,
+            refresh: false,
             isMounted: true,
             eventsArray: [],
             items: {},
@@ -75,8 +76,15 @@ export default class CalendarScreen extends React.Component {
         event.endTime=this.state.newEventEndTime;
         event.date=this.state.newEventDate;
         event.length=(parseInt(this.state.newEventEndMinutes)-parseInt(this.state.newEventStartMinutes));
-
+        this.setState({refresh: true});
+        this.addItem();
         Connector.post('/user/calendar',{'email': this.state.email, 'event': event},undefined,() => {
+            Connector.get('/user/calendar',{email: this.state.email}, (res) => {
+                this.setState({
+                    eventsArray: res,
+                    refresh: false,
+                });
+            });
         });
     }
 
@@ -90,12 +98,22 @@ export default class CalendarScreen extends React.Component {
 
         Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
             Connector.post('/user/calendar',{'email': this.state.email, 'event': event},undefined,() => {
+                Connector.get('/user/calendar',{email: this.state.email}, (res) => {
+                    this.setState({
+                        eventsArray: res
+                    });
+                });
           });
         });
     }
 
     deleteEvent = () => {
         Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
+            Connector.get('/user/calendar',{email: this.state.email}, (res) => {
+                this.setState({
+                    eventsArray: res
+                });
+            });
         });
     }
 
@@ -110,6 +128,7 @@ export default class CalendarScreen extends React.Component {
                         renderItem={this.renderItem.bind(this)}
                         renderEmptyDate={this.renderEmptyDate.bind(this)}
                         rowHasChanged={this.rowHasChanged.bind(this)}
+                        refreshing={this.state.refresh}
                     />
 
                     <TouchableOpacity
@@ -482,6 +501,21 @@ export default class CalendarScreen extends React.Component {
                     </Modal>
                 </View> ) : <Loader/>
         );
+    }
+
+    addItem = () => {
+        this.state.items[this.state.newEventDate].push({
+            id: this.state.newEventDate,
+            start: this.state.newEventStartTime,
+            end: this.state.newEventEndTime,
+            name: this.state.newEventTitle,
+            height:90,
+        });
+        const newItems = {};
+        Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
+        this.setState({
+            items: newItems
+        });
     }
 
     loadItems(day) {
