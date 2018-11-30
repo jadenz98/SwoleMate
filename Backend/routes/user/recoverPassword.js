@@ -4,6 +4,7 @@ var nodemailer = require('nodemailer');
 var bcrypt = require('bcryptjs');
 
 import Mongo from '../../utils/Mongo';
+import auth from '../../config/googleAuth';
 
 /* POST User info */
 router.post('/', function(req, res, next) {
@@ -23,16 +24,13 @@ router.post('/', function(req, res, next) {
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
-                    /**
-                     * Need to fix this, password should not be in here!. 
-                     */ 
-                    user: 'SwoleMateRecovery@gmail.com',
-                    pass: 'DontGuessThis'
+                    user: auth.email,
+                    pass: auth.pass
                 }
             });
 
             const mailOptions = {
-                from: 'SwoleMateRecovery@gmail.com',
+                from: auth.email,
                 to: user.email,
                 subject: 'Reseting your SwoleMate Password',
                 text: 'To reset your password click on the link below.\nLINK: http://localhost:3000/accountRecovery/' + user.email + '\nIf you did not request to reset your password then please ignore this.'

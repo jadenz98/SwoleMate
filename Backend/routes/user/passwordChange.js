@@ -6,7 +6,7 @@ import Mongo from '../../utils/Mongo';
 
 /* POST new login info */
 router.post('/', function(req, res, next) {
-	const newUser = req.body;
+	const newUser = req.body; 
     const email = req.body.email;
     const userQuery = {email};
 

@@ -81,7 +81,7 @@ export default class HomeScreen extends React.Component{
                 }
                 potentialMatchInfo[i].age = age;
 
-                //add img field to that particular user information object which contains an image component with their profile image                
+                //add img field to that particular user information object which contains an image component with their profile image
                 const encodedData=potentialMatchInfo[i].photoData;
                 potentialMatchInfo[i].img=(
                     <Image

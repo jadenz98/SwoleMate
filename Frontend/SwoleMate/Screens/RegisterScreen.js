@@ -9,90 +9,84 @@ import { NavigationActions } from "react-navigation";
 
 import globalStyles from './Styles/Global';
 
-const googleClientIDAndroid = '673192647506-cdmna9p2rs727jl74q48fb5ccoihj7a2.apps.googleusercontent.com'
-const googleClientIdIOS = '673192647506-o37hpl36to83fmfhpj3vob8loc7o03ba.apps.googleusercontent.com'
-const id = '1740497489395130'
-
+import api from '../config/api';
 
 export default class RegisterScreen extends React.Component{
     constructor(props){
-      super(props);
-      this.state={
-        newUsername: '',
-        newPassword: '',
-        passwordConfirm: '',
-        email: '',
-        name: '',
-        sex: '',
-        birthday: '',
-        phone_number: '',
-        bio: '',
-        goal: '',
-        socialMediaAccount: false,
-        latitude: null,
-        longitude: null,
-        isGhost: false,
-        basicInfo: false
-      };
+        super(props);
+        this.state={
+            newUsername: '',
+            newPassword: '',
+            passwordConfirm: '',
+            email: '',
+            name: '',
+            sex: '',
+            birthday: '',
+            phone_number: '',
+            bio: '',
+            goal: '',
+            socialMediaAccount: false,
+            latitude: null,
+            longitude: null,
+            isGhost: false,
+            basicInfo: false
+        };
         this.getLocation();
     }
 
 
     fbRegister = async () => {
-      const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync(id, {permissions: [ 'public_profile', 'email', 'user_friends']})
+        const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync(api.fbClientId, {permissions: [ 'public_profile', 'email', 'user_friends']});
 
-      if(type === 'success'){
-          const response = await fetch(
-              `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,about,picture,birthday`
-          );
-          var loginInfo = await response.json();
-          this.setState({
-            socialMediaAccount: true,
-            email: loginInfo.email,
-            name: loginInfo.name,
-            newPassword: 'Facebook',
-            passwordConfirm: 'Facebook',
-            sex: 'not_specified',
-            
-          });
-          
-          console.log(loginInfo);
-          this.registerAccount();
+        if(type === 'success'){
+            const response = await fetch(
+                `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,about,picture,birthday`
+            );
+            const loginInfo = await response.json();
+            this.setState({
+                socialMediaAccount: true,
+                email: loginInfo.email,
+                name: loginInfo.name,
+                newPassword: 'Facebook',
+                passwordConfirm: 'Facebook',
+                sex: 'not_specified',
 
-      }
-      else {
-          console.error(type);
-      }
-  }
+            });
 
-  googleRegister = async () => {
-      const result = await Expo.Google.logInAsync({
-          androidClientId: googleClientIDAndroid,
-          iosClientId: googleClientIdIOS,
-          scopes: ['profile', 'email'],
+            console.log(loginInfo);
+            this.registerAccount();
 
-      });
+        }
+        else {
+            console.error(type);
+        }
+    };
 
-      if(result.type === 'success'){
-          this.setState({
-            socialMediaAccount: true,
-            email: result.user.email,
-            name: result.user.name,
-            newPassword: 'Google',
-            passwrodConfirm: 'Google',
-            sex: 'not_specified',
+    googleRegister = async () => {
+        const result = await Expo.Google.logInAsync({
+            androidClientId: api.googleClientIDAndroid,
+            iosClientId: api.googleClientIdIOS,
+            scopes: ['profile', 'email'],
 
-          });
-          this.registerAccount();
-          console.log(result);
-      }
-      else{
-          console.log('Cancelled');
-      }
-  }
+        });
 
+        if(result.type === 'success'){
+            this.setState({
+                socialMediaAccount: true,
+                email: result.user.email,
+                name: result.user.name,
+                newPassword: 'Google',
+                passwordConfirm: 'Google',
+                sex: 'not_specified',
 
-
+            });
+            this.registerAccount();
+            console.log(result);
+        }
+        else{
+            console.log('Cancelled');
+        }
+    };
 
     //Function to get user's location
     getLocation(){
@@ -134,57 +128,57 @@ export default class RegisterScreen extends React.Component{
 
                 <View style={globalStyles.spacer}/>
 
-              <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.fbRegister}>
-                  <Text style={globalStyles.btnText}>
-                      Register with Facebook
-                  </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.googleRegister}>
-                  <Text style={globalStyles.btnText}>
-                      Register with Google
-                  </Text>
-              </TouchableOpacity>
+                <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.fbRegister}>
+                    <Text style={globalStyles.btnText}>
+                        Register with Facebook
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.googleRegister}>
+                    <Text style={globalStyles.btnText}>
+                        Register with Google
+                    </Text>
+                </TouchableOpacity>
 
-              <View style={globalStyles.spacer}/>
+                <View style={globalStyles.spacer}/>
 
 
-              <TextInput
-                ref={input => {this.emailInput = input }}
-                placeholder='Email'
-                style={globalStyles.inputBox}
-                onChangeText={ (email) => this.setState({email})}
-                autoCapitalize='none'
-                keyboardType='email-address'
-                textContentType='emailAddress'
-              />
+                <TextInput
+                    ref={input => {this.emailInput = input }}
+                    placeholder='Email'
+                    style={globalStyles.inputBox}
+                    onChangeText={ (email) => this.setState({email})}
+                    autoCapitalize='none'
+                    keyboardType='email-address'
+                    textContentType='emailAddress'
+                />
 
-              <View style={globalStyles.spacerSmall}/>
+                <View style={globalStyles.spacerSmall}/>
 
-              <TextInput
-                ref={input => {this.passwordInput = input }}
-                placeholder='Password'
-                style={globalStyles.inputBox}
-                onChangeText={ (newPassword) => this.setState({newPassword})}
-                autoCapitalize='none'
-                autoCorrect={false}
-                maxLength={15}
-                secureTextEntry={true}
-                textContentType='password'
-              />
+                <TextInput
+                    ref={input => {this.passwordInput = input }}
+                    placeholder='Password'
+                    style={globalStyles.inputBox}
+                    onChangeText={ (newPassword) => this.setState({newPassword})}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    maxLength={15}
+                    secureTextEntry={true}
+                    textContentType='password'
+                />
 
-              <View style={globalStyles.spacerSmall}/>
+                <View style={globalStyles.spacerSmall}/>
 
-              <TextInput
-                ref={input => {this.passConfirmInput = input }}
-                placeholder='Confirm Password'
-                style={globalStyles.inputBox}
-                onChangeText={ (passwordConfirm) => this.setState({passwordConfirm})}
-                autoCapitalize='none'
-                autoCorrect={false}
-                maxLength={15}
-                secureTextEntry={true}
-                textContentType='password'
-              />
+                <TextInput
+                    ref={input => {this.passConfirmInput = input }}
+                    placeholder='Confirm Password'
+                    style={globalStyles.inputBox}
+                    onChangeText={ (passwordConfirm) => this.setState({passwordConfirm})}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    maxLength={15}
+                    secureTextEntry={true}
+                    textContentType='password'
+                />
 
                 <View style={globalStyles.spacer}/>
 
