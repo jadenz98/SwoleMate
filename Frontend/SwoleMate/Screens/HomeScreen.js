@@ -105,12 +105,9 @@ export default class HomeScreen extends React.Component{
                             </View>
                         )
                     }}
-                    onSwiped={(cardIndex) => {console.log(cardIndex)}}
                     onTapCard={(cardIndex) => {this.props.navigation.navigate('ExpandedProfile',{originalEmail: this.state.user.email, email: this.state.potentialMatches[cardIndex].email})}}
                     onSwipedRight={(cardIndex) => {
-                        console.log("EMAIL 1: " + this.props.navigation.dangerouslyGetParent().getParam('email') + "\nEMAIL 2: " + this.state.potentialMatches[cardIndex].email);
                         Connector.post('/user/matches',{"email1": this.props.navigation.dangerouslyGetParent().getParam('email'), "email2": this.state.potentialMatches[cardIndex].email, "swipe": "true" },undefined,(res) => {
-                            console.log("Match Status: " + res.success);
                             if (res.success) {
                                 Connector.get('/user', {email: this.state.potentialMatches[cardIndex].email}, (res) => {
                                     Alert.alert(
@@ -132,12 +129,9 @@ export default class HomeScreen extends React.Component{
                         });
                     }}
                     onSwipedLeft={(cardIndex) => {
-                        console.log("EMAIL 1: " + this.props.navigation.dangerouslyGetParent().getParam('email') + "\nEMAIL 2: " + this.state.potentialMatches[cardIndex].email);
                         Connector.post('/user/matches',{"email1": this.props.navigation.dangerouslyGetParent().getParam('email'), "email2": this.state.potentialMatches[cardIndex].email, "swipe": "false" },undefined,(res) => {
-                            console.log("Match Status: " + res.success);
                         });
                     }}
-                    onSwipedAll={() => {console.log('No More Potential Matches')}}
                     cardIndex={0}
                     backgroundColor={'#45a1e8'}
                     cardVerticalMargin={20}
@@ -154,7 +148,6 @@ export default class HomeScreen extends React.Component{
         const userinfo = {
             email: props.navigation.getParam('email'),
         };
-        console.log("Going to matches: " + userinfo.email);
         this.props.navigation.navigate('Matches', userinfo);
     };
 
