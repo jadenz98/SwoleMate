@@ -40,7 +40,7 @@ app.get('/accountRecovery/*', function(req, res) {
     // console.log(res.body);
 });
 app.get('/success/', function(req, res) {});
-app.set('port', 3000);
+app.set('port', 8000);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

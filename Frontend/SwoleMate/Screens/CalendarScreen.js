@@ -86,10 +86,10 @@ export default class CalendarScreen extends React.Component {
                 });
             });
         });
-    }
+    };
 
     editEvent = () => {
-        let event = {}
+        let event = {};
         event.Title=this.state.currentEventTitle;
         event.startTime=this.state.currentEventStartTime;
         event.endTime=this.state.currentEventEndTime;
@@ -105,7 +105,7 @@ export default class CalendarScreen extends React.Component {
                 });
           });
         });
-    }
+    };
 
     deleteEvent = () => {
         Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
@@ -115,7 +115,7 @@ export default class CalendarScreen extends React.Component {
                 });
             });
         });
-    }
+    };
 
     render () {
         return (
@@ -144,7 +144,7 @@ export default class CalendarScreen extends React.Component {
                         visible={this.state.editEventModalVisible}
                         onRequestClose={() => {}}
                     >
-                    <View style={{marginTop: 22}}>
+                        <View style={{marginTop: 22}}>
 
                             <Text>
                                 Edit Event
@@ -223,201 +223,11 @@ export default class CalendarScreen extends React.Component {
                             </TouchableOpacity>
                             <View style={globalStyles.spacerSmall}/>
 
-                        <View style={globalStyles.spacerSmall}/>
-                        <TouchableOpacity
-                            style={globalStyles.btn}
-                            onPress={() => {
-                                this.setState({editEventModalVisible: false});
-                            }}
-                        >
-                            <Text style={globalStyles.btnTextBlack}>
-                                Close
-                            </Text>
-                        </TouchableOpacity>
-
-                        <View style={globalStyles.spacerSmall}/>
-                        <TouchableOpacity
-                            style={globalStyles.btn}
-                            onPress={() => {
-                                var eventLength=1
-                                if(eventLength<1){
-                                    alert("End time must be larger than start time");
-                                }
-                                else{
-                                    this.setState({
-                                        editEventModalVisible: false,
-                                    });
-                                    this.editEvent();
-                                }
-                            }}
-                        >
-                            <Text style={globalStyles.btnTextBlack}>
-                                Edit Event
-                            </Text>
-                        </TouchableOpacity>
-
-                        <View style={globalStyles.spacerSmall}/>
-                        <TouchableOpacity
-                            style={globalStyles.btn}
-                            onPress={() => {
-                                this.setState({
-                                    editEventModalVisible: false,
-                                });
-                                this.deleteEvent();
-                            }}
-                        >
-                            <Text style={globalStyles.btnTextBlack}>
-                                Delete Event
-                            </Text>
-                        </TouchableOpacity>
-
-                        {/*This component picks the date*/}
-                        <DateTimePicker
-                            isVisible={this.state.dateModalVisible}
-                            mode={this.state.DateTimePickerMode}
-                            onConfirm={(date)=>{
-                                this.setState({
-                                    currentEventDate: (date.getFullYear()+"-"+(date.getMonth()+1)+"-"+(date.getDate()<10 ? '0'+date.getDate():date.getDate())),
-                                    dateModalVisible: false,
-                                });
-                            }}
-                            onCancel={()=>{
-                                this.setState({
-                                    dateModalVisible: false,
-                                });
-                            }}
-                        >
-                        </DateTimePicker>
-
-                        {/*This component picks the start time*/}
-                        <DateTimePicker
-                            isVisible={this.state.startTimeModalVisible}
-                            mode={this.state.DateTimePickerMode}
-                            is24Hour={false}
-                            onConfirm={(date)=>{
-                                this.setState({
-                                    currentEventStartTime: ((date.getHours()%12)==0 ? 12:(date.getHours()%12)) + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes():date.getMinutes()),
-                                    newEventStartMinutes: ((date.getHours()*60)+(date.getMinutes()<10 ? '0'+date.getMinutes():date.getMinutes())),
-                                    startTimeModalVisible: false,
-                                });
-                            }}
-                            onCancel={()=>{
-                                this.setState({
-                                    startTimeModalVisible: false,
-                                });
-                            }}
-                        >
-                        </DateTimePicker>
-
-                        {/*This component picks the end time*/}
-                        <DateTimePicker
-                            isVisible={this.state.endTimeModalVisible}
-                            mode={this.state.DateTimePickerMode}
-                            is24Hour={false}
-                            onConfirm={(date)=>{
-                                this.setState({
-                                    currentEventEndTime: ((date.getHours()%12)==0 ? 12:(date.getHours()%12)) + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes():date.getMinutes()),
-                                    newEventEndMinutes: ((date.getHours()*60)+(date.getMinutes())),
-                                    endTimeModalVisible: false,
-                                });
-                            }}
-                            onCancel={()=>{
-                                this.setState({
-                                    endTimeModalVisible: false,
-                                });
-                            }}
-                        >
-                        </DateTimePicker>
-                    </View>
-                </Modal>
-                    <Modal
-                        transparent={false}
-                        visible={this.state.eventModalVisible}
-                        onRequestClose={() => {}}
-                    >
-                        <View style={{marginTop: 22}}>
-
-                                <Text>
-                                    Add Event
-                                </Text>
-
-                                <TextInput
-                                    ref={input => {this.nameInput = input }}
-                                    placeholder='Event Title'
-                                    style={globalStyles.inputBox}
-                                    onChangeText={ (newEventTitle) => this.setState({newEventTitle})}
-                                    autoCapitalize='words'
-                                    textContentType='Title'
-                                />
-                                <View style={globalStyles.spacerSmall}/>
-                                <TouchableOpacity
-                                    onPress={()=> {
-                                        this.setState({
-                                            startTimeModalVisible: true,
-                                            DateTimePickerMode: 'time',
-                                        });
-
-                                    }}
-                                >
-                                    <TextInput
-                                        value={this.state.newEventStartTime}
-                                        ref={input => {this.nameInput = input }}
-                                        placeholder='Start Time'
-                                        style={globalStyles.inputBox}
-                                        pointerEvents='none'
-                                        editable={false}
-                                        textContentType='Time'
-                                    />
-                                </TouchableOpacity>
-                                <View style={globalStyles.spacerSmall}/>
-
-                                <TouchableOpacity
-                                    onPress={()=> {
-                                        this.setState({
-                                            endTimeModalVisible: true,
-                                            DateTimePickerMode: 'time',
-                                        });
-
-                                    }}
-                                >
-                                    <TextInput
-                                        value={this.state.newEventEndTime}
-                                        ref={input => {this.nameInput = input }}
-                                        placeholder='End Time'
-                                        style={globalStyles.inputBox}
-                                        pointerEvents='none'
-                                        editable={false}
-                                        textContentType='Time'
-                                    />
-                                </TouchableOpacity>
-                                <View style={globalStyles.spacerSmall}/>
-
-                                <TouchableOpacity
-                                    onPress={()=> {
-                                        this.setState({
-                                            dateModalVisible: true,
-                                            DateTimePickerMode: 'date',
-                                        });
-
-                                    }}
-                                >
-                                    <TextInput
-                                        value={this.state.newEventDate}
-                                        ref={input => {this.nameInput = input }}
-                                        placeholder='Date of Event'
-                                        style={globalStyles.inputBox}
-                                        pointerEvents='none'
-                                        editable={false}
-                                        textContentType='Date'
-                                    />
-                                </TouchableOpacity>
-                                <View style={globalStyles.spacerSmall}/>
-
                             <View style={globalStyles.spacerSmall}/>
                             <TouchableOpacity
                                 style={globalStyles.btn}
                                 onPress={() => {
-                                    this.setState({eventModalVisible: false});
+                                    this.setState({editEventModalVisible: false});
                                 }}
                             >
                                 <Text style={globalStyles.btnTextBlack}>
@@ -429,14 +239,206 @@ export default class CalendarScreen extends React.Component {
                             <TouchableOpacity
                                 style={globalStyles.btn}
                                 onPress={() => {
+                                    var eventLength=1;
+                                    if(eventLength<1){
+                                        alert("End time must be larger than start time");
+                                    }
+                                    else{
+                                        this.setState({
+                                            editEventModalVisible: false,
+                                        });
+                                        this.editEvent();
+                                    }
+                                }}
+                            >
+                                <Text style={globalStyles.btnTextBlack}>
+                                    Edit Event
+                                </Text>
+                            </TouchableOpacity>
+
+                            <View style={globalStyles.spacerSmall}/>
+                            <TouchableOpacity
+                                style={globalStyles.btn}
+                                onPress={() => {
+                                    this.setState({
+                                        editEventModalVisible: false,
+                                    });
+                                    this.deleteEvent();
+                                }}
+                            >
+                                <Text style={globalStyles.btnTextBlack}>
+                                    Delete Event
+                                </Text>
+                            </TouchableOpacity>
+
+                            {/*This component picks the date*/}
+                            <DateTimePicker
+                                isVisible={this.state.dateModalVisible}
+                                mode={this.state.DateTimePickerMode}
+                                onConfirm={(date)=>{
+                                    this.setState({
+                                        currentEventDate: (date.getFullYear()+"-"+(date.getMonth()+1)+"-"+(date.getDate()<10 ? '0'+date.getDate():date.getDate())),
+                                        dateModalVisible: false,
+                                    });
+                                }}
+                                onCancel={()=>{
+                                    this.setState({
+                                        dateModalVisible: false,
+                                    });
+                                }}
+                            >
+                            </DateTimePicker>
+
+                            {/*This component picks the start time*/}
+                            <DateTimePicker
+                                isVisible={this.state.startTimeModalVisible}
+                                mode={this.state.DateTimePickerMode}
+                                is24Hour={false}
+                                onConfirm={(date)=>{
+                                    this.setState({
+                                        currentEventStartTime: ((date.getHours()%12)==0 ? 12:(date.getHours()%12)) + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes():date.getMinutes()),
+                                        newEventStartMinutes: ((date.getHours()*60)+(date.getMinutes()<10 ? '0'+date.getMinutes():date.getMinutes())),
+                                        startTimeModalVisible: false,
+                                    });
+                                }}
+                                onCancel={()=>{
+                                    this.setState({
+                                        startTimeModalVisible: false,
+                                    });
+                                }}
+                            >
+                            </DateTimePicker>
+
+                            {/*This component picks the end time*/}
+                            <DateTimePicker
+                                isVisible={this.state.endTimeModalVisible}
+                                mode={this.state.DateTimePickerMode}
+                                is24Hour={false}
+                                onConfirm={(date)=>{
+                                    this.setState({
+                                        currentEventEndTime: ((date.getHours()%12)==0 ? 12:(date.getHours()%12)) + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes():date.getMinutes()),
+                                        newEventEndMinutes: ((date.getHours()*60)+(date.getMinutes())),
+                                        endTimeModalVisible: false,
+                                    });
+                                }}
+                                onCancel={()=>{
+                                    this.setState({
+                                        endTimeModalVisible: false,
+                                    });
+                                }}
+                            >
+                            </DateTimePicker>
+                        </View>
+                    </Modal>
+                    <Modal
+                        transparent={false}
+                        visible={this.state.eventModalVisible}
+                        onRequestClose={() => {}}
+                    >
+                        <View style={{marginTop: 22, alignItems: "center"}}>
+
+                            <Text>
+                                Add Event
+                            </Text>
+
+                            <TextInput
+                                ref={input => {this.nameInput = input }}
+                                placeholder='Event Title'
+                                style={globalStyles.inputBox}
+                                onChangeText={ (newEventTitle) => this.setState({newEventTitle})}
+                                autoCapitalize='words'
+                                textContentType='Title'
+                            />
+                            <View style={globalStyles.spacerSmall}/>
+                            <TouchableOpacity
+                                onPress={()=> {
+                                    this.setState({
+                                        startTimeModalVisible: true,
+                                        DateTimePickerMode: 'time',
+                                    });
+
+                                }}
+                            >
+                                <TextInput
+                                    value={this.state.newEventStartTime}
+                                    ref={input => {this.nameInput = input }}
+                                    placeholder='Start Time'
+                                    style={globalStyles.inputBox}
+                                    pointerEvents='none'
+                                    editable={false}
+                                    textContentType='Time'
+                                />
+                            </TouchableOpacity>
+                            <View style={globalStyles.spacerSmall}/>
+
+                            <TouchableOpacity
+                                onPress={()=> {
+                                    this.setState({
+                                        endTimeModalVisible: true,
+                                        DateTimePickerMode: 'time',
+                                    });
+
+                                }}
+                            >
+                                <TextInput
+                                    value={this.state.newEventEndTime}
+                                    ref={input => {this.nameInput = input }}
+                                    placeholder='End Time'
+                                    style={globalStyles.inputBox}
+                                    pointerEvents='none'
+                                    editable={false}
+                                    textContentType='Time'
+                                />
+                            </TouchableOpacity>
+                            <View style={globalStyles.spacerSmall}/>
+
+                            <TouchableOpacity
+                                onPress={()=> {
+                                    this.setState({
+                                        dateModalVisible: true,
+                                        DateTimePickerMode: 'date',
+                                    });
+
+                                }}
+                            >
+                                <TextInput
+                                    value={this.state.newEventDate}
+                                    ref={input => {this.nameInput = input }}
+                                    placeholder='Date of Event'
+                                    style={globalStyles.inputBox}
+                                    pointerEvents='none'
+                                    editable={false}
+                                    textContentType='Date'
+                                />
+                            </TouchableOpacity>
+                            <View style={globalStyles.spacerSmall}/>
+
+                            <View style={globalStyles.spacerSmall}/>
+
+                            <TouchableOpacity
+                                style={globalStyles.btnPrimary}
+                                onPress={() => {
                                     this.setState({
                                         eventModalVisible: false,
                                     });
                                     this.createEvent();
                                 }}
                             >
-                                <Text style={globalStyles.btnTextBlack}>
+                                <Text style={globalStyles.btnText}>
                                     Create Event
+                                </Text>
+                            </TouchableOpacity>
+
+                            <View style={globalStyles.spacerSmall}/>
+
+                            <TouchableOpacity
+                                style={globalStyles.btn}
+                                onPress={() => {
+                                    this.setState({eventModalVisible: false});
+                                }}
+                            >
+                                <Text style={globalStyles.btnTextBlack}>
+                                    Close
                                 </Text>
                             </TouchableOpacity>
 
@@ -525,14 +527,14 @@ export default class CalendarScreen extends React.Component {
                 const time = day.timestamp + i * 24 * 60 * 60 * 1000;
                 const strTime = this.timeToString(time);
                 if (!this.state.items[strTime]) {
-                this.state.items[strTime] = [];
+                    this.state.items[strTime] = [];
                     for (let j = 0; j < events.length; j++) {
                         if (strTime == events[j].date) {
                             this.state.items[strTime].push({
                                 id: strTime,
                                 start: events[j].startTime,
                                 end: events[j].endTime,
-                                name: events[j].startTime + " - " + events[j].endTime + '\n\n' + events[j].Title,
+                                name: /*events[j].startTime + " - " + events[j].endTime + '\n\n' + */events[j].Title,
                                 height: 90
                             });
                         }
@@ -544,30 +546,30 @@ export default class CalendarScreen extends React.Component {
             this.setState({
                 items: newItems
             });
-        }, 1000);
+        }, 0);
     }
 
     renderItem(item) {
 
         return (
-          <TouchableOpacity
-          onPress={()=>{
-            this.setState({
-              deleteEventTime: item.start,
-              deleteEventDate: item.id,
-              currentEventTitle: item.name,
-              currentEventDate: item.id,
-              currentEventStartTime: item.start,
-              currentEventEndTime: item.end
-            });
-            this.setState({
-              editEventModalVisible: true,
-          });}}
-          >
-            <View style={[styles.item, {height: item.height}]}>
-              <Text>{item.name}</Text>
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity
+                onPress={()=>{
+                    this.setState({
+                        deleteEventTime: item.start,
+                        deleteEventDate: item.id,
+                        currentEventTitle: item.name,
+                        currentEventDate: item.id,
+                        currentEventStartTime: item.start,
+                        currentEventEndTime: item.end
+                    });
+                    this.setState({
+                        editEventModalVisible: true,
+                    });}}
+            >
+                <View style={[styles.item, {height: item.height}]}>
+                    <Text>{item.name}</Text>
+                </View>
+            </TouchableOpacity>
         );
     }
 

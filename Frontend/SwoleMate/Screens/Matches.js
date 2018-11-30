@@ -40,6 +40,21 @@ export default class Matches extends React.Component{
 
     //once the component mounts, it checks the current OS running the app and determines which way to load the required font
     async componentDidMount() {
+        this.subs = [
+            this.props.navigation.addListener("didFocus", () => {
+                //gets the users matches using the email passed from the previous screen
+                Connector.get('/user/matches', {email: this.props.navigation.dangerouslyGetParent().getParam('email')}, (res)=>{
+                    this.setState({
+                        matches: res,
+                        isFocused: true
+                    });
+                });
+            }),
+            this.props.navigation.addListener("willBlur", () => {
+                this.setState({ isFocused: false })
+            })
+        ];
+
         if(Platform.OS === 'ios'){
             await Font.loadAsync({
                 'Material Icons': require('../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf')
@@ -55,6 +70,10 @@ export default class Matches extends React.Component{
                 fontsAreLoaded: true
             });
         }
+    }
+
+    componentWillUnmount() {
+        this.subs.forEach(sub => sub.remove());
     }
 
     getMatches = () => {
@@ -76,6 +95,9 @@ export default class Matches extends React.Component{
     });
 
     render(){
+        if (!this.state.isFocused)
+            return null;
+
         let matches = this.state.matches;
         if (matches == null || !matches) {
             return <Loader/>;

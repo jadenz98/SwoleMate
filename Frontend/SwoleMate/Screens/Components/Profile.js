@@ -6,6 +6,8 @@ import globalStyles from "../Styles/Global";
 import Connector from "../../Utils/Connector";
 import { StyleSheet } from 'react-native';
 
+import MapView from 'react-native-maps'
+
 import Loader from './Loader';
 import {Font} from "expo";
 
@@ -94,11 +96,11 @@ export default class Profile extends React.Component {
                         data={matches}
                         renderItem={({item}) =>
                             // once fonts are loaded, the the list item components for the data above are rendered
-                           this.state.fontsAreLoaded ? (
-                           <ListItem
-                                roundAvatar
-                                avatar = {item.imgSrc}
-                                onPress={()=> {
+                            this.state.fontsAreLoaded ? (
+                                <ListItem
+                                    roundAvatar
+                                    avatar = {item.imgSrc}
+                                    onPress={()=> {
                                         Connector.get('/user', {email: this.props.originalEmail}, (res) => {
                                             Connector.post('/user/conversation', {sender: this.props.originalEmail, re: item.email, msg: res.name + ' has shared a profile: #link[' + this.state.user.email + ':@' + this.state.user.name + ']'}, {email: this.props.originalEmail}, (res) => {
                                                 console.log(res);
@@ -112,9 +114,9 @@ export default class Profile extends React.Component {
                                             )
                                         });
                                     }
-                                }
-                                title={item.name}>
-                            </ListItem>
+                                    }
+                                    title={item.name}>
+                                </ListItem>
                             ) : null
                         }
                     />
@@ -152,6 +154,26 @@ export default class Profile extends React.Component {
         Alert.alert('Share', 'Share this profile', [{text: 'Okay'}])
     };
 
+    renderFavLocation = () => {
+        if (!this.state.user.favGym) { //should be true if no gym set
+            return <Text>No fav gym set</Text>;
+        }
+        return (
+            <View style={{...StyleSheet.absoluteFillObject,}}    >
+                <MapView
+                    liteMode
+                    style={{...StyleSheet.absoluteFillObject,flex:1}}
+                    region={{
+                        latitude: this.state.user.gymLatitude,
+                        longitude: this.state.user.gymLongitude,
+                        latitudeDelta: 0.015,
+                        longitudeDelta: 0.0121,
+                    }}
+                />
+            </View>
+        );
+    };
+
     render () {
         if (this.state.user == null || !this.state.fontsAreLoaded)
             return <Loader/>;
@@ -168,9 +190,9 @@ export default class Profile extends React.Component {
                 />;
         } else if (user.photoUrl) {
             profileImage = <Image
-                    style={style.profileImage}
-                    source={{uri: user.photoUrl}}
-                />;
+                style={style.profileImage}
+                source={{uri: user.photoUrl}}
+            />;
         } else {
             profileImage =
                 <Image
@@ -182,19 +204,19 @@ export default class Profile extends React.Component {
         let acceptRejectButtons;
         if(!this.props.isSelf && this.props.isSharedProfile){
             acceptRejectButtons = (
-                    <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                        <TouchableOpacity
-                            style={globalStyles.btnPrimary}
-                            onPress={() => Connector.post('/user/matches',{"email1": this.state.originalEmail, "email2": this.state.user.email, "swipe": "true" },undefined,(res) => {
-                                console.log("Match Status: " + res.success);
-                                if (res.success) {
-                                    alert('You have a match');
-                                }
-                            })}
-                        >
-                            <Text style={globalStyles.btnText}>Request Match</Text>
-                        </TouchableOpacity>
-                    </View>
+                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                    <TouchableOpacity
+                        style={globalStyles.btnPrimary}
+                        onPress={() => Connector.post('/user/matches',{"email1": this.state.originalEmail, "email2": this.state.user.email, "swipe": "true" },undefined,(res) => {
+                            console.log("Match Status: " + res.success);
+                            if (res.success) {
+                                alert('You have a match');
+                            }
+                        })}
+                    >
+                        <Text style={globalStyles.btnText}>Request Match</Text>
+                    </TouchableOpacity>
+                </View>
             );
         } else {
             acceptRejectButtons = null;
@@ -257,11 +279,26 @@ export default class Profile extends React.Component {
                 </Text>
             );
         }
+        let favGymMap;
         let goalText;
         let milestonesText;
         let milestones = user.milestones;
         let milestonesStyle = style.listText;
         if(this.props.isSelf) {
+            favGymMap = (
+                <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                    <Text style={globalStyles.header}>
+                        Favorite Gym Location
+                    </Text>
+                    <View style={{width: 200, height: 200, padding: 5}}>
+
+                        {this.renderFavLocation()}
+                        <View style={globalStyles.spacer}/>
+
+                    </View>
+                </View>
+            );
+
             if (!user.goal || user.goal === "") {
                 goalText = (
                     <View>
@@ -325,6 +362,24 @@ export default class Profile extends React.Component {
             );
 
         } else { //if this.props isnt self
+
+            if(user.basicInfo){
+                favGymMap = null;
+            } else {
+                favGymMap = (
+                    <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={globalStyles.header}>
+                            Favorite Gym Location
+                        </Text>
+                        <View style={{width: 200, height: 200, padding: 5}}>
+
+                            {this.renderFavLocation()}
+                            <View style={globalStyles.spacer}/>
+
+                        </View>
+                    </View>
+                );
+            }
             if(user.basicInfo) {
                 goalText = null;
             } else if (!user.goal || user.goal === "") {
@@ -458,6 +513,7 @@ export default class Profile extends React.Component {
 
                             {milestonesText}
 
+                            {favGymMap}
                             <View style={style.spacer} />
 
                             {acceptRejectButtons}

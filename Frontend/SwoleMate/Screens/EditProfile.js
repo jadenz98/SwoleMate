@@ -58,10 +58,10 @@ export default class EditProfile extends React.Component {
         this.cancel = this.cancel.bind(this);
 
         this.props.navigation.addListener(
-          'didFocus',
-          payload => {
-            this.setState({is_updated:true});
-          }
+            'didFocus',
+            payload => {
+                this.setState({is_updated:true});
+            }
         );
     }
 
@@ -114,7 +114,7 @@ export default class EditProfile extends React.Component {
         } else {
             throw new Error('Location permission not granted');
         }
-    }
+    };
 
     //function to conditionally render map if fav gym set
     renderFavLocation () {
@@ -122,18 +122,18 @@ export default class EditProfile extends React.Component {
             return <Text>No fav gym set</Text>;
         }
         return (
-          <View style={{...StyleSheet.absoluteFillObject,}}    >
-            <MapView
-                liteMode
-                style={{...StyleSheet.absoluteFillObject,flex:1}}
-                region={{
-                  latitude: this.state.user.gymLatitude,
-                  longitude: this.state.user.gymLongitude,
-                  latitudeDelta: 0.015,
-                  longitudeDelta: 0.0121,
-                }}
-            />
-          </View>
+            <View style={{...StyleSheet.absoluteFillObject,}} >
+                <MapView
+                    liteMode
+                    style={{...StyleSheet.absoluteFillObject,flex:1}}
+                    region={{
+                        latitude: this.state.user.gymLatitude,
+                        longitude: this.state.user.gymLongitude,
+                        latitudeDelta: 0.015,
+                        longitudeDelta: 0.0121,
+                    }}
+                />
+            </View>
         );
     }
 
@@ -143,7 +143,7 @@ export default class EditProfile extends React.Component {
             this.setState({user: res});
             this.setState({location: res.favGym})
         });
-    }
+    };
 
     render() {
 
@@ -393,19 +393,19 @@ export default class EditProfile extends React.Component {
                         Favorite Gym Location
                     </Text>
                     <View style={{width: 200, height: 200, padding: 5}}>
-                      
-                      {this.renderFavLocation()}
-                      <View style={globalStyles.spacer}/>
-                      
+
+                        {this.renderFavLocation()}
+                        <View style={globalStyles.spacer}/>
+
                     </View>
                     <TouchableOpacity
-                          style={globalStyles.btnSecondary}
-                          onPress={()=> { this.props.navigation.navigate('LocationPicker',{email: this.props.navigation.getParam('email'), refresh: this.setFavLocation})}}
-                      >
-                          <Text style={globalStyles.btnText}>
-                              Add a Workout Location
-                          </Text>
-                      </TouchableOpacity>
+                        style={globalStyles.btnSecondary}
+                        onPress={()=> { this.props.navigation.navigate('LocationPicker',{email: this.props.navigation.getParam('email'), refresh: this.setFavLocation})}}
+                    >
+                        <Text style={globalStyles.btnText}>
+                            Add a Workout Location
+                        </Text>
+                    </TouchableOpacity>
 
                     <View style={globalStyles.spacer}/>
 
@@ -434,7 +434,7 @@ export default class EditProfile extends React.Component {
                     <View style={globalStyles.spacer}/>
 
                     <Text style={globalStyles.header}>
-                      Set search distance
+                        Set search distance
                     </Text>
 
                     <View style={{
