@@ -90,28 +90,14 @@ export default class CalendarScreen extends React.Component {
 
         Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
             Connector.post('/user/calendar',{'email': this.state.email, 'event': event},undefined,() => {
-<<<<<<< HEAD
-                Connector.get('/user/calendar',{email: this.state.email}, (res) => {
-                    this.setState({
-                        eventsArray: res
-                    });
-                });
-=======
->>>>>>> 2b525cdc5c73f27a1f03f94c715b80c7d0454c64
+
           });
         });
     }
 
     deleteEvent = () => {
         Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
-<<<<<<< HEAD
-            Connector.get('/user/calendar',{email: this.state.email}, (res) => {
-                this.setState({
-                    eventsArray: res
-                });
-            });
-=======
->>>>>>> 2b525cdc5c73f27a1f03f94c715b80c7d0454c64
+
         });
     }
 
@@ -514,7 +500,7 @@ export default class CalendarScreen extends React.Component {
                                 id: strTime,
                                 start: events[j].startTime,
                                 end: events[j].endTime,
-                                name: events[j].startTime + " - " + events[j].endTime + '\n\n' + events[j].Title,
+                                name: /*events[j].startTime + " - " + events[j].endTime + '\n\n' + */events[j].Title,
                                 height: 90
                             });
                         }
