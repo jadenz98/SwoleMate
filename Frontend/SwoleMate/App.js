@@ -16,6 +16,7 @@ import ResetConfirm from './Screens/resetConfirmation';
 import TutorialScreen from "./Screens/TutorialScreen";
 import CalendarScreen from "./Screens/CalendarScreen";
 import LocationPicker from "./Screens/LocationPicker";
+import SharedProfile from "./Screens/SharedProfile";
 
 /*This is the first class that gets loaded, it basically takes the intial
 page and places it on the stack to be displayed*/
@@ -83,6 +84,9 @@ const matchesStack = createStackNavigator(
         },
         Messages: {
             screen: Messages,
+        },
+        SharedProfile: {
+            screen: SharedProfile,
         }
     }
 );
