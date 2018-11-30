@@ -36,8 +36,8 @@ export default class Messages extends React.Component{
                             email2: navigation.getParam('email2')
                         }, {
                             email: navigation.getParam('email')
-                        }, (res)=>{
-                            console.log(res);
+                        }, (res)=> {
+                            navigation.pop();
                         }
                     );
                 }}
