@@ -6,9 +6,6 @@ import Mongo from '../../utils/Mongo';
 
 /* POST Register info */
 router.post('/', function(req, res, next) {
-    // console.log(req)
-
-
     const newUser = req.body;
     const userQuery = {
         email: newUser.email
@@ -27,6 +24,7 @@ router.post('/', function(req, res, next) {
             const resp = {
                 success: true
             };
+
             /**
              * This will has the password with a salt of 10. 
              * @params newUser.password This is the password that the user will be set with. 
@@ -51,6 +49,7 @@ router.post('/', function(req, res, next) {
         }
     });
 });
+
 router.get('/', function(req, res, next) {
     console.log(req)
 });

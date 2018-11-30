@@ -19,7 +19,7 @@ export default class Profile extends React.Component {
             'Swimming': false,
             'Running': false,
             'Lifting': false,
-            'Hiking': false,
+            'Hiking': false
         };
 
         this.state = {
@@ -99,10 +99,6 @@ export default class Profile extends React.Component {
                                 roundAvatar
                                 avatar = {item.imgSrc}
                                 onPress={()=> {
-                                        var userinfo={
-                                            email: this.props.originalEmail,
-                                            email2: item.email,
-                                        };
                                         Connector.get('/user', {email: this.props.originalEmail}, (res) => {
                                             Connector.post('/user/conversation', {sender: this.props.originalEmail, re: item.email, msg: res.name + ' has shared a profile: #link[' + this.state.user.email + ':@' + this.state.user.name + ']'}, {email: this.props.originalEmail}, (res) => {
                                                 console.log(res);
@@ -115,7 +111,6 @@ export default class Profile extends React.Component {
                                                 ]
                                             )
                                         });
-
                                     }
                                 }
                                 title={item.name}>
