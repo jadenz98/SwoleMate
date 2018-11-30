@@ -78,7 +78,6 @@ export default class Matches extends React.Component{
 
     getMatches = () => {
         Connector.get('/user/matches', {email: 'sam@samingram.me'}, (matches) => {
-            console.log(matches);
         });
     };
 

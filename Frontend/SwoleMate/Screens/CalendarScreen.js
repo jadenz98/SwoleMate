@@ -43,7 +43,6 @@ export default class CalendarScreen extends React.Component {
                 eventsArray: res
             });
         });
-        //this.onDayPress = this.onDayPress.bind(this);
     }
 
     //This sets the title on the top header
@@ -78,33 +77,25 @@ export default class CalendarScreen extends React.Component {
         event.length=(parseInt(this.state.newEventEndMinutes)-parseInt(this.state.newEventStartMinutes));
 
         Connector.post('/user/calendar',{'email': this.state.email, 'event': event},undefined,() => {
-            //console.log(res);
         });
     }
 
     editEvent = () => {
-        let event = {} //this.state.currentItem;
+        let event = {}
         event.Title=this.state.currentEventTitle;
-        //startTime and endTime represent the time of day in minutes
         event.startTime=this.state.currentEventStartTime;
         event.endTime=this.state.currentEventEndTime;
         event.date=this.state.currentEventDate;
         event.length=(parseInt(this.state.newEventEndMinutes)-parseInt(this.state.newEventStartMinutes));
 
-        //Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
-            //console.log(res);
-        //});
         Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
-            //console.log(res);
             Connector.post('/user/calendar',{'email': this.state.email, 'event': event},undefined,() => {
-            //console.log(res);
           });
         });
     }
 
     deleteEvent = () => {
         Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
-            //console.log(res);
         });
     }
 
@@ -136,7 +127,6 @@ export default class CalendarScreen extends React.Component {
                     >
                     <View style={{marginTop: 22}}>
 
-                        {/*<KeyboardAvoidingView style={{height: 100}}>*/}
                             <Text>
                                 Edit Event
                             </Text>
@@ -167,8 +157,6 @@ export default class CalendarScreen extends React.Component {
                                     style={globalStyles.inputBox}
                                     pointerEvents='none'
                                     editable={false}
-                                    //onChangeText={ (newEventDate) => this.setState({newEventDate})}
-                                    //autoCapitalize='words'
                                     textContentType='Time'
                                 />
                             </TouchableOpacity>
@@ -190,8 +178,6 @@ export default class CalendarScreen extends React.Component {
                                     style={globalStyles.inputBox}
                                     pointerEvents='none'
                                     editable={false}
-                                    //onChangeText={ (newEventDate) => this.setState({newEventDate})}
-                                    //autoCapitalize='words'
                                     textContentType='Time'
                                 />
                             </TouchableOpacity>
@@ -213,13 +199,10 @@ export default class CalendarScreen extends React.Component {
                                     style={globalStyles.inputBox}
                                     pointerEvents='none'
                                     editable={false}
-                                    //onChangeText={ (newEventDate) => this.setState({newEventDate})}
-                                    //autoCapitalize='words'
                                     textContentType='Date'
                                 />
                             </TouchableOpacity>
                             <View style={globalStyles.spacerSmall}/>
-                        {/*</KeyboardAvoidingView>*/}
 
                         <View style={globalStyles.spacerSmall}/>
                         <TouchableOpacity
@@ -237,7 +220,7 @@ export default class CalendarScreen extends React.Component {
                         <TouchableOpacity
                             style={globalStyles.btn}
                             onPress={() => {
-                                var eventLength=1 //this.state.newEventEndMinutes-this.state.newEventStartMinutes;
+                                var eventLength=1
                                 if(eventLength<1){
                                     alert("End time must be larger than start time");
                                 }
@@ -245,7 +228,6 @@ export default class CalendarScreen extends React.Component {
                                     this.setState({
                                         editEventModalVisible: false,
                                     });
-                                    //this.deleteEvent();
                                     this.editEvent();
                                 }
                             }}
@@ -336,7 +318,6 @@ export default class CalendarScreen extends React.Component {
                     >
                         <View style={{marginTop: 22}}>
 
-                            {/*<KeyboardAvoidingView style={{height: 100}}>*/}
                                 <Text>
                                     Add Event
                                 </Text>
@@ -366,8 +347,6 @@ export default class CalendarScreen extends React.Component {
                                         style={globalStyles.inputBox}
                                         pointerEvents='none'
                                         editable={false}
-                                        //onChangeText={ (newEventDate) => this.setState({newEventDate})}
-                                        //autoCapitalize='words'
                                         textContentType='Time'
                                     />
                                 </TouchableOpacity>
@@ -389,8 +368,6 @@ export default class CalendarScreen extends React.Component {
                                         style={globalStyles.inputBox}
                                         pointerEvents='none'
                                         editable={false}
-                                        //onChangeText={ (newEventDate) => this.setState({newEventDate})}
-                                        //autoCapitalize='words'
                                         textContentType='Time'
                                     />
                                 </TouchableOpacity>
@@ -412,13 +389,10 @@ export default class CalendarScreen extends React.Component {
                                         style={globalStyles.inputBox}
                                         pointerEvents='none'
                                         editable={false}
-                                        //onChangeText={ (newEventDate) => this.setState({newEventDate})}
-                                        //autoCapitalize='words'
                                         textContentType='Date'
                                     />
                                 </TouchableOpacity>
                                 <View style={globalStyles.spacerSmall}/>
-                            {/*</KeyboardAvoidingView>*/}
 
                             <View style={globalStyles.spacerSmall}/>
                             <TouchableOpacity
@@ -436,16 +410,10 @@ export default class CalendarScreen extends React.Component {
                             <TouchableOpacity
                                 style={globalStyles.btn}
                                 onPress={() => {
-                                    //var eventLength=this.state.newEventEndMinutes-this.state.newEventStartMinutes;
-                                    //if(eventLength<1){
-                                    //    alert("End time must be larger than start time");
-                                    //}
-                                    //else{
-                                        this.setState({
-                                            eventModalVisible: false,
-                                        });
-                                        this.createEvent();
-                                    //}
+                                    this.setState({
+                                        eventModalVisible: false,
+                                    });
+                                    this.createEvent();
                                 }}
                             >
                                 <Text style={globalStyles.btnTextBlack}>
@@ -519,7 +487,6 @@ export default class CalendarScreen extends React.Component {
     loadItems(day) {
         this.itemLoaderTimeout = setTimeout(() => {
             let events = this.state.eventsArray;
-            //console.log(events);
             for (let i = -15; i < 85; i++) {
                 const time = day.timestamp + i * 24 * 60 * 60 * 1000;
                 const strTime = this.timeToString(time);
@@ -538,14 +505,12 @@ export default class CalendarScreen extends React.Component {
                     }
                 }
             }
-            //console.log(this.state.items);
             const newItems = {};
             Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
             this.setState({
                 items: newItems
             });
         }, 1000);
-        //console.log(`Load Items for ${day.year}-${day.month}`);
     }
 
     renderItem(item) {
@@ -553,8 +518,6 @@ export default class CalendarScreen extends React.Component {
         return (
           <TouchableOpacity
           onPress={()=>{
-            console.log(item);
-
             this.setState({
               deleteEventTime: item.start,
               deleteEventDate: item.id,

@@ -122,7 +122,7 @@ export default class EditProfile extends React.Component {
             return <Text>No fav gym set</Text>;
         }
         return (
-            <View style={{...StyleSheet.absoluteFillObject,}}    >
+            <View style={{...StyleSheet.absoluteFillObject,}} >
                 <MapView
                     liteMode
                     style={{...StyleSheet.absoluteFillObject,flex:1}}
@@ -132,13 +132,6 @@ export default class EditProfile extends React.Component {
                         latitudeDelta: 0.015,
                         longitudeDelta: 0.0121,
                     }}
-                    /*{<Marker
-                      coordinate={
-                          latitude: this.state.user.gymLatitude,
-                          longitude: this.state.user.gymLongitude,
-                      }
-                      title={this.state.user.favGym}
-                    />}*/
                 />
             </View>
         );
@@ -163,8 +156,6 @@ export default class EditProfile extends React.Component {
             milestones = ["You have not defined any milestones yet"];
             milestonesStyle = StyleSheet.flatten([milestonesStyle, style.italics]);
         }
-        console.log(milestones);
-
         return (
             <KeyboardAwareScrollView
                 scrollEnabled={true}
