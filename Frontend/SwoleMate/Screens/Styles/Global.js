@@ -58,6 +58,14 @@ export default StyleSheet.create({
         width: 150,
         alignItems: 'center'
     },
+    btnInfo: {
+        margin: 5,
+        backgroundColor: '#17a2b8',
+        padding: 5,
+        borderRadius: 5,
+        width: 150,
+        alignItems: 'center'
+    },
     btn: {
         margin: 5,
         backgroundColor: 'white',

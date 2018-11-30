@@ -77,7 +77,7 @@ export default class Matches extends React.Component{
     });
 
     render(){
-        const matches = this.state.matches;
+        let matches = this.state.matches;
         if (matches == null || !matches) {
             return <Loader/>;
         }
@@ -93,29 +93,43 @@ export default class Matches extends React.Component{
             }
         }
 
+        if (matches.length === 0)
+            matches = [{name: "You currently do not have any matches...", key: "0"}];
+
         return (
             <View style={globalStyles.background}>
                 <List>
                     <FlatList
                         data={matches}
-                        renderItem={({item}) =>
+                        renderItem={({item}) => {
+                            let listItem;
+                            if (matches[0].name === "You currently do not have any matches...") {
+                                listItem = (
+                                    <ListItem
+                                        subtitle={item.name}
+                                    />
+                                );
+                            } else {
+                                listItem = (
+                                    <ListItem
+                                        roundAvatar
+                                        avatar = {item.imgSrc}
+                                        onPress={()=> {
+                                            const userinfo = {
+                                                email: this.props.navigation.dangerouslyGetParent().getParam('email'),
+                                                email2: item.email,
+                                            };
+
+                                            this.props.navigation.dangerouslyGetParent().navigate('Messages', userinfo);
+                                        }}
+                                        title={item.name}
+                                    />
+                                );
+                            }
+
                             // once fonts are loaded, the the list item components for the data above are rendered
-                           this.state.fontsAreLoaded ? (
-                           <ListItem
-                                roundAvatar
-                                avatar = {item.imgSrc}
-                                onPress={()=> {
-                                        var userinfo={
-                                            email: this.props.navigation.dangerouslyGetParent().getParam('email'),
-                                            email2: item.email,
-                                        };
-                                        this.props.navigation.dangerouslyGetParent().navigate('Messages', userinfo);
-                                    }
-                                }
-                                title={item.name}>
-                            </ListItem>
-                            ) : null
-                        }
+                            return this.state.fontsAreLoaded ? listItem : null
+                        }}
                     />
                 </List>
             </View>

@@ -159,12 +159,12 @@ export default class LoginScreen extends React.Component {
                             Register
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.fbLogin}>
+                    <TouchableOpacity style={globalStyles.btnSecondary} onPress={this.fbLogin}>
                         <Text style={globalStyles.btnText}>
                             Login with Facebook
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={globalStyles.btnPrimary} onPress={this.googleLogin}>
+                    <TouchableOpacity style={globalStyles.btnSecondary} onPress={this.googleLogin}>
                         <Text style={globalStyles.btnText}>
                             Login with Google
                         </Text>

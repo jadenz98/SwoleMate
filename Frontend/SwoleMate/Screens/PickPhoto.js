@@ -61,9 +61,7 @@ export default class PickPhoto extends React.Component {
                     const user= this.state.user;
                     Connector.post('/user/update', photo, {email: user.email}, () => {
                         this.props.navigation.pop();
-                    }
-                    );
-                    
+                    });
                 }, base64Failure => {console.log(base64Failure)});
         }, failure => { console.log(failure)});
     };
