@@ -36,7 +36,8 @@ export default class Messages extends React.Component{
                             email2: navigation.getParam('email2')
                         }, {
                             email: navigation.getParam('email')
-                        }, (res)=>{
+                        }, (res)=> {
+                            navigation.pop();
                         }
                     );
                 }}
@@ -77,7 +78,6 @@ export default class Messages extends React.Component{
         clearInterval(this._interval);
     }
 
-
     onReceivedMessage = (messages) => {
         this.storeMessages(messages);
     };
@@ -105,7 +105,7 @@ export default class Messages extends React.Component{
                 }
             },
         ];
-    }
+    };
 
     render(){
         const user = {
