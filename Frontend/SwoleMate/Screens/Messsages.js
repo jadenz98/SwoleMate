@@ -129,7 +129,7 @@ export default class Messages extends React.Component{
                     let match = matchingString.match(pattern);
                     //Alert.alert('Profile', `Link to ${match[1]}`,[{text: 'Okay'}])
                     //console.log(this.state.email);
-                    this.props.navigation.navigate('ExpandedProfile', {originalEmail: this.state.email, email: `${match[1]}`});
+                    this.props.navigation.navigate('SharedProfile', {originalEmail: this.state.email, email: `${match[1]}`});
                 },
                 renderText: (matchingString, matches) => {
                     let pattern = /#link\[(.+@{1}.+):{1}@{1}(.+)\]/;

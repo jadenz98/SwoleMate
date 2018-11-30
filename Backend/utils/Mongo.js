@@ -384,7 +384,6 @@ export default class Mongo {
                 }
             }
         });
-
         this.findReal("Conversations", {email2 : email1}, undefined, (tryone) => {
             for (let i = 0; i < tryone.length; i++) {
                 if(tryone[i].email1 === email2){

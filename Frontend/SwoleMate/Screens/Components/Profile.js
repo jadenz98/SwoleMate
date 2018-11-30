@@ -30,7 +30,8 @@ export default class Profile extends React.Component {
             reportMessage: '',
             originalEmail: props.originalEmail,
             matches: null,
-            id: null
+            id: null,
+            isSharedProfile: false,
         };
 
         Connector.get('/user', {email: this.props.email}, (res) => {
@@ -183,8 +184,29 @@ export default class Profile extends React.Component {
                 />;
         }
 
+        let acceptRejectButtons;
+        if(!this.props.isSelf && this.props.isSharedProfile){
+            acceptRejectButtons = (
+                    <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                        <TouchableOpacity
+                            style={globalStyles.btnPrimary}
+                            onPress={() => Connector.post('/user/matches',{"email1": this.state.originalEmail, "email2": this.state.user.email, "swipe": "true" },undefined,(res) => {
+                                console.log("Match Status: " + res.success);
+                                if (res.success) {
+                                    alert('You have a match');
+                                }
+                            })}
+                        >
+                            <Text style={globalStyles.btnText}>Request Match</Text>
+                        </TouchableOpacity>
+                    </View>
+            );
+        } else {
+            acceptRejectButtons = null;
+        }
+
         let shareButton;
-        if(!this.props.isSelf){
+        if(!this.props.isSelf && !this.props.isSharedProfile){
             shareButton = (
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableOpacity style={style.button} onPress={() => this.setState({shareUserModalVisible: true})}>
@@ -199,7 +221,7 @@ export default class Profile extends React.Component {
         }
 
         let reportButton;
-        if(!this.props.isSelf){
+        if(!this.props.isSelf && !this.props.isSharedProfile){
             reportButton = (
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableOpacity style={style.button} onPress={this.confirmReport}>
@@ -440,6 +462,8 @@ export default class Profile extends React.Component {
                             <View style={style.spacer} />
 
                             {milestonesText}
+
+                            {acceptRejectButtons}
 
                             {shareButton}
 
