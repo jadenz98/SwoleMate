@@ -29,7 +29,8 @@ export default class RegisterScreen extends React.Component{
             latitude: null,
             longitude: null,
             isGhost: false,
-            basicInfo: false
+            basicInfo: false,
+            photoUrl: undefined
         };
         this.getLocation();
     }
@@ -50,12 +51,10 @@ export default class RegisterScreen extends React.Component{
                 newPassword: 'Facebook',
                 passwordConfirm: 'Facebook',
                 sex: 'not_specified',
-
+                photoUrl: loginInfo.picture.data.url
             });
 
-            console.log(loginInfo);
             this.registerAccount();
-
         }
         else {
             console.error(type);
@@ -78,10 +77,10 @@ export default class RegisterScreen extends React.Component{
                 newPassword: 'Google',
                 passwordConfirm: 'Google',
                 sex: 'not_specified',
-
+                photoUrl: result.user.photoUrl
             });
+
             this.registerAccount();
-            console.log(result);
         }
         else{
             console.log('Cancelled');
@@ -296,7 +295,8 @@ export default class RegisterScreen extends React.Component{
                     ],
                     type: 'Point'
                 },
-                interests: []
+                interests: [],
+                photoUrl: this.state.photoUrl
             }, {}, (response) => {
                 console.log(response);
                 if(response.success){ //Server return success on register

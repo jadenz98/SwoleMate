@@ -15,7 +15,7 @@ export default class Profile extends React.Component {
     constructor (props) {
         super(props);
 
-        this.renderImage={
+        this.renderImage = {
             'Swimming': false,
             'Running': false,
             'Lifting': false,
@@ -30,8 +30,7 @@ export default class Profile extends React.Component {
             reportMessage: '',
             originalEmail: props.originalEmail,
             matches: null,
-            id: null,
-
+            id: null
         };
 
         Connector.get('/user', {email: this.props.email}, (res) => {
@@ -171,6 +170,11 @@ export default class Profile extends React.Component {
                     style={style.profileImage}
                     source={{uri: `data:image/jpeg;base64,${this.state.user.photoData}`}}
                 />;
+        } else if (user.photoUrl) {
+            profileImage = <Image
+                    style={style.profileImage}
+                    source={{uri: user.photoUrl}}
+                />;
         } else {
             profileImage =
                 <Image
@@ -306,8 +310,7 @@ export default class Profile extends React.Component {
         } else { //if this.props isnt self
             if(user.basicInfo) {
                 goalText = null;
-            }
-            else if (!user.goal || user.goal === "") {
+            } else if (!user.goal || user.goal === "") {
                 goalText = (
                     <View>
                         <Text style={style.header}>
@@ -322,8 +325,7 @@ export default class Profile extends React.Component {
                         </View>
                     </View>
                 );
-            }
-            else {
+            } else {
                 goalText = (
                     <View>
                         <Text style={style.header}>
@@ -347,9 +349,7 @@ export default class Profile extends React.Component {
 
             if (user.basicInfo) {
                 milestonesText = null;
-            }
-
-            else {
+            } else {
                 milestonesText = (
                     <View>
                         <Text style={style.header}>
