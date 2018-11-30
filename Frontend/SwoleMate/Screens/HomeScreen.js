@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, Image } from 'react-native';
+import { TouchableOpacity, View, Text, Image, Alert } from 'react-native';
 import styles from './Styles/HomeScreenStyles';
 import globalStyles from './Styles/Global';
 import Swiper from 'react-native-deck-swiper';
@@ -109,7 +109,22 @@ export default class HomeScreen extends React.Component{
                     onSwipedRight={(cardIndex) => {
                         Connector.post('/user/matches',{"email1": this.props.navigation.dangerouslyGetParent().getParam('email'), "email2": this.state.potentialMatches[cardIndex].email, "swipe": "true" },undefined,(res) => {
                             if (res.success) {
-                                alert('You have a match');
+                                Connector.get('/user', {email: this.state.potentialMatches[cardIndex].email}, (res) => {
+                                    Alert.alert(
+                                        'You Have A Match!',
+                                        'You matched with ' + res.name,
+                                        [
+                                            {text: 'Keep Swiping',},
+                                            {text: 'Send A Message', onPress: () => {
+                                                const userInfo = {
+                                                    email: this.props.navigation.dangerouslyGetParent().getParam('email'),
+                                                    email2: this.state.potentialMatches[cardIndex].email,
+                                                }
+                                                this.props.navigation.dangerouslyGetParent().navigate('Messages', userInfo);
+                                            }}
+                                        ]
+                                    );
+                                });
                             }
                         });
                     }}
