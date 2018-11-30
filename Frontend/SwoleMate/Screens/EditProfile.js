@@ -125,20 +125,13 @@ export default class EditProfile extends React.Component {
           <View style={{...StyleSheet.absoluteFillObject,}}    >
             <MapView
                 liteMode
-                style={{...StyleSheet.absoluteFillObject,}}
+                style={{...StyleSheet.absoluteFillObject,flex:1}}
                 region={{
                   latitude: this.state.user.gymLatitude,
                   longitude: this.state.user.gymLongitude,
                   latitudeDelta: 0.015,
                   longitudeDelta: 0.0121,
                 }}
-                /*{<Marker
-                  coordinate={
-                      latitude: this.state.user.gymLatitude,
-                      longitude: this.state.user.gymLongitude,
-                  }
-                  title={this.state.user.favGym}
-                />}*/
             />
           </View>
         );
@@ -163,8 +156,6 @@ export default class EditProfile extends React.Component {
             milestones = ["You have not defined any milestones yet"];
             milestonesStyle = StyleSheet.flatten([milestonesStyle, style.italics]);
         }
-        console.log(milestones);
-
         return (
             <KeyboardAwareScrollView
                 scrollEnabled={true}
@@ -398,14 +389,16 @@ export default class EditProfile extends React.Component {
                     </TouchableOpacity>
 
                     <View style={globalStyles.spacer}/>
-
-                    <View style={{padding: 25}}>
-                      <Text style={globalStyles.header}>
-                          Favorite Gym Location
-                      </Text>
+                    <Text style={globalStyles.header}>
+                        Favorite Gym Location
+                    </Text>
+                    <View style={{width: 200, height: 200, padding: 5}}>
+                      
                       {this.renderFavLocation()}
                       <View style={globalStyles.spacer}/>
-                      <TouchableOpacity
+                      
+                    </View>
+                    <TouchableOpacity
                           style={globalStyles.btnSecondary}
                           onPress={()=> { this.props.navigation.navigate('LocationPicker',{email: this.props.navigation.getParam('email'), refresh: this.setFavLocation})}}
                       >
@@ -413,7 +406,6 @@ export default class EditProfile extends React.Component {
                               Add a Workout Location
                           </Text>
                       </TouchableOpacity>
-                    </View>
 
                     <View style={globalStyles.spacer}/>
 

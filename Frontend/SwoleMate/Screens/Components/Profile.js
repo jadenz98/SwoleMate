@@ -6,6 +6,8 @@ import globalStyles from "../Styles/Global";
 import Connector from "../../Utils/Connector";
 import { StyleSheet } from 'react-native';
 
+import MapView from 'react-native-maps'
+
 import Loader from './Loader';
 import {Font} from "expo";
 
@@ -152,6 +154,33 @@ export default class Profile extends React.Component {
         Alert.alert('Share', 'Share this profile', [{text: 'Okay'}])
     };
 
+    renderFavLocation = () => {
+        if (!this.state.user.favGym) { //should be true if no gym set
+            return <Text>No fav gym set</Text>;
+        }
+        return (
+          <View style={{...StyleSheet.absoluteFillObject,}}    >
+            <MapView
+                liteMode
+                style={{...StyleSheet.absoluteFillObject,flex:1}}
+                region={{
+                  latitude: this.state.user.gymLatitude,
+                  longitude: this.state.user.gymLongitude,
+                  latitudeDelta: 0.015,
+                  longitudeDelta: 0.0121,
+                }}
+                /*{<Marker
+                  coordinate={
+                      latitude: this.state.user.gymLatitude,
+                      longitude: this.state.user.gymLongitude,
+                  }
+                  title={this.state.user.favGym}
+                />}*/
+            />
+          </View>
+        );
+    }
+
     render () {
         if (this.state.user == null || !this.state.fontsAreLoaded)
             return <Loader/>;
@@ -204,8 +233,8 @@ export default class Profile extends React.Component {
         if(!this.props.isSelf && !this.props.isSharedProfile){
             shareButton = (
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                    <TouchableOpacity style={style.button} onPress={() => this.setState({shareUserModalVisible: true})}>
-                        <Text>
+                    <TouchableOpacity style={globalStyles.btnSecondary} onPress={() => this.setState({shareUserModalVisible: true})}>
+                        <Text style={globalStyles.btnText}>
                             Share this Profile
                         </Text>
                     </TouchableOpacity>
@@ -219,8 +248,8 @@ export default class Profile extends React.Component {
         if(!this.props.isSelf && !this.props.isSharedProfile){
             reportButton = (
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                    <TouchableOpacity style={style.button} onPress={this.confirmReport}>
-                        <Text>
+                    <TouchableOpacity style={globalStyles.btnDanger} onPress={this.confirmReport}>
+                        <Text style={globalStyles.btnText}>
                             Report
                         </Text>
                     </TouchableOpacity>
@@ -228,6 +257,25 @@ export default class Profile extends React.Component {
             );
         } else {
             reportButton = null;
+        }
+
+        let favGymMap;
+        if(user.basicInfo){
+            favGymMap = null;
+        } else {
+            favGymMap = (
+                <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                    <Text style={globalStyles.header}>
+                        Favorite Gym Location
+                    </Text>
+                    <View style={{width: 200, height: 200, padding: 5}}>
+
+                      {this.renderFavLocation()}
+                      <View style={globalStyles.spacer}/>
+
+                    </View>
+                </View>
+            );
         }
 
         const interestImages = (
@@ -392,6 +440,8 @@ export default class Profile extends React.Component {
                     </View>
                 );
             }
+
+
         }
 
         return (
@@ -458,9 +508,16 @@ export default class Profile extends React.Component {
 
                             {milestonesText}
 
+                            {favGymMap}
+                            <View style={style.spacer} />
+
                             {acceptRejectButtons}
 
+                            <View style={style.spacer} />
+
                             {shareButton}
+
+                            <View style={style.spacer} />
 
                             {reportButton}
                             <View style={style.spacer} />

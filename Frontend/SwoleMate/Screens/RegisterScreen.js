@@ -56,9 +56,6 @@ export default class RegisterScreen extends React.Component{
 
             this.registerAccount();
         }
-        else {
-            console.error(type);
-        }
     };
 
     googleRegister = async () => {
@@ -81,9 +78,6 @@ export default class RegisterScreen extends React.Component{
             });
 
             this.registerAccount();
-        }
-        else{
-            console.log('Cancelled');
         }
     };
 
@@ -298,7 +292,6 @@ export default class RegisterScreen extends React.Component{
                 interests: [],
                 photoUrl: this.state.photoUrl
             }, {}, (response) => {
-                console.log(response);
                 if(response.success){ //Server return success on register
                     //this is how userinfo will be passed to other screens
                     const userInfo = {
@@ -327,8 +320,6 @@ export default class RegisterScreen extends React.Component{
                     alert('Email is already registered to an account.\nTry again');
                 }
             });
-        } else {
-            //alert('Input not valid');
         }
     };
 

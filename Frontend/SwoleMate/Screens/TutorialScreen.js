@@ -19,7 +19,28 @@ export default class TutorialScreen extends React.Component {
                     style={globalStyles.icon}
                     source={require('./images/hamburger.png')}
                 />
+            </TouchableOpacity>,
+        headerRight: (
+            <TouchableOpacity
+                style={{
+                    marginRight: 15,
+                    backgroundColor: '#28a745',
+                    padding: 5,
+                    borderRadius: 5
+                }}
+                onPress={() => {navigation.navigate('Home')}}
+            >
+                <Text
+                    style={{
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: 18
+                    }}
+                >
+                    Skip
+                </Text>
             </TouchableOpacity>
+        )
     });
 
     render () {
