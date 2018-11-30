@@ -16,18 +16,18 @@ router.post('/', function(req, res, next) {
         }
 
         newUser.password = hash;
-    });
 
-    const newValues = {
-        $set: req.body
-    };
-
-    Mongo.update("Users", userQuery, newValues, () => {
-        const resp = {
-            success: true
+        const newValues = {
+            $set: newUser
         };
 
-        res.json(resp);
+        Mongo.update("Users", userQuery, newValues, () => {
+            const resp = {
+                success: true
+            };
+
+            res.json(resp);
+        });
     });
 });
 
