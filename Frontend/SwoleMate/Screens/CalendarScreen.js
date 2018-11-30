@@ -90,7 +90,7 @@ export default class CalendarScreen extends React.Component {
 
         Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
             Connector.post('/user/calendar',{'email': this.state.email, 'event': event},undefined,() => {
-                
+
             });
         });
     };
