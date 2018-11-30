@@ -1,2 +1,4 @@
 Frontend/SwoleMate/.idea/
 Frontend/SwoleMate/package-lock.json
+Backend/config/googleAuth.json
+Frontend/SwoleMate/config/api.json
