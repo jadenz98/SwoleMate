@@ -388,9 +388,9 @@ export default class EditProfile extends React.Component {
 
                     <TouchableOpacity
                         style={globalStyles.btnSecondary}
-                        onPress={()=> { 
+                        onPress={()=> {
                             this.requestExternalStoragePermission();
-                            this.props.navigation.navigate('PickPhoto',{email: this.props.navigation.getParam('email')})}}
+                            this.props.navigation.navigate('PickPhoto',{email: this.props.navigation.getParam('email'), refresh: this.setFavLocation})}}
                     >
                         <Text style={globalStyles.btnText}>
                             Add Profile Picture
@@ -399,7 +399,7 @@ export default class EditProfile extends React.Component {
 
                     <View style={globalStyles.spacer}/>
 
-                    <View style={{padding: 5}}>
+                    <View style={{padding: 25}}>
                       <Text style={globalStyles.header}>
                           Favorite Gym Location
                       </Text>

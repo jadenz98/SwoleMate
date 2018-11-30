@@ -36,7 +36,7 @@ export default class PickPhoto extends React.Component {
         title: 'Pick Photo',
     };
 
-    //callback for cameraRollPicker that takes the selected images (as image objects) as the parameters 
+    //callback for cameraRollPicker that takes the selected images (as image objects) as the parameters
     getSelectedImages = (image) =>{
         console.log(image);
         if (typeof image != 'undefined'){
@@ -62,9 +62,9 @@ export default class PickPhoto extends React.Component {
         };
 
         //crops image according to cropData above
-        ImageEditor.cropImage(this.state.photos[0].uri, cropData, success => { 
+        ImageEditor.cropImage(this.state.photos[0].uri, cropData, success => {
             //provides a base64 string of the image
-            ImageStore.getBase64ForTag(success, base64Success => 
+            ImageStore.getBase64ForTag(success, base64Success =>
                 {
                     //photo object with fields containing the base64 string, photo height, and photo width is created on the fly and then sent to the server
                     photo.photoData = base64Success;
@@ -74,6 +74,7 @@ export default class PickPhoto extends React.Component {
                     const user= this.state.user;
                     Connector.post('/user/update', photo, {email: user.email}, (res) => {
                         console.log(res);
+                        this.props.navigation.state.params.refresh();
                         this.props.navigation.pop();
                     });
                 }, base64Failure => {console.log(base64Failure)});
