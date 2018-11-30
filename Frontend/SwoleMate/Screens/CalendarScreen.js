@@ -95,16 +95,23 @@ export default class CalendarScreen extends React.Component {
             //console.log(res);
         //});
         Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
-            //console.log(res);
             Connector.post('/user/calendar',{'email': this.state.email, 'event': event},undefined,() => {
-            //console.log(res);
+                Connector.get('/user/calendar',{email: this.state.email}, (res) => {
+                    this.setState({
+                        eventsArray: res
+                    });
+                });
           });
         });
     }
 
     deleteEvent = () => {
         Connector.post('/user/removeCalendar',{'email': this.state.email, 'date': this.state.deleteEventDate, 'time': this.state.deleteEventTime},undefined,() => {
-            //console.log(res);
+            Connector.get('/user/calendar',{email: this.state.email}, (res) => {
+                this.setState({
+                    eventsArray: res
+                });
+            });
         });
     }
 
@@ -245,7 +252,6 @@ export default class CalendarScreen extends React.Component {
                                     this.setState({
                                         editEventModalVisible: false,
                                     });
-                                    //this.deleteEvent();
                                     this.editEvent();
                                 }
                             }}
