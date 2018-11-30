@@ -97,6 +97,16 @@ export default class EditProfile extends React.Component {
         this.props.navigation.pop();
     }
 
+    requestExternalStoragePermission = async () => {
+        const { Location, Permissions } = Expo;
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status === 'granted') {
+            return Location.getCurrentPositionAsync({enableHighAccuracy: true});
+        } else {
+            throw new Error('Location permission not granted');
+        }
+    }
+
     //function to conditionally render map if fav gym set
     renderFavLocation () {
         if (!this.state.user.favGym) { //should be true if no gym set
@@ -360,7 +370,9 @@ export default class EditProfile extends React.Component {
 
                     <TouchableOpacity
                         style={globalStyles.btnSecondary}
-                        onPress={()=> { this.props.navigation.navigate('PickPhoto',{email: this.props.navigation.getParam('email')})}}
+                        onPress={()=> { 
+                            this.requestExternalStoragePermission();
+                            this.props.navigation.navigate('PickPhoto',{email: this.props.navigation.getParam('email')})}}
                     >
                         <Text style={globalStyles.btnText}>
                             Add Profile Picture

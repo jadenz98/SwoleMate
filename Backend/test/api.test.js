@@ -386,9 +386,7 @@ describe('SwoleMate API endpoint testing', function() {
                             });
                     });
             });
-
     });
-
 
     it('Should not be able to change my password to an empty password', (done) => {
         chai.request(server)
@@ -436,7 +434,191 @@ describe('SwoleMate API endpoint testing', function() {
                     });
             });
     });
+
+    it('Should be able to set multiple Calendar Events', (done) => {
+        let event1 = {
+            date: "2012-23-12",
+            time: "12:30",
+            endtime: "1:30"
+        }
+        let event2 = {
+            date: "2019-23-1",
+            time: "12:30",
+            endtime: "1:30"
+        }
+        let event3 = {
+            date: "2018-23-6",
+            time: "12:30",
+            endtime: "1:30"
+        }
+        let event4 = {
+            date: "2017-23-3",
+            time: "12:30",
+            endtime: "1:30"
+        }
+        chai.request(server)
+            .post('/user/calendar')
+            .send({ email: "s@s0", event: event1 })
+            .end((err, res) => {
+                res.should.have.status(200);
+
+                chai.request(server)
+                    .post('/user/calendar')
+                    .send({ email: "s@s0", event: event2 })
+                    .end((err, res) => {
+                        res.should.have.status(200);
+
+                        chai.request(server)
+                            .post('/user/calendar')
+                            .send({ email: "s@s0", event: event3 })
+                            .end((err, res) => {
+                                res.should.have.status(200);
+
+                                chai.request(server)
+                                    .post('/user/calendar')
+                                    .send({ email: "s@s0", event: event4 })
+                                    .end((err, res) => {
+                                        res.should.have.status(200);
+
+                                        chai.request(server)
+                                            .get('/user/calendar')
+                                            .set({ email: "s@s0" })
+                                            .end((err, res) => {
+                                                res.should.have.status(200);
+                                                res.body.length.should.equal(5);
+                                                done();
+                                            });
+                                    });
+                            });
+                    });
+            });
+    });
+
+    it('Should be able to hide personal info', (done) => {
+        chai.request(server)
+            .post('/user/update')
+            .set({ email: "s@s0" })
+            .send({ hideinfo: true })
+            .end((err, res) => {
+                res.should.have.status(200);
+
+                chai.request(server)
+                    .get('/user')
+                    .set({ email: "s@s0" })
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.hideinfo.should.be.true;
+                        done();
+                    });
+            });
+    });
+
+    it('Should be able to reveal personal info', (done) => {
+        chai.request(server)
+            .post('/user/update')
+            .set({ email: "s@s0" })
+            .send({ hideinfo: false })
+            .end((err, res) => {
+                res.should.have.status(200);
+
+                chai.request(server)
+                    .get('/user')
+                    .set({ email: "s@s0" })
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.hideinfo.should.be.false;
+                        done();
+                    });
+            });
+    });
+
+    it('Should be able to reveal personal info', (done) => {
+        chai.request(server)
+            .post('/user/update')
+            .set({ email: "s@s0" })
+            .send({ hideinfo: false })
+            .end((err, res) => {
+                res.should.have.status(200);
+
+                chai.request(server)
+                    .get('/user')
+                    .set({ email: "s@s0" })
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.hideinfo.should.be.false;
+                        done();
+                    });
+            });
+    });
+
+    it('Should be able too share users, this should be reflected on the DB', (done) => {
+        chai.request(server)
+            .post('/user/conversation')
+            .send({ sender: "s@s9", re: "s@s19", msg: "#link[t@t18:@t@t18]" })
+            .end((err, res) => { //#link[t@t18:@t@t18]
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+                // done();
+                chai.request(server)
+                    .get('/user/conversation')
+                    .set({ email1: "s@s9", email2: "s@s19" })
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.length.should.equal(1);
+                        res.body[0].msg.should.equal("#link[t@t18:@t@t18]");
+                        done();
+                    });
+            });
+    });
+
+    it('Should be able too share users, this should be reflected on the DB EDGE THE BEGE CASE', (done) => {
+        chai.request(server)
+            .post('/user/conversation')
+            .send({ sender: "s@s9", re: "s@s19", msg: "#NOLINK[t@t18:@t@t18]" })
+            .end((err, res) => { //#link[t@t18:@t@t18]
+                res.should.have.status(200);
+                res.body.success.should.be.true;
+                done();
+                chai.request(server)
+                    .get('/user/conversation')
+                    .set({ email1: "s@s0", email2: "s@s1" })
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.length.should.equal(1);
+                        res.body[0].msg.should.equal("#NOLINK[t@t18:@t@t18]");
+                        done();
+                    });
+            });
+    });
 });
 
 
+
 /* db.Conversations.update({"email1": "t@t3", "email2":"t@t19"}, {$set: {"conversation": []}}) */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
