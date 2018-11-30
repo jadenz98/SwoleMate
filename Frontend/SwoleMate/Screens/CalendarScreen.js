@@ -576,7 +576,7 @@ export default class CalendarScreen extends React.Component {
 
     renderEmptyDate() {
         return (
-            <View style={styles.emptyDate}><Text>This is empty date!</Text></View>
+            <View style={styles.emptyDate}><Text>Nothing for today</Text></View>
         );
     }
 
