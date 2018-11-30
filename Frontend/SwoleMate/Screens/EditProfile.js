@@ -37,7 +37,8 @@ export default class EditProfile extends React.Component {
             cameraRollVisible: false,
             searchDistance: 1,
             isHidden: false,
-            newMilestoneField: ""
+            newMilestoneField: "",
+            location: null,
         };
 
         this.interests = [
@@ -50,10 +51,18 @@ export default class EditProfile extends React.Component {
         const email = props.navigation.dangerouslyGetParent().getParam('email');
         Connector.get('/user', {email: email}, (res) => {
             this.setState({user: res});
+            this.setState({location: res.favGym})
         });
 
         this.save = this.save.bind(this);
         this.cancel = this.cancel.bind(this);
+
+        this.props.navigation.addListener(
+          'didFocus',
+          payload => {
+            this.setState({is_updated:true});
+          }
+        );
     }
 
     //This sets any options for the header navigation bar
@@ -99,12 +108,13 @@ export default class EditProfile extends React.Component {
 
     //function to conditionally render map if fav gym set
     renderFavLocation () {
-        if (!this.state.user.favGym) { //should be true if no gym set
+        if (!this.state.location) { //should be true if no gym set
             return <Text>No fav gym set</Text>;
         }
         return (
-          <View style={{...StyleSheet.absoluteFillObject, height: 100, width: 250, flex: 1, justifyContent: 'center', alignItems: 'center',}}>
+          <View style={{...StyleSheet.absoluteFillObject,}}    >
             <MapView
+                liteMode
                 style={{...StyleSheet.absoluteFillObject,}}
                 region={{
                   latitude: this.state.user.gymLatitude,
@@ -122,6 +132,14 @@ export default class EditProfile extends React.Component {
             />
           </View>
         );
+    }
+
+    setFavLocation = () => {
+        const email = this.props.navigation.dangerouslyGetParent().getParam('email');
+        Connector.get('/user', {email: email}, (res) => {
+            this.setState({user: res});
+            this.setState({location: res.favGym})
+        });
     }
 
     render() {
@@ -369,7 +387,7 @@ export default class EditProfile extends React.Component {
 
                     <View style={globalStyles.spacer}/>
 
-                    <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center',}}>
+                    <View style={{padding: 5}}>
                       <Text style={globalStyles.header}>
                           Favorite Gym Location
                       </Text>
@@ -377,7 +395,7 @@ export default class EditProfile extends React.Component {
                       <View style={globalStyles.spacer}/>
                       <TouchableOpacity
                           style={globalStyles.btnSecondary}
-                          onPress={()=> { this.props.navigation.navigate('LocationPicker',{email: this.props.navigation.getParam('email')})}}
+                          onPress={()=> { this.props.navigation.navigate('LocationPicker',{email: this.props.navigation.getParam('email'), refresh: this.setFavLocation})}}
                       >
                           <Text style={globalStyles.btnText}>
                               Add a Workout Location
