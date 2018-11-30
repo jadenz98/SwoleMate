@@ -204,8 +204,8 @@ export default class Profile extends React.Component {
         if(!this.props.isSelf && !this.props.isSharedProfile){
             shareButton = (
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                    <TouchableOpacity style={style.button} onPress={() => this.setState({shareUserModalVisible: true})}>
-                        <Text>
+                    <TouchableOpacity style={globalStyles.btnSecondary} onPress={() => this.setState({shareUserModalVisible: true})}>
+                        <Text style={globalStyles.btnText}>
                             Share this Profile
                         </Text>
                     </TouchableOpacity>
@@ -219,8 +219,8 @@ export default class Profile extends React.Component {
         if(!this.props.isSelf && !this.props.isSharedProfile){
             reportButton = (
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                    <TouchableOpacity style={style.button} onPress={this.confirmReport}>
-                        <Text>
+                    <TouchableOpacity style={globalStyles.btnDanger} onPress={this.confirmReport}>
+                        <Text style={globalStyles.btnText}>
                             Report
                         </Text>
                     </TouchableOpacity>
@@ -458,9 +458,15 @@ export default class Profile extends React.Component {
 
                             {milestonesText}
 
+                            <View style={style.spacer} />
+
                             {acceptRejectButtons}
 
+                            <View style={style.spacer} />
+
                             {shareButton}
+
+                            <View style={style.spacer} />
 
                             {reportButton}
                             <View style={style.spacer} />
