@@ -100,7 +100,7 @@ export default class HomeScreen extends React.Component{
                         return (
                             <View style={styles.card}>
                                 {card.img}
-                                <Text> {card.email} </Text>
+                                <Text> {card.name} </Text>
                                 <Text> {card.age} </Text>
                             </View>
                         )
