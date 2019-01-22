@@ -67,7 +67,7 @@ app.use('/user/matches', matchesRouter);
 app.use('/user/unmatch', unmatchRouter);
 app.use('/user/conversation', conversationRouter);
 app.use('/user/nearbyUsers', nearbyUsersRouter);
-app.use('/user/deleteEverything', deleteEverythingRouter);
+//app.use('/user/deleteEverything', deleteEverythingRouter);
 app.use('/user', userRouter);
 app.use('/user/recoverPassword', recoverPasswordRouter);
 app.use('/user/passwordChange', passwordChange);
