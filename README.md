@@ -1,2 +1,3 @@
-"# SwoleMate
-This is a test" 
+SwoleMate
+
+An app for easily finding your ideal workout partner
